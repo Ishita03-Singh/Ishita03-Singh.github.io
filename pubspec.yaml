@@ -1,0 +1,76 @@
+name: ishita_singh
+description: A new Flutter project.
+
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=2.18.1 <3.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+   
+  responsive_sizer: ^3.1.1
+  adaptive_navbar: ^0.0.2
+  cupertino_icons: ^1.0.2
+  percent_indicator: ^4.2.2
+  font_awesome_flutter: ^10.2.1
+  splash_screen_view: ^3.0.0
+  url_launcher:
+  scroll_to_index: ^1.0.6
+  
+  
+  
+  
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^2.0.0
+  flutter_launcher_icons: "^0.10.0"
+
+
+flutter:
+
+  assets:
+    - assets/
+  fonts:
+    - family: SFMono
+      fonts:
+        - asset: lib/fonts/SFMono-Medium.ttf
+        - asset: lib/fonts/SFMono-Regular.ttf
+        - asset: lib/fonts/SFMono-Semibold.ttf
+       
+    - family: Calibre
+      fonts:
+        - asset: lib/fonts/Calibre-Light.ttf
+        - asset: lib/fonts/Calibre-Medium.ttf
+        - asset: lib/fonts/Calibre-Regular.ttf
+        - asset: lib/fonts/Calibre-Semibold.ttf
+
+      
+
+  uses-material-design: true
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/I.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  web:
+    generate: true
+    image_path: "assets/I.png"
+    background_color: "#0a192f"
+    theme_color: "#0a192f"
+  windows:
+    generate: true
+    image_path: "assets/I.png"
+    icon_size: 48 
+
+          
+
+ 

@@ -60612,7 +60612,7 @@ $1(a){if(a.B(0,B.aJ))return B.q
 return B.B},
 $S:11}
 A.a5D.prototype={
-$0(){B.bH.jS(window,"assets/Ishita.pdf","Resume")},
+$0(){B.bH.jS(window,"assets/assets/Ishita.pdf","Resume")},
 $S:0}
 A.a5u.prototype={
 $0(){var s=0,r=A.a0(t.H),q=this,p

@@ -9,7 +9,7 @@ fonts and PDF to load over HTTP.
 
 **"Block"** — neo-brutalist. Flat colour blocks, 2.5px black rules, hard offset shadows
 that shift on hover, Archivo Black set in caps. Structure still comes from the day job:
-a deploy log in the hero, a board of production numbers, a release-style timeline.
+a system diagram in the hero, a board of engineering numbers, a dated timeline.
 
 - **Palette** — warm paper `#f3f1e7` with black ink, electric blue `#2b50ff` as the
   accent, and yellow `#ffe14d` / pink `#ff4d8d` / lime `#c4f000` as block fills. Dark
@@ -39,12 +39,13 @@ runs it forward from midnight IST, so it shows roughly where today stands and ke
 ticking while the page is open. It is labelled as an estimate in the markup, because
 that is what it is. Change `PER_DAY` if the real figure moves.
 
-**2. Release-time chart** — the "cut release time by 90%" claim, shown instead of
-asserted: two bars on one 0–90 minute scale, both direct-labelled, with a detail tip on
-hover and on keyboard focus. One measure in two states, so there is no legend; the title
-names it. The two fills (`--chart-before`, `--chart-after`) were checked for
-colour-vision separation and contrast against both grounds before being used — if you
-change them, re-check rather than eyeball.
+**2. The restart strip** — the RabbitMQ story, told with its own data: two weeks of seven
+cells, all red before the fix and all green after, because "required a daily manual
+restart" literally means seven days out of seven. Each cell carries its own weekday
+letter, so the state never rests on colour alone, and a legend line under the strip says
+the same thing in words. The problem-state fill (`--alert`) was checked for colour-vision
+separation and contrast against both grounds — if you change it, re-check rather than
+eyeball.
 
 **3. Evidence lens** — every tool in the Stack section that Ishita has actually shipped
 with carries a `data-tech` key. Clicking it dims the page and lights up the experience
@@ -95,8 +96,7 @@ both themes, so hard-coding it there is correct rather than sloppy.
 - Magnetic buttons are desktop-only — they need a fine pointer and are skipped under
   `prefers-reduced-motion`.
 - Reveal-on-scroll only arms itself once `IntersectionObserver` is confirmed present, so
-  content can never get stuck invisible. Without JS, nothing is hidden and the chart
-  bars render at full width.
+  content can never get stuck invisible. Without JS, nothing is hidden at all.
 - The Gurgaon clock and the events estimate both use `Intl` with an `Asia/Kolkata` time
   zone and fall back to the visitor's own clock where that isn't supported.
 

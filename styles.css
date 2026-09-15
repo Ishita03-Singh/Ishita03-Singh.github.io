@@ -34,10 +34,9 @@
   --pink:    #ff4d8d;
   --lime:    #c4f000;
 
-  /* chart fills — checked for CVD separation and contrast
-     against this ground before being used */
-  --chart-before: #ff4d8d;
-  --chart-after:  #2b50ff;
+  /* the "problem state" fill in the restart strip — checked for
+     colour-vision separation and contrast against this ground */
+  --alert: #ff4d8d;
 
   --shadow-c: #000000;
   --shadow:    5px 5px 0 var(--shadow-c);
@@ -81,8 +80,7 @@
 
     --accent-ink:  #93a6ff;
 
-    --chart-before: #f23d81;
-    --chart-after:  #6b84ff;
+    --alert: #f23d81;
 
     --sun-o: 0;  --sun-t: rotate(-90deg) scale(0.6);
     --moon-o: 1; --moon-t: none;
@@ -103,8 +101,7 @@
 
   --accent-ink:  #93a6ff;
 
-  --chart-before: #f23d81;
-  --chart-after:  #6b84ff;
+  --alert: #f23d81;
 
   --sun-o: 0;  --sun-t: rotate(-90deg) scale(0.6);
   --moon-o: 1; --moon-t: none;
@@ -472,43 +469,60 @@ main { position: relative; z-index: 1; }
 .hero__blurb { margin: 26px 0 0; max-width: 52ch; font-size: clamp(15.5px, 2vw, 17.5px); }
 .hero__cta { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 36px; }
 
-/* terminal card */
+/* system diagram — the stack she designs, top to bottom */
 .hero__panel { min-width: 0; }
-.term {
+.sys {
   border: var(--bw) solid var(--line); border-radius: var(--r);
-  background: var(--bg-2); box-shadow: var(--shadow-lg); overflow: hidden;
+  background: var(--bg-2); box-shadow: var(--shadow-lg);
+  padding: clamp(16px, 2.2vw, 22px);
 }
-.term__bar {
-  display: flex; align-items: center; gap: 7px;
-  padding: 11px 14px; border-bottom: var(--bw) solid #000; background: var(--yellow);
+.sys__cap {
+  margin: 0 0 16px; padding-bottom: 12px;
+  border-bottom: 2.5px solid var(--line);
+  font-family: var(--f-mono); font-weight: 700; font-size: 11px;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted);
 }
-.term__bar i { width: 11px; height: 11px; border: 2px solid #000; background: #fff; }
-.term__bar i:first-child { background: var(--pink); }
-.term__bar i:nth-child(2) { background: var(--accent); }
-.term__name { margin-left: auto; color: #000; font-family: var(--f-mono); font-weight: 700; font-size: 11px; }
-.term__body {
-  margin: 0; padding: 18px 16px 20px;
-  font-family: var(--f-mono); font-size: clamp(10.5px, 1.1vw, 12.5px); line-height: 2;
-  color: var(--muted); overflow-x: auto;
+.sys__flow { display: grid; gap: 0; }
+.sys__node {
+  padding: 12px 14px;
+  border: 2.5px solid #000; border-radius: var(--r);
+  box-shadow: 4px 4px 0 #000; color: #000;
 }
-.term__body code { white-space: pre; }
-.term__line { display: block; }
-.js .term__line { opacity: 0; transform: translateX(-8px); }
-.js body.is-ready .term__line { animation: rise-x 0.45s var(--ease) both; }
-.js body.is-ready .term__line:nth-child(1) { animation-delay: 0.55s; }
-.js body.is-ready .term__line:nth-child(2) { animation-delay: 0.68s; }
-.js body.is-ready .term__line:nth-child(3) { animation-delay: 0.81s; }
-.js body.is-ready .term__line:nth-child(4) { animation-delay: 0.94s; }
-.js body.is-ready .term__line:nth-child(5) { animation-delay: 1.07s; }
-.js body.is-ready .term__line:nth-child(6) { animation-delay: 1.20s; }
-.js body.is-ready .term__line:nth-child(7) { animation-delay: 1.33s; }
-.js body.is-ready .term__line:nth-child(8) { animation-delay: 1.46s; }
-@keyframes rise-x { from { opacity: 0; transform: translateX(-8px); } to { opacity: 1; transform: none; } }
-.c-ok  { color: var(--accent-ink); font-weight: 700; }
-.c-acc { color: #000; background: var(--yellow); }
-.c-dim { color: var(--dim); }
-.term__caret { display: inline-block; width: 8px; height: 1em; vertical-align: -0.15em; background: var(--accent); animation: blink 1.1s steps(2, start) infinite; }
+.sys__node b {
+  display: block; color: #000;
+  font-family: var(--f-display); font-weight: 900; font-size: clamp(15px, 1.7vw, 18px);
+  letter-spacing: -0.03em; text-transform: uppercase; line-height: 1.1;
+}
+.sys__node span {
+  display: block; margin-top: 3px;
+  font-family: var(--f-mono); font-size: 11px; line-height: 1.45; color: #000;
+}
+.n-client { background: var(--yellow); }
+.n-api    { background: var(--accent); }
+.n-api b, .n-api span { color: #fff; }
+.n-bus    { background: var(--pink); }
+.n-jobs   { background: var(--lime); }
+.n-vec    { background: #fff; }
 
+.sys__arrow {
+  justify-self: center;
+  padding: 5px 0; line-height: 1;
+  font-family: var(--f-mono); font-weight: 700; font-size: 17px; color: var(--text);
+}
+.sys__split { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+
+/* the diagram assembles itself once, alongside the hero copy */
+.js .sys__node, .js .sys__arrow { opacity: 0; }
+.js body.is-ready .sys__node,
+.js body.is-ready .sys__arrow { animation: pop-in 0.45s var(--ease) both; }
+.js body.is-ready .sys__flow > :nth-child(1) { animation-delay: 0.55s; }
+.js body.is-ready .sys__flow > :nth-child(2) { animation-delay: 0.68s; }
+.js body.is-ready .sys__flow > :nth-child(3) { animation-delay: 0.78s; }
+.js body.is-ready .sys__flow > :nth-child(4) { animation-delay: 0.91s; }
+.js body.is-ready .sys__flow > :nth-child(5) { animation-delay: 1.01s; }
+.js body.is-ready .sys__flow > :nth-child(6) { animation-delay: 1.14s; }
+.js body.is-ready .sys__split .sys__node { animation-delay: 1.24s; }
+@keyframes pop-in { from { opacity: 0; transform: translate(5px, 5px); } to { opacity: 1; transform: none; } }
 .scroller {
   position: absolute; left: var(--gutter); bottom: 26px;
   display: flex; align-items: center; gap: 12px;
@@ -578,71 +592,51 @@ main { position: relative; z-index: 1; }
   font-family: var(--f-mono); font-weight: 700; letter-spacing: -0.03em;
   font-size: clamp(32px, 5.2vw, 56px);
 }
-
 /* ---------------------------------------------------------
-   chart — release time, before and after
-   One measure, two states: no legend, both marks direct-labelled.
+   restart strip — one debugging story, told with its own data
+   Seven days, two states. Each cell carries its own weekday
+   letter, so the state never rests on colour alone.
    --------------------------------------------------------- */
-.chart {
+.strip {
   margin: 14px 0 0; padding: clamp(20px, 3vw, 34px);
   border: var(--bw) solid var(--line); border-radius: var(--r);
   background: var(--bg-2); box-shadow: var(--shadow);
 }
-.chart__head { margin-bottom: 26px; }
-.chart__title { margin: 0 0 8px; font-size: clamp(19px, 2.6vw, 26px); text-transform: uppercase; }
-.chart__sub { margin: 0; max-width: 58ch; font-size: 15px; }
+.strip__head { margin-bottom: 26px; }
+.strip__title { margin: 0 0 10px; font-size: clamp(19px, 2.6vw, 27px); text-transform: uppercase; }
+.strip__sub { margin: 0; max-width: 62ch; font-size: 15px; }
 
-.chart__plot {
-  display: grid;
-  grid-template-columns: minmax(120px, 190px) minmax(0, 1fr) 76px;
-  align-items: center; gap: 14px 16px;
+.strip__grid {
+  display: grid; grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center; gap: 12px 18px;
 }
-.chart__k { margin: 0; font-family: var(--f-mono); font-weight: 700; font-size: 12.5px; color: var(--text); }
-.chart__track {
-  position: relative; height: 44px;
-  border: 2.5px solid var(--line); background: var(--bg);
+.strip__k {
+  margin: 0; font-family: var(--f-mono); font-weight: 700; font-size: 12.5px;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--text);
 }
-.chart__fill {
-  display: block; height: 100%; width: 0;
-  transition: width 1s var(--ease);
-  /* a 2px gap so a full-width fill never merges with its frame */
-  border-right: 2px solid var(--bg);
+.strip__week { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
+.strip__week li {
+  display: grid; place-items: center;
+  aspect-ratio: 1 / 1; max-height: 54px;
+  border: 2.5px solid #000; border-radius: var(--r);
+  font-family: var(--f-mono); font-weight: 700; font-size: 12px; color: #000;
 }
-.reveal.is-in .chart__fill, .chart__fill.is-drawn { width: var(--w); }
-.is-before { background: var(--chart-before); }
-.is-after  { background: var(--chart-after); }
-.chart__v {
-  margin: 0; text-align: right;
-  font-family: var(--f-display); font-weight: 900; font-size: clamp(16px, 2.2vw, 21px);
-  color: var(--text); letter-spacing: -0.03em; font-variant-numeric: tabular-nums;
+.strip__week .is-bad { background: var(--alert); }
+.strip__week .is-ok  { background: var(--lime); }
+.strip__v {
+  margin: 0; white-space: nowrap;
+  font-family: var(--f-display); font-weight: 900; font-size: clamp(15px, 2vw, 19px);
+  letter-spacing: -0.03em; color: var(--text); font-variant-numeric: tabular-nums;
 }
-.chart__axis {
-  display: flex; justify-content: space-between;
-  font-family: var(--f-mono); font-size: 11px; color: var(--dim);
-  border-top: 2px solid var(--line); padding-top: 6px;
+.strip__legend {
+  margin: 14px 0 0; font-family: var(--f-mono); font-size: 11.5px; color: var(--dim);
 }
-.chart__unit { font-family: var(--f-mono); font-size: 11px; color: var(--dim); text-align: right; padding-top: 6px; }
-
-/* per-mark detail, on hover and on keyboard focus */
-.chart__tip {
-  position: absolute; left: 0; top: calc(100% + 8px); z-index: 5;
-  width: max(220px, 100%); padding: 10px 12px;
-  border: 2.5px solid #000; background: var(--yellow); color: #000;
-  box-shadow: 3px 3px 0 #000;
-  font-family: var(--f-mono); font-size: 11.5px; line-height: 1.5;
-  opacity: 0; visibility: hidden; transform: translateY(-4px);
-  transition: opacity 0.2s var(--ease), transform 0.2s var(--ease), visibility 0.2s var(--ease);
-}
-.chart__track:hover .chart__tip,
-.chart__track:focus-visible .chart__tip { opacity: 1; visibility: visible; transform: none; }
-
-.chart__note {
-  margin: 26px 0 0; padding: 14px 16px;
+.strip__note {
+  margin: 22px 0 0; padding: 14px 16px;
   border: 2.5px solid #000; background: var(--lime); color: #000;
   font-size: 15px;
 }
-.chart__note strong { color: #000; }
-
+.strip__note strong { color: #000; }
 /* ---------------------------------------------------------
    about tiles
    --------------------------------------------------------- */
@@ -905,7 +899,6 @@ body.is-lensed .work:not(.is-lit) { opacity: 0.3; }
   .tl__when br { display: none; }
   .tl__when i { margin-left: 4px; }
   .timeline { gap: 28px; }
-  .chart__plot { grid-template-columns: minmax(96px, 150px) minmax(0, 1fr) 62px; }
 }
 
 @media (max-width: 640px) {
@@ -922,11 +915,9 @@ body.is-lensed .work:not(.is-lit) { opacity: 0.3; }
   .social span { display: none; }
   .head__end .btn--pill { display: none; }
   .foot { justify-content: flex-start; }
-  .chart__plot { grid-template-columns: 1fr; gap: 4px 0; }
-  .chart__k { margin-top: 14px; }
-  .chart__v { text-align: left; margin-top: 4px; }
-  .chart__spacer, .chart__unit { display: none; }
-  .chart__tip { width: 100%; }
+  .strip__grid { grid-template-columns: 1fr; gap: 6px; }
+  .strip__k { margin-top: 10px; }
+  .strip__week li { max-height: 42px; font-size: 11px; }
   .lens { left: 12px; right: 12px; transform: none; max-width: none; justify-content: space-between; }
 }
 
@@ -948,10 +939,8 @@ body.is-lensed .work:not(.is-lit) { opacity: 0.3; }
   .reveal, .reveal.is-armed { opacity: 1; transform: none; }
   .js [data-anim="up"], .js .term__line { opacity: 1; transform: none; }
   .marquee__track { animation: none; }
-  .chart__fill { width: var(--w); }
 }
 
 /* no-JS: nothing stays hidden */
 html:not(.js) .reveal,
 html:not(.js) [data-anim="up"] { opacity: 1; transform: none; }
-html:not(.js) .chart__fill { width: var(--w); }

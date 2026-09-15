@@ -71,7 +71,7 @@
     var numEl = $("#loaderNum");
     var barEl = $("#loaderBar");
     var typeEl = $("#loaderType");
-    var word = "building the release…";
+    var word = "assembling the stack…";
     var pct = 0;
     var chars = 0;
     var done = false;
@@ -217,11 +217,11 @@
     if (!host || reduceMotion) return;
 
     var words = [
-      "production systems",
-      "release pipelines",
+      ".NET services",
+      "Angular component libraries",
       "event-driven backends",
-      "Angular libraries",
-      "things that don't page you at 2am"
+      "vector search that returns",
+      "APIs that hold up"
     ];
     var el = $(".rotator__word", host);
     var i = 0;
@@ -265,7 +265,6 @@
     if (!("IntersectionObserver" in window)) {
       items.forEach(function (el) {
         countUp(el);
-        $$(".chart__fill", el).forEach(function (f) { f.classList.add("is-drawn"); });
       });
       return;
     }

@@ -4,13 +4,13 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>Ishita Singh — Full-Stack SDE II</title>
-<meta name="description" content="Ishita Singh — Full-Stack SDE II. I build and ship .NET and Angular systems at production scale: 200+ servers, 120K+ events a day, releases 90% faster." />
+<meta name="description" content="Ishita Singh — Full-Stack SDE II. I design .NET services on Clean Architecture, own 6+ shared Angular libraries, and build the event-driven systems underneath them — 120K+ events a day, with Milvus vector search." />
 <meta name="theme-color" content="#f3f1e7" />
 <link rel="icon" href="favicon.png" />
 
 <meta property="og:type" content="website" />
 <meta property="og:title" content="Ishita Singh — Full-Stack SDE II" />
-<meta property="og:description" content="I build and ship production systems — .NET / Angular, release engineering and reliability." />
+<meta property="og:description" content="I design .NET services and Angular component libraries on event-driven systems — 120K+ events a day, with Milvus vector search." />
 <meta property="og:url" content="https://ishita03-singh.github.io/" />
 <meta property="og:image" content="https://ishita03-singh.github.io/static/img/I.png" />
 <meta name="twitter:card" content="summary" />
@@ -150,7 +150,7 @@
 
       <div class="hero__copy">
         <p class="pill" data-anim="up" style="--d:.05s">
-          <i class="pill__dot"></i> Open to senior full-stack &amp; platform roles
+          <i class="pill__dot"></i> Open to senior full-stack &amp; backend roles
         </p>
 
         <h1 class="hero__title">
@@ -159,15 +159,15 @@
         </h1>
 
         <p class="hero__role" data-anim="up" style="--d:.26s">
-          I build &amp; ship
-          <span class="rotator" id="rotator" aria-live="polite"><span class="rotator__word">production systems</span></span>
+          I design &amp; build
+          <span class="rotator" id="rotator" aria-live="polite"><span class="rotator__word">.NET services</span></span>
         </p>
 
         <p class="hero__blurb" data-anim="up" style="--d:.32s">
           Full-Stack <strong>SDE&nbsp;II</strong> at <a href="https://www.i2vsys.com/" target="_blank" rel="noopener" class="ul">I2V Systems</a>.
-          Three years of .NET and Angular running at production scale — <strong>200+ servers</strong>,
-          <strong>120K+ events a day</strong> — and release engineering owned end to end, from CI/CD
-          automation through reliability and observability.
+          I design .NET services on Clean Architecture, own <strong>6+ shared Angular libraries</strong>
+          that ship in every release, and build the event-driven pipeline underneath them —
+          <strong>120K+ events a day</strong>, with Milvus vector search for image and video retrieval.
         </p>
 
         <div class="hero__cta" data-anim="up" style="--d:.38s">
@@ -178,21 +178,37 @@
         </div>
       </div>
 
-      <!-- deploy log: the day job, rendered literally -->
-      <aside class="hero__panel" data-anim="up" style="--d:.42s" aria-label="Release pipeline snapshot">
-        <div class="term">
-          <div class="term__bar">
-            <i></i><i></i><i></i>
-            <span class="term__name">release — prod</span>
-          </div>
-          <pre class="term__body"><code><span class="term__line"><span class="c-dim">$</span> release --env prod --client public-sector</span>
-<span class="term__line"><span class="c-ok">✓</span> branch cut      <span class="c-dim">release/2.14</span></span>
-<span class="term__line"><span class="c-ok">✓</span> build           <span class="c-dim">windows + docker</span></span>
-<span class="term__line"><span class="c-ok">✓</span> config check    <span class="c-dim">0 drift</span></span>
-<span class="term__line"><span class="c-ok">✓</span> rollout         <span class="c-dim">200+ servers</span></span>
-<span class="term__line"><span class="c-ok">✓</span> queue health    <span class="c-dim">20 events/sec sustained</span></span>
-<span class="term__line"><span class="c-acc">→</span> release time    <span class="c-acc">9 min</span> <span class="c-dim">(was 90)</span></span>
-<span class="term__line"><span class="c-dim">$</span> <span class="term__caret"></span></span></code></pre>
+      <!-- the system she actually designs and builds, top to bottom -->
+      <aside class="hero__panel" data-anim="up" style="--d:.42s">
+        <div class="sys">
+          <p class="sys__cap">What I build, end to end</p>
+          <ol class="sys__flow">
+            <li class="sys__node n-client">
+              <b>Angular client</b>
+              <span>6+ shared component libraries</span>
+            </li>
+            <li class="sys__arrow" aria-hidden="true">↓</li>
+            <li class="sys__node n-api">
+              <b>.NET API</b>
+              <span>Clean Architecture · 30+ tables, 3+ schemas</span>
+            </li>
+            <li class="sys__arrow" aria-hidden="true">↓</li>
+            <li class="sys__node n-bus">
+              <b>RabbitMQ</b>
+              <span>event-driven · 20 events/sec sustained</span>
+            </li>
+            <li class="sys__arrow" aria-hidden="true">↓</li>
+            <li class="sys__split">
+              <div class="sys__node n-jobs">
+                <b>Quartz workers</b>
+                <span>4+ scheduled workflows</span>
+              </div>
+              <div class="sys__node n-vec">
+                <b>Milvus</b>
+                <span>vector similarity search</span>
+              </div>
+            </li>
+          </ol>
         </div>
       </aside>
     </div>
@@ -205,14 +221,14 @@
   <!-- ================= marquee ================= -->
   <div class="marquee" aria-hidden="true">
     <div class="marquee__track">
-      <span>.NET</span><b>✦</b><span>Angular</span><b>✦</b><span>Release Engineering</span><b>✦</b>
-      <span>RabbitMQ</span><b>✦</b><span>PostgreSQL</span><b>✦</b><span>Grafana</span><b>✦</b>
-      <span>Docker</span><b>✦</b><span>Clean Architecture</span><b>✦</b><span>Event-Driven</span><b>✦</b>
-      <span>Milvus</span><b>✦</b><span>GitHub Actions</span><b>✦</b><span>Observability</span><b>✦</b>
-      <span>.NET</span><b>✦</b><span>Angular</span><b>✦</b><span>Release Engineering</span><b>✦</b>
-      <span>RabbitMQ</span><b>✦</b><span>PostgreSQL</span><b>✦</b><span>Grafana</span><b>✦</b>
-      <span>Docker</span><b>✦</b><span>Clean Architecture</span><b>✦</b><span>Event-Driven</span><b>✦</b>
-      <span>Milvus</span><b>✦</b><span>GitHub Actions</span><b>✦</b><span>Observability</span><b>✦</b>
+      <span>.NET</span><b>✦</b><span>Angular</span><b>✦</b><span>Clean Architecture</span><b>✦</b>
+      <span>RabbitMQ</span><b>✦</b><span>PostgreSQL</span><b>✦</b><span>Milvus</span><b>✦</b>
+      <span>TypeScript</span><b>✦</b><span>Event-Driven</span><b>✦</b><span>System Design</span><b>✦</b>
+      <span>Quartz</span><b>✦</b><span>Vector Search</span><b>✦</b><span>C#</span><b>✦</b>
+      <span>.NET</span><b>✦</b><span>Angular</span><b>✦</b><span>Clean Architecture</span><b>✦</b>
+      <span>RabbitMQ</span><b>✦</b><span>PostgreSQL</span><b>✦</b><span>Milvus</span><b>✦</b>
+      <span>TypeScript</span><b>✦</b><span>Event-Driven</span><b>✦</b><span>System Design</span><b>✦</b>
+      <span>Quartz</span><b>✦</b><span>Vector Search</span><b>✦</b><span>C#</span><b>✦</b>
     </div>
   </div>
 
@@ -228,26 +244,26 @@
 
       <!-- live tile: today's throughput, extrapolated from the real daily average -->
       <article class="stat stat--live stat--3">
-        <p class="stat__cap"><i class="stat__blip" aria-hidden="true"></i> Events handled today</p>
+        <p class="stat__cap"><i class="stat__blip" aria-hidden="true"></i> Events through the pipeline today</p>
         <p class="stat__num stat__num--live"><span id="liveEvents">0</span></p>
         <p class="stat__label">
-          Running estimate since 00:00 IST, at the 120K/day average the pipeline actually sustains.
+          Running estimate since 00:00 IST, at the 120K/day average the system actually sustains.
         </p>
       </article>
 
       <article class="stat stat--3 t-yellow">
-        <p class="stat__num"><span data-count="120">0</span><i>K+</i></p>
-        <p class="stat__label">Events processed every day, at 20 events/sec sustained</p>
+        <p class="stat__num"><span data-count="6">0</span><i>+</i></p>
+        <p class="stat__label">Shared Angular libraries I own, shipping in every release to 60+ concurrent users</p>
       </article>
 
       <article class="stat stat--2 t-blue">
-        <p class="stat__num"><span data-count="200">0</span><i>+</i></p>
-        <p class="stat__label">Servers in the production footprint I release to</p>
+        <p class="stat__num"><span data-count="30">0</span><i>+</i></p>
+        <p class="stat__label">Tables across 3+ schemas in the .NET audit module I designed</p>
       </article>
 
       <article class="stat stat--2 t-lime">
-        <p class="stat__num"><span data-count="6">0</span><i>+</i></p>
-        <p class="stat__label">Shared Angular libraries shipped in every release</p>
+        <p class="stat__num"><span data-count="4">0</span><i>+</i></p>
+        <p class="stat__label">Workflows running on the Quartz scheduling engine I built</p>
       </article>
 
       <article class="stat stat--2 t-pink">
@@ -256,50 +272,47 @@
       </article>
 
       <article class="stat stat--3">
-        <p class="stat__num"><span data-count="300">0</span><i>+</i></p>
-        <p class="stat__label">Cameras monitored across 8+ Grafana dashboards</p>
+        <p class="stat__num"><span data-count="200">0</span><i>+</i></p>
+        <p class="stat__label">Servers running the services I build, at 120K+ events a day</p>
       </article>
 
       <article class="stat stat--3">
-        <p class="stat__num"><span data-count="30">0</span><i>+</i></p>
-        <p class="stat__label">Tables across 3+ schemas in the audit-logging module</p>
+        <p class="stat__num"><span data-count="90">0</span><i>%</i></p>
+        <p class="stat__label">Faster releases after I automated the build pipeline</p>
       </article>
 
     </div>
 
-    <!-- the 90% claim, shown rather than asserted -->
-    <figure class="chart reveal">
-      <figcaption class="chart__head">
-        <h3 class="chart__title">Time to ship one release</h3>
-        <p class="chart__sub">
-          Before and after I replaced the manual local build-and-share process with a
-          branch-based GitHub Actions pipeline.
+    <!-- one debugging story, told with its own data -->
+    <figure class="strip reveal">
+      <figcaption class="strip__head">
+        <h3 class="strip__title">The queue that needed a babysitter</h3>
+        <p class="strip__sub">
+          A recurring RabbitMQ event-handling failure meant someone had to restart the service by
+          hand — every day, indefinitely. Nobody had traced why. I followed it through the
+          consumer code and the surrounding architecture, found the root cause and fixed it.
         </p>
       </figcaption>
 
-      <div class="chart__plot">
-        <p class="chart__k">Manual build&nbsp;&amp;&nbsp;share</p>
-        <div class="chart__track" tabindex="0" aria-label="Manual build and share: 90 minutes per release">
-          <i class="chart__fill is-before" style="--w:100%"></i>
-          <span class="chart__tip">Built locally, shared by hand. Config drift caused repeated deployment failures.</span>
-        </div>
-        <p class="chart__v">90 min</p>
+      <div class="strip__grid">
+        <p class="strip__k">Before</p>
+        <ul class="strip__week" aria-hidden="true">
+          <li class="is-bad">M</li><li class="is-bad">T</li><li class="is-bad">W</li><li class="is-bad">T</li>
+          <li class="is-bad">F</li><li class="is-bad">S</li><li class="is-bad">S</li>
+        </ul>
+        <p class="strip__v">7 of 7 days</p>
 
-        <p class="chart__k">GitHub Actions pipeline</p>
-        <div class="chart__track" tabindex="0" aria-label="GitHub Actions pipeline: 9 minutes per release">
-          <i class="chart__fill is-after" style="--w:10%"></i>
-          <span class="chart__tip">Branch cut → build → rollout to 200+ servers. Zero config-related failures since.</span>
-        </div>
-        <p class="chart__v">9 min</p>
-
-        <span class="chart__spacer" aria-hidden="true"></span>
-        <ol class="chart__axis" aria-hidden="true"><li>0</li><li>30</li><li>60</li><li>90</li></ol>
-        <span class="chart__unit" aria-hidden="true">min</span>
+        <p class="strip__k">After</p>
+        <ul class="strip__week" aria-hidden="true">
+          <li class="is-ok">M</li><li class="is-ok">T</li><li class="is-ok">W</li><li class="is-ok">T</li>
+          <li class="is-ok">F</li><li class="is-ok">S</li><li class="is-ok">S</li>
+        </ul>
+        <p class="strip__v">0 of 7 days</p>
       </div>
+      <p class="strip__legend">Days per week needing a manual restart — 7 before the fix, none after.</p>
 
-      <p class="chart__note">
-        <strong>10× faster</strong> — 81 minutes back on every release, and config-related
-        deployment failures gone entirely.
+      <p class="strip__note">
+        <strong>Continuous 20 events/sec since</strong> — and nobody's morning spent restarting a queue.
       </p>
     </figure>
   </section>
@@ -320,16 +333,17 @@
 
       <div class="tile tile--bio">
         <p>
-          I'm a full-stack engineer from <strong>Gurgaon</strong> who likes the unglamorous parts of
-          software — the release that goes out clean, the queue that stops falling over, the dashboard
-          that catches a problem before a client does.
+          I'm a full-stack engineer from <strong>Gurgaon</strong>. Most of my work is backend
+          design — .NET services on Clean Architecture, an event-driven pipeline, a scheduling
+          engine — paired with the <strong>Angular component libraries</strong> that sit on top of
+          them. I like problems where the fix is in the design, not the patch.
         </p>
         <p>
           I joined <strong>I2V Systems</strong> in January 2023 and grew from individual contributor
-          into a de facto technical lead. Day to day I work across .NET services, shared Angular
-          libraries, event-driven pipelines, and the CI/CD that ships all of it.
+          into a de facto technical lead. Lately I've been deep in <strong>Milvus</strong>, building
+          vector similarity search for image and video retrieval.
         </p>
-        <p class="tile__sig">— currently shipping v2.14 <span aria-hidden="true">🚀</span></p>
+        <p class="tile__sig">— currently deep in vector search <span aria-hidden="true">🔍</span></p>
       </div>
 
       <div class="tile tile--clock t-yellow">
@@ -356,9 +370,9 @@
       <div class="tile tile--now">
         <p class="tile__cap">Currently</p>
         <ul class="tile__now">
-          <li><i>▹</i> Owning release sign-off for public-sector rollouts</li>
-          <li><i>▹</i> Tuning vector search on Milvus</li>
-          <li><i>▹</i> Mentoring through code reviews</li>
+          <li><i>▹</i> Tuning Milvus vector search for image and video retrieval</li>
+          <li><i>▹</i> Extending the shared Angular library set</li>
+          <li><i>▹</i> Mentoring through code reviews and design discussions</li>
         </ul>
       </div>
 
@@ -382,8 +396,8 @@
         <ul class="chips">
           <li class="is-key" data-tech="dotnet">C# / .NET</li>
           <li data-tech="dotnet">ASP.NET Core</li>
-          <li data-tech="dotnet">Clean Architecture</li>
-          <li>Microservices</li><li>REST APIs</li>
+          <li class="is-key" data-tech="dotnet">Clean Architecture</li>
+          <li>Microservices</li><li>REST APIs</li><li>System Design</li>
           <li data-tech="java">Java</li><li>Python</li><li>Node.js</li><li>C/C++</li>
         </ul>
       </article>
@@ -394,7 +408,7 @@
           <li class="is-key" data-tech="angular">Angular</li>
           <li data-tech="angular">TypeScript</li>
           <li data-tech="angular">RxJS</li>
-          <li data-tech="angular">Shared component libraries</li>
+          <li class="is-key" data-tech="angular">Shared component libraries</li>
           <li>HTML</li><li>CSS / SCSS</li>
           <li data-tech="flutter">Flutter</li><li data-tech="flutter">Dart</li>
         </ul>
@@ -404,9 +418,9 @@
         <h3><span class="stack__glyph">≋</span> Data &amp; Messaging</h3>
         <ul class="chips">
           <li class="is-key" data-tech="rabbitmq">RabbitMQ</li>
+          <li class="is-key" data-tech="milvus">Milvus</li>
           <li data-tech="postgres">PostgreSQL</li>
           <li>MySQL</li><li>MongoDB</li>
-          <li data-tech="milvus">Milvus</li>
           <li data-tech="firebase">Firebase</li>
           <li data-tech="quartz">Quartz</li>
           <li>Elsa Core</li>
@@ -415,17 +429,16 @@
       </article>
 
       <article class="stack__card">
-        <h3><span class="stack__glyph">⟳</span> Platform &amp; Ops</h3>
+        <h3><span class="stack__glyph">⟳</span> Platform &amp; Tooling</h3>
         <ul class="chips">
-          <li class="is-key" data-tech="actions">GitHub Actions</li>
-          <li data-tech="docker">Docker</li>
-          <li data-tech="actions">CI/CD</li>
-          <li data-tech="actions">Release Engineering</li>
           <li data-tech="grafana">Grafana</li>
+          <li data-tech="grafana">Observability</li>
           <li>Metabase</li>
           <li data-tech="azure">Azure</li>
-          <li data-tech="grafana">Observability</li>
-          <li>System Design</li>
+          <li data-tech="docker">Docker</li>
+          <li data-tech="actions">GitHub Actions</li>
+          <li data-tech="actions">CI/CD</li>
+          <li>Git</li>
         </ul>
       </article>
     </div>
@@ -450,18 +463,18 @@
           <h3 class="tl__role">Software Development Engineer II</h3>
           <p class="tl__org"><a href="https://www.i2vsys.com/" target="_blank" rel="noopener" class="ul">I2V Systems Pvt. Ltd.</a></p>
           <ul class="tl__list">
-            <li data-tech="rabbitmq">Diagnosed and fixed a recurring RabbitMQ event-handling failure that had required a <strong>daily manual restart</strong> — traced the root cause across code and architecture, restoring continuous 20 events/sec throughput and removing a standing operational burden.</li>
-            <li data-tech="actions docker">Automated Windows and Docker releases via GitHub Actions with a branch-based release/test strategy, replacing a manual local build-and-share process — <strong>cut release time by 90%</strong> and eliminated config-related deployment failures.</li>
-            <li data-tech="dotnet postgres">Designed and delivered a User CRUD and audit-logging module in .NET (Clean Architecture) spanning <strong>30+ tables across 3+ schemas</strong>, with per-user, per-entity action tracking.</li>
-            <li data-tech="quartz dotnet">Built a Quartz-based scheduling engine powering <strong>4+ workflows</strong> — VA scheduling, report export and user-log time tracking.</li>
-            <li data-tech="angular">Own <strong>6+ shared Angular libraries</strong> shipped in every release, supporting 60+ concurrent users across a 200+-server, 120K+-events/day footprint.</li>
-            <li data-tech="milvus grafana">Implemented Milvus-based vector similarity search for image and video retrieval, and built <strong>8+ Grafana dashboards</strong> monitoring 300+ cameras, with 30-day export, query optimisation and automated alerting.</li>
-            <li data-tech="actions">Lead release sign-off for large public-sector clients end to end — branch cut through production rollout — and act as primary contact for deployment issues.</li>
-            <li>Grew into a <strong>de facto technical lead</strong>, mentoring 4+ junior engineers through code reviews, debugging support and release best practices.</li>
+            <li data-tech="dotnet postgres">Designed and delivered a User CRUD and audit-logging module in .NET on <strong>Clean Architecture</strong>, spanning <strong>30+ tables across 3+ schemas</strong>, with per-user, per-entity action tracking.</li>
+            <li data-tech="angular">Own <strong>6+ shared Angular libraries</strong> shipped in every release — the component layer 60+ concurrent users work in, across a 200+-server, 120K+-events/day footprint.</li>
+            <li data-tech="milvus">Implemented <strong>Milvus-based vector similarity search</strong> for image and video retrieval, including index selection and query optimisation.</li>
+            <li data-tech="quartz dotnet">Built a <strong>Quartz-based scheduling engine</strong> powering 4+ workflows — VA scheduling, report export and user-log time tracking.</li>
+            <li data-tech="rabbitmq">Diagnosed and fixed a recurring RabbitMQ event-handling failure that had required a <strong>daily manual restart</strong> — traced the root cause through the consumer code and the surrounding architecture, restoring continuous 20 events/sec throughput.</li>
+            <li data-tech="grafana">Built <strong>8+ Grafana dashboards</strong> monitoring 300+ cameras, with 30-day export and automated alerting.</li>
+            <li data-tech="actions docker">Automated Windows and Docker releases via GitHub Actions, replacing a manual build-and-share process — cut release time by 90% and eliminated config-related deployment failures.</li>
+            <li>Grew into a <strong>de facto technical lead</strong>, mentoring 4+ junior engineers through code reviews, design discussions and debugging support.</li>
           </ul>
           <ul class="chips chips--sm">
-            <li>.NET</li><li>Angular</li><li>RabbitMQ</li><li>PostgreSQL</li><li>Quartz</li>
-            <li>Milvus</li><li>Grafana</li><li>Docker</li><li>GitHub Actions</li>
+            <li>.NET</li><li>Clean Architecture</li><li>Angular</li><li>RabbitMQ</li><li>PostgreSQL</li>
+            <li>Milvus</li><li>Quartz</li><li>Grafana</li><li>Docker</li>
           </ul>
         </div>
       </li>

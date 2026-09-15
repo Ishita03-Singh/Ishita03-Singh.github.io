@@ -18,7 +18,34 @@
 <link rel="preload" href="static/fonts/Calibre-Regular.ttf" as="font" type="font/ttf" crossorigin />
 <link rel="preload" href="static/fonts/SFMono-Regular.ttf" as="font" type="font/ttf" crossorigin />
 <link rel="stylesheet" href="styles.css" />
-<script>document.documentElement.className += " js";</script>
+<script>
+document.documentElement.className += " js";
+/* The old Flutter build left a service worker that served the whole site from
+   cache. Tear down anything still registered, then reload once so the visitor
+   lands on the live page instead of a cached copy of the old app. */
+(function () {
+  if (!("serviceWorker" in navigator)) return;
+  navigator.serviceWorker.getRegistrations().then(function (regs) {
+    if (!regs.length) return;
+    Promise.all(regs.map(function (r) { return r.unregister(); }))
+      .then(function () {
+        return window.caches && caches.keys
+          ? caches.keys().then(function (keys) {
+              return Promise.all(keys.map(function (k) { return caches.delete(k); }));
+            })
+          : null;
+      })
+      .then(function () {
+        var once;
+        try { once = sessionStorage.getItem("swPurged"); } catch (e) { once = "1"; }
+        if (once) return;
+        try { sessionStorage.setItem("swPurged", "1"); } catch (e) { return; }
+        location.reload();
+      })
+      .catch(function () { /* nothing we can do from here */ });
+  }).catch(function () {});
+})();
+</script>
 </head>
 <body>
 
@@ -84,7 +111,7 @@
 </aside>
 
 <aside class="rail rail--right" aria-label="Email">
-  <a class="rail__mail" href="mailto:ishitasingh150301@gmail.com">ishitasingh150301@gmail.com</a>
+  <a class="rail__mail" href="mailto:singh.ishita.atwork@gmail.com">singh.ishita.atwork@gmail.com</a>
 </aside>
 
 <!-- ============ main ============ -->
@@ -98,11 +125,11 @@
     <h2 class="hero__tagline">I build and ship production systems.</h2>
     <p class="hero__blurb">
       I'm a Full-Stack SDE II at <a href="https://www.i2vsys.com/" target="_blank" rel="noopener">I2V Systems</a>,
-      working on .NET and Angular systems at production scale &mdash; 200+ servers, 120K+ events a day.
-      I own release engineering end to end, from CI/CD automation through reliability and observability,
-      for large public-sector deployments.
+      with 3+ years building and running .NET and Angular systems at production scale &mdash; 200+ servers,
+      120K+ events a day. I own release engineering end to end, from CI/CD automation through reliability
+      and observability, for large public-sector deployments.
     </p>
-    <a class="btn btn--lg" href="mailto:ishitasingh150301@gmail.com">Get in Touch</a>
+    <a class="btn btn--lg" href="mailto:singh.ishita.atwork@gmail.com">Get in Touch</a>
   </section>
 
   <!-- about -->
@@ -150,8 +177,10 @@
     <p class="chips__label">Also working with</p>
     <ul class="chips">
       <li>RabbitMQ</li><li>Quartz</li><li>Elsa Core</li><li>Milvus</li><li>Grafana</li>
-      <li>Metabase</li><li>MongoDB</li><li>Firebase</li><li>Node.js</li><li>Azure</li>
-      <li>GitHub Actions</li><li>Java</li><li>Python</li><li>Clean Architecture</li>
+      <li>Metabase</li><li>MongoDB</li><li>MySQL</li><li>Firebase</li><li>Node.js</li>
+      <li>Azure</li><li>GitHub Actions</li><li>REST APIs</li><li>Microservices</li>
+      <li>Event-Driven Architecture</li><li>Clean Architecture</li><li>System Design</li>
+      <li>Java</li><li>Python</li><li>Dart</li><li>C/C++</li><li>HTML/CSS/SCSS</li>
     </ul>
   </section>
 
@@ -279,7 +308,7 @@
       My inbox is always open. Whether you have a question or just want to say hello, I'll try my best to get
       back to you! Feel free to mail me about any relevant job updates.
     </p>
-    <a class="btn btn--lg" href="mailto:ishitasingh150301@gmail.com">Mail Me</a>
+    <a class="btn btn--lg" href="mailto:singh.ishita.atwork@gmail.com">Mail Me</a>
   </section>
 
   <footer class="footer">

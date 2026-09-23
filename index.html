@@ -18,7 +18,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" />
-<link rel="stylesheet" href="styles.css?v=7" />
+<link rel="stylesheet" href="styles.css?v=8" />
 <script>
 /* Set the theme before first paint so there is no flash of the wrong one. */
 (function () {
@@ -768,6 +768,14 @@
       </footer>
     </section>
 
+    <!-- original public repositories, newest first -->
+    <section class="oss reveal" id="repoPanel" hidden aria-labelledby="repoCap">
+      <p class="tile__cap" id="repoCap"><i class="hud__blip" aria-hidden="true"></i> Public repositories</p>
+      <p class="gh__total"><span id="repoCount">—</span><i>original repositories</i></p>
+      <ul class="oss__list" id="repoList"></ul>
+      <a class="ul gh__link" href="https://github.com/Ishita03-Singh?tab=repositories" target="_blank" rel="noopener">All repositories ↗</a>
+    </section>
+
     <!-- merged pull requests into repositories she does not own -->
     <section class="oss reveal" id="ossPanel" hidden aria-labelledby="ossCap">
       <p class="tile__cap" id="ossCap">Merged into other people's repositories</p>
@@ -812,6 +820,6 @@
   <button class="lens__clear" id="lensClear" type="button">Clear ✕</button>
 </div>
 
-<script src="main.js?v=7"></script>
+<script src="main.js?v=8"></script>
 </body>
 </html>

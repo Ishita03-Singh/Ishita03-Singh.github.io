@@ -11,9 +11,11 @@
      data — nothing here ever renders a placeholder number.
      ------------------------------------------------------ */
 
-  // Your GoatCounter site code: for "ishita.goatcounter.com" put "ishita".
-  // Leave empty and the visitor panel simply never appears.
-  var GOATCOUNTER_CODE = "";
+  // Visitor counter. Abacus is a free, no-signup, no-cookie counter; the
+  // namespace/key pair is just a bucket name. Each browser is counted once,
+  // so the figure approximates people rather than page loads.
+  var COUNTER_NS = "ishita-singh-portfolio";
+  var COUNTER_KEY = "visitors";
 
   // LeetCode handle. The one below is what the profile link uses, but the
   // public API reports it as non-existent — confirm the exact username and
@@ -25,10 +27,10 @@
 
   var GITHUB_USER = "Ishita03-Singh";
 
-  // The contribution calendar is built and working, but OFF by default:
-  // the last year holds 3 contributions across 2 days, and a near-empty
-  // calendar reads worse than no calendar. Set to true to show it.
-  var SHOW_GITHUB_GRAPH = false;
+  // Contribution calendar. On. Note the public graph is sparse because the
+  // day job lives in private repositories — the section says so in as many
+  // words. Set to false to hide it entirely.
+  var SHOW_GITHUB_GRAPH = true;
 
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
@@ -592,38 +594,37 @@
   })();
 
   /* ------------------------------------------------------
-     Unique visitors, via GoatCounter.
+     Unique visitors.
 
-     GoatCounter counts uniques server-side without cookies,
-     so there is no local de-duplication to do here and no
-     personal data to hold. Until GOATCOUNTER_CODE is filled
-     in, nothing is loaded, no request leaves the page, and
-     the panel never appears.
+     Abacus is a small public counter: no account, no cookies,
+     nothing personal stored. The browser is counted once via
+     localStorage and only reads the total afterwards, so the
+     number tracks people rather than page loads. If the
+     service is unreachable the panel simply stays hidden.
      ------------------------------------------------------ */
   (function visitors() {
     var panel = $("#visitPanel");
-    if (!panel || !GOATCOUNTER_CODE) return;
+    if (!panel || !window.fetch || !COUNTER_NS) return;
 
-    var host = "https://" + GOATCOUNTER_CODE + ".goatcounter.com";
+    var seen;
+    try { seen = localStorage.getItem("hasBeenCounted"); } catch (e) { seen = null; }
 
-    // record this visit
-    var tag = document.createElement("script");
-    tag.async = true;
-    tag.src = "//gc.zgo.at/count.js";
-    tag.setAttribute("data-goatcounter", host + "/count");
-    document.head.appendChild(tag);
+    function ask(verb) {
+      return fetch("https://abacus.jasoncameron.dev/" + verb + "/" + COUNTER_NS + "/" + COUNTER_KEY)
+        .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); });
+    }
 
-    if (!window.fetch) return;
+    function show(d) {
+      if (typeof d.value !== "number") return;
+      try { localStorage.setItem("hasBeenCounted", "1"); } catch (e) {}
+      $("#visitCount").textContent = d.value.toLocaleString("en-IN");
+      panel.hidden = false;
+    }
 
-    // read the public total back (needs "allow visitor counts" on in settings)
-    fetch(host + "/counter/TOTAL.json")
-      .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
-      .then(function (d) {
-        var n = d.count_unique || d.count;
-        if (!n) return;
-        $("#visitCount").textContent = n;
-        panel.hidden = false;
-      })
+    // a returning browser only reads; if the bucket has since been reset,
+    // fall back to counting once so the panel still has something true to show
+    (seen ? ask("get").catch(function () { return ask("hit"); }) : ask("hit"))
+      .then(show)
       .catch(function () { /* leave the panel hidden */ });
   })();
 
@@ -752,6 +753,50 @@
           w.textContent = it.created_at.slice(0, 7);
 
           a.appendChild(r); a.appendChild(t); a.appendChild(w);
+          li.appendChild(a);
+          list.appendChild(li);
+        });
+
+        panel.hidden = false;
+      })
+      .catch(function () { /* leave the panel hidden */ });
+  })();
+
+  /* ------------------------------------------------------
+     Public repositories. Real data from the GitHub API:
+     original repositories only, newest push first.
+     ------------------------------------------------------ */
+  (function repos() {
+    var panel = $("#repoPanel");
+    if (!panel || !window.fetch || !GITHUB_USER) return;
+
+    fetch("https://api.github.com/users/" + GITHUB_USER + "/repos?per_page=100&sort=pushed")
+      .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+      .then(function (all) {
+        var own = (all || []).filter(function (r) { return !r.fork && !r.archived; });
+        if (!own.length) return;
+
+        $("#repoCount").textContent = own.length;
+
+        var list = $("#repoList");
+        own.slice(0, 6).forEach(function (r) {
+          var li = document.createElement("li");
+          var a = document.createElement("a");
+          a.href = r.html_url; a.target = "_blank"; a.rel = "noopener";
+
+          var n = document.createElement("span");
+          n.className = "oss__repo";
+          n.textContent = r.name;
+
+          var d = document.createElement("span");
+          d.className = "oss__title";
+          d.textContent = r.description || (r.language ? r.language + " project" : "—");
+
+          var m = document.createElement("span");
+          m.className = "oss__when";
+          m.textContent = (r.language ? r.language + " · " : "") + r.pushed_at.slice(0, 7);
+
+          a.appendChild(n); a.appendChild(d); a.appendChild(m);
           li.appendChild(a);
           list.appendChild(li);
         });

@@ -18,7 +18,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" />
-<link rel="stylesheet" href="styles.css?v=6" />
+<link rel="stylesheet" href="styles.css?v=7" />
 <script>
 /* Set the theme before first paint so there is no flash of the wrong one. */
 (function () {
@@ -92,6 +92,7 @@
       <li><a href="#stack">Stack</a></li>
       <li><a href="#experience">Experience</a></li>
       <li><a href="#work">Work</a></li>
+      <li><a href="#code">Code</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
   </nav>
@@ -116,7 +117,8 @@
       <li><a href="#stack"><i>02</i><span>Stack</span></a></li>
       <li><a href="#experience"><i>03</i><span>Experience</span></a></li>
       <li><a href="#work"><i>04</i><span>Work</span></a></li>
-      <li><a href="#contact"><i>05</i><span>Contact</span></a></li>
+      <li><a href="#code"><i>05</i><span>Public code</span></a></li>
+      <li><a href="#contact"><i>06</i><span>Contact</span></a></li>
     </ol>
     <a class="btn btn--block" href="static/Ishita_Singh_Resume.pdf" target="_blank" rel="noopener">Résumé ↗</a>
     <p class="drawer__mail"><a href="mailto:singh.ishita.atwork@gmail.com">singh.ishita.atwork@gmail.com</a></p>
@@ -640,6 +642,16 @@
         <ul class="pcard__m"><li>6+ libraries</li><li>60+ concurrent users</li></ul>
       </article>
 
+      <article class="pcard" data-tech="flutter nextjs mapbox">
+        <p class="pcard__cap">Freelance · Mobile &amp; web</p>
+        <h4 class="pcard__t">Japanese product studio</h4>
+        <p class="pcard__d">
+          Six-month remote engagement alongside the I2V role — shipped mobile and web
+          products, with Mapbox mapping and AR features.
+        </p>
+        <ul class="pcard__m"><li>Flutter</li><li>Next.js</li><li>Mapbox</li><li>AR</li></ul>
+      </article>
+
       <article class="pcard" data-tech="milvus grafana">
         <p class="pcard__cap">Data · Milvus, Grafana</p>
         <h4 class="pcard__t">Visual search &amp; monitoring</h4>
@@ -721,10 +733,52 @@
     </div>
   </section>
 
+  <!-- ================= public code ================= -->
+  <section class="sec" id="code">
+    <header class="sec__head reveal">
+      <p class="sec__idx"><i>06</i> Public code</p>
+      <h2 class="sec__title">Out in the <span class="hi">open</span>.</h2>
+      <p class="sec__lede">
+        Day-job work lives in private company repositories. This is what's public.
+      </p>
+    </header>
+
+    <!-- contribution heatmap; fills itself from the live GitHub data -->
+    <section class="gh reveal" id="ghPanel" hidden aria-labelledby="ghCap">
+      <header class="gh__head">
+        <p class="tile__cap" id="ghCap"><i class="hud__blip" aria-hidden="true"></i> Contribution activity</p>
+        <p class="gh__total"><span id="ghTotal">—</span><i>contributions in the last year</i></p>
+      </header>
+
+      <div class="gh__scroll">
+        <div class="gh__cal">
+          <div class="gh__months" id="ghMonths" aria-hidden="true"></div>
+          <div class="gh__days" aria-hidden="true"><span>Mon</span><span>Wed</span><span>Fri</span></div>
+          <div class="gh__grid" id="ghGrid" role="img" aria-label="GitHub contribution calendar"></div>
+        </div>
+      </div>
+
+      <footer class="gh__foot">
+        <p class="gh__legend">
+          Less
+          <i class="gh-l0"></i><i class="gh-l1"></i><i class="gh-l2"></i><i class="gh-l3"></i><i class="gh-l4"></i>
+          More
+        </p>
+        <a class="ul gh__link" href="https://github.com/Ishita03-Singh" target="_blank" rel="noopener">View on GitHub ↗</a>
+      </footer>
+    </section>
+
+    <!-- merged pull requests into repositories she does not own -->
+    <section class="oss reveal" id="ossPanel" hidden aria-labelledby="ossCap">
+      <p class="tile__cap" id="ossCap">Merged into other people's repositories</p>
+      <ul class="oss__list" id="ossList"></ul>
+    </section>
+  </section>
+
   <!-- ================= contact ================= -->
   <section class="sec sec--contact" id="contact">
     <div class="contact reveal">
-      <p class="sec__idx"><i>06</i> Contact</p>
+      <p class="sec__idx"><i>07</i> Contact</p>
       <h2 class="contact__title">Let's build<br />something <span class="hi">solid</span>.</h2>
       <p class="contact__text">
         My inbox is always open — a question, a role, or just hello. I read everything and try to
@@ -740,6 +794,7 @@
         <li><a href="https://www.linkedin.com/in/ishita-singh-creater/" target="_blank" rel="noopener"><b>LinkedIn</b><span>/ishita-singh-creater</span><i aria-hidden="true">↗</i></a></li>
         <li><a href="https://github.com/Ishita03-Singh/" target="_blank" rel="noopener"><b>GitHub</b><span>/Ishita03-Singh</span><i aria-hidden="true">↗</i></a></li>
         <li><a href="https://leetcode.com/u/ishitasingh150301/" target="_blank" rel="noopener"><b>LeetCode</b><span>/ishitasingh150301</span><i aria-hidden="true">↗</i></a></li>
+        <li id="ncRow" hidden><a id="ncLink" href="#" target="_blank" rel="noopener"><b>NeetCode</b><span id="ncHandle">—</span><i aria-hidden="true">↗</i></a></li>
         <li><a href="https://www.instagram.com/iishitaaasingh/" target="_blank" rel="noopener"><b>Instagram</b><span>/iishitaaasingh</span><i aria-hidden="true">↗</i></a></li>
       </ul>
     </div>
@@ -757,6 +812,6 @@
   <button class="lens__clear" id="lensClear" type="button">Clear ✕</button>
 </div>
 
-<script src="main.js?v=6"></script>
+<script src="main.js?v=7"></script>
 </body>
 </html>

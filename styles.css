@@ -1187,3 +1187,137 @@ body.is-lensed .mini:not(.is-lit) { opacity: 0.3; }
 @media (prefers-reduced-motion: reduce) {
   .lcbar__track i { transition: none; }
 }
+
+/* =========================================================
+   public code — contribution calendar + open source
+   ========================================================= */
+
+/* Sequential ramp for the heatmap: one hue, light to dark, so the steps
+   read as magnitude rather than as categories. Redefined per theme because
+   the same hue has to climb away from a different ground. */
+:root {
+  --gh-0: rgba(32, 31, 25, 0.09);
+  --gh-1: #c6cff7;
+  --gh-2: #92a2ef;
+  --gh-3: #5d74e6;
+  --gh-4: #2c46cc;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --gh-0: rgba(245, 244, 238, 0.08);
+    --gh-1: #2c3a78;
+    --gh-2: #4257ad;
+    --gh-3: #6b84ff;
+    --gh-4: #a9b9ff;
+  }
+}
+:root[data-theme="dark"] {
+  --gh-0: rgba(245, 244, 238, 0.08);
+  --gh-1: #2c3a78;
+  --gh-2: #4257ad;
+  --gh-3: #6b84ff;
+  --gh-4: #a9b9ff;
+}
+
+.gh, .oss {
+  position: relative;
+  padding: clamp(20px, 2.6vw, 30px);
+  border: var(--bw) solid var(--line); border-radius: var(--r);
+  background: var(--bg-2); box-shadow: var(--shadow);
+}
+.oss { margin-top: 14px; }
+
+/* the HUD corner brackets, reused */
+.gh::before, .gh::after {
+  content: ""; position: absolute; width: 12px; height: 12px;
+  border: 2px solid var(--accent); pointer-events: none;
+}
+.gh::before { top: 8px; left: 8px; border-right: 0; border-bottom: 0; }
+.gh::after { bottom: 8px; right: 8px; border-left: 0; border-top: 0; }
+
+.gh__head { margin-bottom: 20px; }
+.gh__total {
+  margin: 0; display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 9px;
+  font-family: var(--f-mono); font-weight: 700; letter-spacing: -0.03em;
+  font-size: clamp(26px, 4vw, 40px); color: var(--text); font-variant-numeric: tabular-nums;
+}
+.gh__total i {
+  font-style: normal; font-weight: 400; font-size: 12px;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--dim);
+}
+
+/* a year of squares is wider than a phone: let this one box scroll */
+.gh__scroll { overflow-x: auto; padding-bottom: 6px; }
+.gh__cal {
+  display: grid;
+  grid-template-columns: 30px max-content;
+  grid-template-areas: ".     months" "days  grid";
+  gap: 5px 6px; width: max-content;
+}
+.gh__months {
+  grid-area: months;
+  display: grid; grid-auto-flow: column; grid-auto-columns: 13px;
+  font-family: var(--f-mono); font-size: 10px; color: var(--dim);
+}
+.gh__months span { grid-row: 1; white-space: nowrap; }
+.gh__days {
+  grid-area: days;
+  display: grid; grid-template-rows: repeat(7, 11px); gap: 2px;
+  font-family: var(--f-mono); font-size: 9px; color: var(--dim);
+}
+/* only Mon / Wed / Fri are labelled, as on GitHub itself */
+.gh__days span:nth-child(1) { grid-row: 2; }
+.gh__days span:nth-child(2) { grid-row: 4; }
+.gh__days span:nth-child(3) { grid-row: 6; }
+
+.gh__grid {
+  grid-area: grid;
+  display: grid; grid-template-rows: repeat(7, 11px);
+  grid-auto-flow: column; grid-auto-columns: 11px; gap: 2px;
+}
+.gh__cell { border-radius: 2px; background: var(--gh-0); }
+.gh__cell[data-level="1"] { background: var(--gh-1); }
+.gh__cell[data-level="2"] { background: var(--gh-2); }
+.gh__cell[data-level="3"] { background: var(--gh-3); }
+.gh__cell[data-level="4"] { background: var(--gh-4); }
+.gh__cell[data-level]:not([data-level="0"]) { outline: 1px solid rgba(32, 31, 25, 0.12); outline-offset: -1px; }
+
+.gh__foot {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+  gap: 10px 18px; margin-top: 16px;
+}
+.gh__legend {
+  margin: 0; display: flex; align-items: center; gap: 5px;
+  font-family: var(--f-mono); font-size: 10.5px; color: var(--dim);
+}
+.gh__legend i { width: 11px; height: 11px; border-radius: 2px; display: block; }
+.gh-l0 { background: var(--gh-0); }
+.gh-l1 { background: var(--gh-1); }
+.gh-l2 { background: var(--gh-2); }
+.gh-l3 { background: var(--gh-3); }
+.gh-l4 { background: var(--gh-4); }
+.gh__link { font-family: var(--f-mono); font-size: 12px; }
+
+/* open source list */
+.oss__list { display: grid; gap: 2px; margin-top: 6px; }
+.oss__list li { border-bottom: 1.8px solid var(--line); }
+.oss__list li:last-child { border-bottom: 0; }
+.oss__list a {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px;
+  padding: 13px 4px; color: var(--muted);
+  transition: padding-left 0.25s var(--ease), background-color 0.2s var(--ease), color 0.2s var(--ease);
+}
+.oss__list a:hover { padding-left: 14px; background: var(--yellow); color: var(--ink); }
+.oss__repo {
+  font-family: var(--f-display); font-weight: 800; font-size: 15px;
+  letter-spacing: -0.02em; color: var(--text);
+}
+.oss__list a:hover .oss__repo { color: var(--ink); }
+.oss__title { font-size: 14px; }
+.oss__when { margin-left: auto; font-family: var(--f-mono); font-size: 11px; color: var(--dim); }
+.oss__list a:hover .oss__when { color: var(--ink); }
+
+@media (max-width: 640px) {
+  .gh__cal { grid-template-columns: 24px max-content; }
+  .gh__days { font-size: 8px; }
+}

@@ -15,7 +15,20 @@
   // Leave empty and the visitor panel simply never appears.
   var GOATCOUNTER_CODE = "";
 
+  // LeetCode handle. The one below is what the profile link uses, but the
+  // public API reports it as non-existent — confirm the exact username and
+  // the panel starts working. Wrong handle just means the panel stays hidden.
   var LEETCODE_USER = "ishitasingh150301";
+
+  // NeetCode has no public API, so this is a plain profile link. Empty = no row.
+  var NEETCODE_URL = "";
+
+  var GITHUB_USER = "Ishita03-Singh";
+
+  // The contribution calendar is built and working, but OFF by default:
+  // the last year holds 3 contributions across 2 days, and a near-empty
+  // calendar reads worse than no calendar. Set to true to show it.
+  var SHOW_GITHUB_GRAPH = false;
 
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
@@ -609,6 +622,140 @@
         var n = d.count_unique || d.count;
         if (!n) return;
         $("#visitCount").textContent = n;
+        panel.hidden = false;
+      })
+      .catch(function () { /* leave the panel hidden */ });
+  })();
+
+  /* ------------------------------------------------------
+     NeetCode row. Rendered only once NEETCODE_URL is set,
+     so the contact list never shows a dead link.
+     ------------------------------------------------------ */
+  (function neetcode() {
+    var row = $("#ncRow");
+    if (!row || !NEETCODE_URL) return;
+    $("#ncLink").href = NEETCODE_URL;
+    $("#ncHandle").textContent = NEETCODE_URL.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "");
+    row.hidden = false;
+  })();
+
+  /* ------------------------------------------------------
+     GitHub contribution calendar.
+
+     Real data from a public mirror of the contributions
+     graph — GitHub's own API needs a token, which a static
+     site cannot hold safely.
+
+     Gated behind SHOW_GITHUB_GRAPH because an empty calendar
+     says something louder than no calendar at all. Flip the
+     flag once the graph is worth showing.
+     ------------------------------------------------------ */
+  (function contributions() {
+    var panel = $("#ghPanel");
+    if (!panel || !SHOW_GITHUB_GRAPH || !window.fetch || !GITHUB_USER) return;
+
+    var MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+    function draw(days, total) {
+      var grid = $("#ghGrid");
+      var months = $("#ghMonths");
+      if (!grid) return;
+
+      // pad the front so the first column starts on a Sunday, as GitHub does
+      var lead = new Date(days[0].date + "T00:00:00").getDay();
+      for (var i = 0; i < lead; i++) {
+        var pad = document.createElement("span");
+        pad.className = "gh__cell";
+        pad.setAttribute("data-level", "0");
+        grid.appendChild(pad);
+      }
+
+      var seenMonth = -1;
+      days.forEach(function (d, idx) {
+        var cell = document.createElement("span");
+        cell.className = "gh__cell";
+        cell.setAttribute("data-level", String(d.level || 0));
+        cell.title = d.count + (d.count === 1 ? " contribution" : " contributions") + " on " + d.date;
+        grid.appendChild(cell);
+
+        // one label per month, placed on the column where that month starts
+        var dt = new Date(d.date + "T00:00:00");
+        if (dt.getMonth() !== seenMonth && dt.getDate() <= 7) {
+          seenMonth = dt.getMonth();
+          var col = Math.floor((idx + lead) / 7) + 1;
+          var label = document.createElement("span");
+          label.textContent = MONTHS[seenMonth];
+          label.style.gridColumn = String(col);
+          months.appendChild(label);
+        }
+      });
+
+      $("#ghTotal").textContent = total.toLocaleString("en-IN");
+      panel.hidden = false;
+    }
+
+    fetch("https://github-contributions-api.jogruber.de/v4/" + GITHUB_USER + "?y=last")
+      .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+      .then(function (d) {
+        var days = d.contributions || [];
+        var total = d.total && (d.total.lastYear != null)
+          ? d.total.lastYear
+          : days.reduce(function (a, c) { return a + c.count; }, 0);
+        if (days.length) draw(days, total);
+      })
+      .catch(function () { /* leave the panel hidden */ });
+  })();
+
+  /* ------------------------------------------------------
+     Open source: pull requests merged into repositories
+     that are not her own.
+
+     The panel only appears when there is something real to
+     show — an empty "open source" heading is worse than none.
+     ------------------------------------------------------ */
+  (function openSource() {
+    var panel = $("#ossPanel");
+    if (!panel || !window.fetch || !GITHUB_USER) return;
+
+    var q = "type:pr+author:" + GITHUB_USER + "+is:merged";
+    fetch("https://api.github.com/search/issues?q=" + q + "&sort=created&order=desc&per_page=20")
+      .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+      .then(function (d) {
+        var list = $("#ossList");
+        var own = GITHUB_USER.toLowerCase() + "/";
+
+        var items = (d.items || []).filter(function (it) {
+          var repo = it.repository_url.split("/repos/")[1] || "";
+          return repo.toLowerCase().indexOf(own) !== 0;     // someone else's repo
+        });
+
+        if (!items.length) return;                          // nothing to show yet
+
+        items.forEach(function (it) {
+          var repo = it.repository_url.split("/repos/")[1];
+          var li = document.createElement("li");
+          var a = document.createElement("a");
+          a.href = it.html_url;
+          a.target = "_blank";
+          a.rel = "noopener";
+
+          var r = document.createElement("span");
+          r.className = "oss__repo";
+          r.textContent = repo;
+
+          var t = document.createElement("span");
+          t.className = "oss__title";
+          t.textContent = it.title;
+
+          var w = document.createElement("span");
+          w.className = "oss__when";
+          w.textContent = it.created_at.slice(0, 7);
+
+          a.appendChild(r); a.appendChild(t); a.appendChild(w);
+          li.appendChild(a);
+          list.appendChild(li);
+        });
+
         panel.hidden = false;
       })
       .catch(function () { /* leave the panel hidden */ });

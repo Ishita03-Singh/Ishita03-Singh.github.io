@@ -18,7 +18,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" />
-<link rel="stylesheet" href="styles.css" />
+<link rel="stylesheet" href="styles.css?v=6" />
 <script>
 /* Set the theme before first paint so there is no flash of the wrong one. */
 (function () {
@@ -60,6 +60,12 @@
 <body>
 
 <div class="progress" id="progress" aria-hidden="true"><i></i></div>
+
+<!-- reticle cursor, switched on from JS for fine pointers only -->
+<div class="reticle" id="reticle" aria-hidden="true">
+  <i class="reticle__dot"></i>
+  <i class="reticle__ring"></i>
+</div>
 
 <!-- ============ loader ============ -->
 <div class="loader" id="loader" aria-hidden="true">
@@ -164,10 +170,11 @@
         </p>
 
         <p class="hero__blurb" data-anim="up" style="--d:.32s">
-          Full-Stack <strong>SDE&nbsp;II</strong> at <a href="https://www.i2vsys.com/" target="_blank" rel="noopener" class="ul">I2V Systems</a>.
-          I design .NET services on Clean Architecture, own <strong>6+ shared Angular libraries</strong>
-          that ship in every release, and build the event-driven pipeline underneath them —
-          <strong>120K+ events a day</strong>, with Milvus vector search for image and video retrieval.
+          Full-Stack <strong>SDE&nbsp;II</strong> at <a href="https://www.i2vsys.com/" target="_blank" rel="noopener" class="ul">I2V Systems</a>
+          since January 2023. I design .NET services on Clean Architecture, own
+          <strong>6+ shared Angular libraries</strong> that ship in every release, and build the
+          event-driven pipeline underneath them — <strong>120K+ events a day</strong>, with Milvus
+          vector search for image and video retrieval.
         </p>
 
         <div class="hero__cta" data-anim="up" style="--d:.38s">
@@ -178,7 +185,7 @@
         </div>
       </div>
 
-      <!-- the system she actually designs and builds, top to bottom -->
+      <!-- the system she designs and builds, top to bottom -->
       <aside class="hero__panel" data-anim="up" style="--d:.42s">
         <div class="sys">
           <p class="sys__cap">What I build, end to end</p>
@@ -236,8 +243,8 @@
   <section class="sec" id="impact">
     <header class="sec__head reveal">
       <p class="sec__idx"><i>01</i> Impact</p>
-      <h2 class="sec__title">The <span class="hi">receipts</span>.</h2>
-      <p class="sec__lede">Numbers from systems that are live right now, serving public-sector clients.</p>
+      <h2 class="sec__title">By the <span class="hi">numbers</span>.</h2>
+      <p class="sec__lede">From systems that are live right now, serving large public-sector deployments.</p>
     </header>
 
     <div class="bento reveal">
@@ -247,7 +254,7 @@
         <p class="stat__cap"><i class="stat__blip" aria-hidden="true"></i> Events through the pipeline today</p>
         <p class="stat__num stat__num--live"><span id="liveEvents">0</span></p>
         <p class="stat__label">
-          Running estimate since 00:00 IST, at the 120K/day average the system actually sustains.
+          Running estimate since 00:00 IST, at the 120K/day average the system sustains.
         </p>
       </article>
 
@@ -261,12 +268,12 @@
         <p class="stat__label">Tables across 3+ schemas in the .NET audit module I designed</p>
       </article>
 
-      <article class="stat stat--2 t-lime">
+      <article class="stat stat--2">
         <p class="stat__num"><span data-count="4">0</span><i>+</i></p>
         <p class="stat__label">Workflows running on the Quartz scheduling engine I built</p>
       </article>
 
-      <article class="stat stat--2 t-pink">
+      <article class="stat stat--2">
         <p class="stat__num"><span data-count="4">0</span><i>+</i></p>
         <p class="stat__label">Junior engineers mentored as de facto technical lead</p>
       </article>
@@ -277,8 +284,8 @@
       </article>
 
       <article class="stat stat--3">
-        <p class="stat__num"><span data-count="90">0</span><i>%</i></p>
-        <p class="stat__label">Faster releases after I automated the build pipeline</p>
+        <p class="stat__num"><span data-count="300">0</span><i>+</i></p>
+        <p class="stat__label">Cameras monitored across the 8+ dashboards I built</p>
       </article>
 
     </div>
@@ -286,11 +293,11 @@
     <!-- one debugging story, told with its own data -->
     <figure class="strip reveal">
       <figcaption class="strip__head">
-        <h3 class="strip__title">The queue that needed a babysitter</h3>
+        <h3 class="strip__title">Root-causing a recurring queue failure</h3>
         <p class="strip__sub">
-          A recurring RabbitMQ event-handling failure meant someone had to restart the service by
-          hand — every day, indefinitely. Nobody had traced why. I followed it through the
-          consumer code and the surrounding architecture, found the root cause and fixed it.
+          A RabbitMQ event-handling failure meant the service had to be restarted by hand — every
+          day, indefinitely. I traced the root cause across the code and the surrounding
+          architecture and fixed it.
         </p>
       </figcaption>
 
@@ -312,7 +319,7 @@
       <p class="strip__legend">Days per week needing a manual restart — 7 before the fix, none after.</p>
 
       <p class="strip__note">
-        <strong>Continuous 20 events/sec since</strong> — and nobody's morning spent restarting a queue.
+        <strong>Continuous 20 events/sec restored</strong>, with the standing manual restart removed entirely.
       </p>
     </figure>
   </section>
@@ -333,20 +340,20 @@
 
       <div class="tile tile--bio">
         <p>
-          I'm a full-stack engineer from <strong>Gurgaon</strong>. Most of my work is backend
+          I'm a full-stack engineer based in <strong>Gurgaon</strong>. Most of my work is backend
           design — .NET services on Clean Architecture, an event-driven pipeline, a scheduling
           engine — paired with the <strong>Angular component libraries</strong> that sit on top of
-          them. I like problems where the fix is in the design, not the patch.
+          them. I like problems where the fix belongs in the design, not the patch.
         </p>
         <p>
           I joined <strong>I2V Systems</strong> in January 2023 and grew from individual contributor
-          into a de facto technical lead. Lately I've been deep in <strong>Milvus</strong>, building
-          vector similarity search for image and video retrieval.
+          into a de facto technical lead. Most recently I've been working with <strong>Milvus</strong>,
+          implementing vector similarity search for image and video retrieval.
         </p>
-        <p class="tile__sig">— currently deep in vector search <span aria-hidden="true">🔍</span></p>
+        <p class="tile__sig">— currently working on vector search</p>
       </div>
 
-      <div class="tile tile--clock t-yellow">
+      <div class="tile tile--clock">
         <p class="tile__cap">Local time · Gurgaon</p>
         <p class="tile__clock" id="clock">—</p>
         <p class="tile__sub">IST · UTC+5:30</p>
@@ -367,10 +374,41 @@
         </ul>
       </div>
 
+      <!-- live from the LeetCode profile; hides itself if the API is unreachable -->
+      <section class="tile tile--hud tile--lc" id="lcPanel" hidden aria-labelledby="lcCap">
+        <p class="tile__cap" id="lcCap"><i class="hud__blip" aria-hidden="true"></i> LeetCode</p>
+        <p class="hud__total"><span id="lcTotal">—</span><i>solved</i></p>
+        <dl class="lcbars" id="lcBars">
+          <div class="lcbar">
+            <dt>Easy</dt>
+            <div class="lcbar__track" data-k="easy"><i></i></div>
+            <dd id="lcEasy">—</dd>
+          </div>
+          <div class="lcbar">
+            <dt>Medium</dt>
+            <div class="lcbar__track" data-k="med"><i></i></div>
+            <dd id="lcMed">—</dd>
+          </div>
+          <div class="lcbar">
+            <dt>Hard</dt>
+            <div class="lcbar__track" data-k="hard"><i></i></div>
+            <dd id="lcHard">—</dd>
+          </div>
+        </dl>
+        <a class="hud__link ul" href="https://leetcode.com/u/ishitasingh150301/" target="_blank" rel="noopener">View profile ↗</a>
+      </section>
+
+      <!-- unique visitors; stays hidden until a counter service is configured -->
+      <section class="tile tile--hud tile--visits" id="visitPanel" hidden aria-labelledby="visitCap">
+        <p class="tile__cap" id="visitCap"><i class="hud__blip" aria-hidden="true"></i> Unique visitors</p>
+        <p class="hud__total"><span id="visitCount">—</span></p>
+        <p class="tile__sub" id="visitNote">All time, counted once per person.</p>
+      </section>
+
       <div class="tile tile--now">
         <p class="tile__cap">Currently</p>
         <ul class="tile__now">
-          <li><i>▹</i> Tuning Milvus vector search for image and video retrieval</li>
+          <li><i>▹</i> Implementing Milvus vector similarity search for image and video retrieval</li>
           <li><i>▹</i> Extending the shared Angular library set</li>
           <li><i>▹</i> Mentoring through code reviews and design discussions</li>
         </ul>
@@ -383,12 +421,21 @@
   <section class="sec" id="stack">
     <header class="sec__head reveal">
       <p class="sec__idx"><i>03</i> Stack</p>
-      <h2 class="sec__title">Tools of the <span class="hi">trade</span>.</h2>
+      <h2 class="sec__title">What I <span class="hi">build with</span>.</h2>
       <p class="sec__lede">
         Grouped by what I reach for, not by what looks good on a keyword scan.
-        <strong>Tap any highlighted tool</strong> to light up everywhere I've shipped with it.
+        <strong>Select any highlighted tool</strong> to see everywhere I've shipped with it.
       </p>
     </header>
+
+    <!-- the handful that come out every single day -->
+    <div class="daily reveal">
+      <p class="daily__cap">Daily drivers</p>
+      <ul class="daily__list">
+        <li>C# / .NET</li><li>Angular</li><li>TypeScript</li>
+        <li>PostgreSQL</li><li>RabbitMQ</li><li>Milvus</li>
+      </ul>
+    </div>
 
     <div class="stack reveal">
       <article class="stack__card">
@@ -397,7 +444,7 @@
           <li class="is-key" data-tech="dotnet">C# / .NET</li>
           <li data-tech="dotnet">ASP.NET Core</li>
           <li class="is-key" data-tech="dotnet">Clean Architecture</li>
-          <li>Microservices</li><li>REST APIs</li><li>System Design</li>
+          <li>Microservices</li><li>REST APIs</li><li>API Design</li><li>System Design</li>
           <li data-tech="java">Java</li><li>Python</li><li>Node.js</li><li>C/C++</li>
         </ul>
       </article>
@@ -434,11 +481,11 @@
           <li data-tech="grafana">Grafana</li>
           <li data-tech="grafana">Observability</li>
           <li>Metabase</li>
-          <li data-tech="azure">Azure</li>
           <li data-tech="docker">Docker</li>
           <li data-tech="actions">GitHub Actions</li>
           <li data-tech="actions">CI/CD</li>
           <li>Git</li>
+          <li data-tech="azure">Azure <span class="chip__note">familiar</span></li>
         </ul>
       </article>
     </div>
@@ -448,7 +495,7 @@
   <section class="sec" id="experience">
     <header class="sec__head reveal">
       <p class="sec__idx"><i>04</i> Experience</p>
-      <h2 class="sec__title">Where I've <span class="hi">shipped</span>.</h2>
+      <h2 class="sec__title">Where I've <span class="hi">worked</span>.</h2>
     </header>
 
     <ol class="timeline reveal">
@@ -464,17 +511,37 @@
           <p class="tl__org"><a href="https://www.i2vsys.com/" target="_blank" rel="noopener" class="ul">I2V Systems Pvt. Ltd.</a></p>
           <ul class="tl__list">
             <li data-tech="dotnet postgres">Designed and delivered a User CRUD and audit-logging module in .NET on <strong>Clean Architecture</strong>, spanning <strong>30+ tables across 3+ schemas</strong>, with per-user, per-entity action tracking.</li>
-            <li data-tech="angular">Own <strong>6+ shared Angular libraries</strong> shipped in every release — the component layer 60+ concurrent users work in, across a 200+-server, 120K+-events/day footprint.</li>
-            <li data-tech="milvus">Implemented <strong>Milvus-based vector similarity search</strong> for image and video retrieval, including index selection and query optimisation.</li>
-            <li data-tech="quartz dotnet">Built a <strong>Quartz-based scheduling engine</strong> powering 4+ workflows — VA scheduling, report export and user-log time tracking.</li>
-            <li data-tech="rabbitmq">Diagnosed and fixed a recurring RabbitMQ event-handling failure that had required a <strong>daily manual restart</strong> — traced the root cause through the consumer code and the surrounding architecture, restoring continuous 20 events/sec throughput.</li>
-            <li data-tech="grafana">Built <strong>8+ Grafana dashboards</strong> monitoring 300+ cameras, with 30-day export and automated alerting.</li>
+            <li data-tech="angular">Own <strong>6+ shared Angular libraries</strong> shipped in every release, supporting 60+ concurrent users across a 200+-server, 120K+-events/day deployment footprint.</li>
+            <li data-tech="milvus">Implemented <strong>Milvus-based vector similarity search</strong> for image and video retrieval.</li>
+            <li data-tech="quartz dotnet">Developed a <strong>Quartz-based scheduling engine</strong> powering 4+ workflows — VA scheduling, report export and user-log time tracking.</li>
+            <li data-tech="rabbitmq">Diagnosed and fixed a recurring RabbitMQ event-handling failure that had required a <strong>daily manual restart</strong> — traced the root cause across code and architecture, restoring continuous 20 events/sec throughput.</li>
+            <li data-tech="grafana">Created <strong>8+ Grafana dashboards</strong> monitoring 300+ cameras across the same server fleet, with 30-day data export, query optimisation and automated alerting.</li>
             <li data-tech="actions docker">Automated Windows and Docker releases via GitHub Actions, replacing a manual build-and-share process — cut release time by 90% and eliminated config-related deployment failures.</li>
-            <li>Grew into a <strong>de facto technical lead</strong>, mentoring 4+ junior engineers through code reviews, design discussions and debugging support.</li>
+            <li>Grew from individual contributor into a <strong>de facto technical lead</strong>, mentoring 4+ junior engineers through code reviews, debugging support and release best practices.</li>
           </ul>
           <ul class="chips chips--sm">
             <li>.NET</li><li>Clean Architecture</li><li>Angular</li><li>RabbitMQ</li><li>PostgreSQL</li>
             <li>Milvus</li><li>Quartz</li><li>Grafana</li><li>Docker</li>
+          </ul>
+        </div>
+      </li>
+
+      <li class="tl">
+        <div class="tl__aside">
+          <span class="tl__dot" aria-hidden="true"></span>
+          <p class="tl__when">2024<br /><i>— 6 months</i></p>
+        </div>
+        <div class="tl__card">
+          <p class="tl__tag">Freelance · Remote</p>
+          <h3 class="tl__role">Full-Stack Freelance Engineer</h3>
+          <p class="tl__org">Japanese product studio · alongside the I2V role</p>
+          <ul class="tl__list">
+            <li data-tech="flutter">Built and shipped <strong>mobile and web products</strong> over a six-month engagement, working remotely with the client team.</li>
+            <li data-tech="mapbox">Implemented interactive mapping with <strong>Mapbox</strong>, and built AR features into the mobile experience.</li>
+            <li data-tech="nextjs">Delivered the web side in <strong>Next.js</strong> and the mobile side in <strong>Flutter</strong>, with Atom modules in the toolchain.</li>
+          </ul>
+          <ul class="chips chips--sm">
+            <li>Flutter</li><li>Next.js</li><li>Mapbox</li><li>AR</li><li>Atom modules</li>
           </ul>
         </div>
       </li>
@@ -501,7 +568,7 @@
           <p class="tl__when">2022</p>
         </div>
         <div class="tl__card">
-          <p class="tl__tag tl__tag--win">Award</p>
+          <p class="tl__tag tl__tag--win">◆ Achievement unlocked</p>
           <h3 class="tl__role">Top 8 nationally — Microsoft Imagine Cup</h3>
           <p class="tl__org">India Pre-Finals · out of hundreds of student teams</p>
           <ul class="tl__list">
@@ -516,11 +583,11 @@
           <p class="tl__when">2021</p>
         </div>
         <div class="tl__card">
-          <p class="tl__tag tl__tag--win">Award</p>
+          <p class="tl__tag tl__tag--win">◆ Achievement unlocked</p>
           <h3 class="tl__role">5th of 600+ teams — Covi-Hack '21</h3>
           <p class="tl__org">COVID-response hackathon hosted by GDSC-DCE</p>
           <ul class="tl__list">
-            <li data-tech="java">Built <em>Covi-Eye</em>, a camera-based vitals reader, inside the hackathon window.</li>
+            <li>Placed 5th out of 600+ participating teams in a COVID-response hackathon.</li>
           </ul>
         </div>
       </li>
@@ -532,76 +599,123 @@
   <section class="sec" id="work">
     <header class="sec__head reveal">
       <p class="sec__idx"><i>05</i> Work</p>
-      <h2 class="sec__title">Things I've <span class="hi">built</span>.</h2>
-      <p class="sec__lede">Side projects and competition builds — shipped, not sketched.</p>
+      <h2 class="sec__title">Selected <span class="hi">work</span>.</h2>
+      <p class="sec__lede">What I've shipped into production, and what I've built on my own time.</p>
     </header>
 
-    <div class="works">
+    <!-- production modules, all owned end to end at I2V -->
+    <h3 class="works__label reveal">
+      <span>In production</span>
+      <i>at I2V Systems · Jan 2023 – present</i>
+    </h3>
 
-      <article class="work reveal" data-tech="flutter firebase azure">
-        <div class="work__meta">
-          <p class="work__idx">01</p>
-          <h3 class="work__title">Aapka Vakeel</h3>
-          <p class="work__desc">
-            A lawyer–client services platform built end to end: authentication, lawyer–client matching
-            and case/request management, with Razorpay payments, in-app video calling, and a separate
-            admin dashboard for request tracking. <strong>40+ lawyers onboarded.</strong>
-          </p>
-          <ul class="chips chips--sm">
-            <li>Flutter</li><li>Firebase</li><li>Azure Functions</li><li>Razorpay</li><li>VideoSDK</li>
-          </ul>
-        </div>
-        <div class="work__art work__art--glyph">
+    <div class="pgrid reveal">
+      <article class="pcard" data-tech="dotnet postgres">
+        <p class="pcard__cap">Backend · .NET</p>
+        <h4 class="pcard__t">User management &amp; audit logging</h4>
+        <p class="pcard__d">
+          Designed and delivered the module on Clean Architecture, with per-user, per-entity action
+          tracking across the platform's user and permission model.
+        </p>
+        <ul class="pcard__m"><li>30+ tables</li><li>3+ schemas</li></ul>
+      </article>
+
+      <article class="pcard" data-tech="quartz dotnet">
+        <p class="pcard__cap">Backend · Quartz</p>
+        <h4 class="pcard__t">Scheduling engine</h4>
+        <p class="pcard__d">
+          Built the engine the platform's recurring work runs on — VA scheduling, report export and
+          user-log time tracking.
+        </p>
+        <ul class="pcard__m"><li>4+ workflows</li></ul>
+      </article>
+
+      <article class="pcard" data-tech="angular">
+        <p class="pcard__cap">Frontend · Angular</p>
+        <h4 class="pcard__t">Shared component library set</h4>
+        <p class="pcard__d">
+          Own the shared Angular libraries the product builds against, shipped in every release
+          across the deployment footprint.
+        </p>
+        <ul class="pcard__m"><li>6+ libraries</li><li>60+ concurrent users</li></ul>
+      </article>
+
+      <article class="pcard" data-tech="milvus grafana">
+        <p class="pcard__cap">Data · Milvus, Grafana</p>
+        <h4 class="pcard__t">Visual search &amp; monitoring</h4>
+        <p class="pcard__d">
+          Implemented Milvus-based vector similarity search for image and video retrieval, and built
+          the dashboards the camera fleet is watched from — 30-day data export and automated alerting.
+        </p>
+        <ul class="pcard__m"><li>8+ dashboards</li><li>300+ cameras</li></ul>
+      </article>
+    </div>
+
+    <!-- personal and competition builds -->
+    <h3 class="works__label reveal">
+      <span>Personal projects</span>
+      <i>built on my own time</i>
+    </h3>
+
+    <div class="minis">
+
+      <article class="mini reveal" data-tech="flutter firebase azure">
+        <div class="mini__art mini__art--glyph">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M7 21h10M12 6l7 2-3.5 6a3.5 3.5 0 0 0 7 0L19 8M12 6 5 8l3.5 6a3.5 3.5 0 0 1-7 0L5 8"/></svg>
         </div>
-      </article>
-
-      <article class="work reveal" data-tech="java firebase">
-        <div class="work__meta">
-          <p class="work__idx">02</p>
-          <h3 class="work__title">Avekshaka <span class="work__badge">Top 8 · Imagine Cup</span></h3>
-          <p class="work__desc">
-            Alzheimer's care app for guardian registration, condition-based activity alerts and live
-            guardian location sharing. Built with a 4-member team.
+        <div class="mini__body">
+          <p class="mini__idx">01 · Apr 2024 – present</p>
+          <h4 class="mini__t">Aapka Vakeel</h4>
+          <p class="mini__d">
+            Lawyer–client platform built end to end — matching, case management, Razorpay payments,
+            VideoSDK calling and an admin dashboard. <strong>40+ lawyers onboarded.</strong>
           </p>
           <ul class="chips chips--sm">
-            <li>Java</li><li>Firebase</li><li>SQLite</li><li>Android</li>
+            <li>Flutter</li><li>Firebase</li><li>Azure Functions</li><li>Razorpay</li>
           </ul>
-          <a class="work__link ul" href="https://github.com/Ishita03-Singh/Avekshaka" target="_blank" rel="noopener">View source ↗</a>
         </div>
-        <div class="work__art"><img src="static/img/avekshaka.png" alt="Avekshaka app screenshot" loading="lazy" /></div>
       </article>
 
-      <article class="work reveal" data-tech="java">
-        <div class="work__meta">
-          <p class="work__idx">03</p>
-          <h3 class="work__title">Covi-Eye <span class="work__badge">5th / 600+</span></h3>
-          <p class="work__desc">
-            Measures heart rate and oxygen saturation using the phone camera and flashlight, and lets
-            the user share the reading along with their current location.
+      <article class="mini reveal" data-tech="java firebase">
+        <div class="mini__art"><img src="static/img/avekshaka.png" alt="Avekshaka app screenshot" loading="lazy" /></div>
+        <div class="mini__body">
+          <p class="mini__idx">02 · Feb 2022</p>
+          <h4 class="mini__t">Avekshaka <span class="mini__badge">Top 8 · Imagine Cup</span></h4>
+          <p class="mini__d">
+            Alzheimer's care app built with a 4-member team — guardian registration, activity alerts
+            and live location sharing.
           </p>
-          <ul class="chips chips--sm">
-            <li>Java</li><li>Android Studio</li>
-          </ul>
-          <a class="work__link ul" href="https://github.com/Ishita03-Singh/Covi-Eye" target="_blank" rel="noopener">View source ↗</a>
+          <ul class="chips chips--sm"><li>Java</li><li>Firebase</li><li>SQLite</li><li>Android</li></ul>
+          <a class="mini__link ul" href="https://github.com/Ishita03-Singh/Avekshaka" target="_blank" rel="noopener">Source ↗</a>
         </div>
-        <div class="work__art"><img src="static/img/covieye.jpeg" alt="Covi-Eye app screenshot" loading="lazy" /></div>
       </article>
 
-      <article class="work reveal">
-        <div class="work__meta">
-          <p class="work__idx">04</p>
-          <h3 class="work__title">NewsFeed</h3>
-          <p class="work__desc">
-            Daily trending news with interest-based filtering, so readers only see stories from the
-            fields they picked.
+      <article class="mini reveal" data-tech="java">
+        <div class="mini__art"><img src="static/img/covieye.jpeg" alt="Covi-Eye app screenshot" loading="lazy" /></div>
+        <div class="mini__body">
+          <p class="mini__idx">03</p>
+          <h4 class="mini__t">Covi-Eye</h4>
+          <p class="mini__d">
+            Reads heart rate and oxygen saturation from the phone camera and flashlight, and shares
+            the reading with a location.
           </p>
-          <ul class="chips chips--sm">
-            <li>Kotlin</li><li>Android Studio</li><li>News API</li>
-          </ul>
-          <a class="work__link ul" href="https://github.com/Ishita03-Singh/News-Feed" target="_blank" rel="noopener">View source ↗</a>
+          <ul class="chips chips--sm"><li>Java</li><li>Android Studio</li></ul>
+          <a class="mini__link ul" href="https://github.com/Ishita03-Singh/Covi-Eye" target="_blank" rel="noopener">Source ↗</a>
         </div>
-        <div class="work__art"><img src="static/img/newsfeed.jpeg" alt="NewsFeed app screenshot" loading="lazy" /></div>
+      </article>
+
+      <article class="mini reveal">
+        <div class="mini__art"><img src="static/img/newsfeed.jpeg" alt="NewsFeed app screenshot" loading="lazy" /></div>
+        <div class="mini__body">
+          <p class="mini__idx">04</p>
+          <h4 class="mini__t">NewsFeed</h4>
+          <p class="mini__d">
+            Daily trending news with interest-based filtering, so readers only see the fields they
+            picked.
+          </p>
+          <ul class="chips chips--sm"><li>Kotlin</li><li>Android Studio</li><li>News API</li></ul>
+          <a class="mini__link ul" href="https://github.com/Ishita03-Singh/News-Feed" target="_blank" rel="noopener">Source ↗</a>
+        </div>
       </article>
 
     </div>
@@ -633,7 +747,7 @@
 
   <footer class="foot">
     <p class="foot__note">© <span id="year">2026</span> Ishita Singh — designed &amp; built from scratch.</p>
-    <p class="foot__note foot__note--end">No frameworks. No build step. <span aria-hidden="true">✦</span> Gurgaon, IN</p>
+    <p class="foot__note foot__note--end">Hand-built. No frameworks, no build step. <span aria-hidden="true">✦</span> Gurgaon, IN</p>
   </footer>
 </main>
 
@@ -643,6 +757,6 @@
   <button class="lens__clear" id="lensClear" type="button">Clear ✕</button>
 </div>
 
-<script src="main.js"></script>
+<script src="main.js?v=6"></script>
 </body>
 </html>

@@ -6,6 +6,17 @@
 (function () {
   "use strict";
 
+  /* ------------------------------------------------------
+     Config. Both panels stay hidden until they have real
+     data — nothing here ever renders a placeholder number.
+     ------------------------------------------------------ */
+
+  // Your GoatCounter site code: for "ishita.goatcounter.com" put "ishita".
+  // Leave empty and the visitor panel simply never appears.
+  var GOATCOUNTER_CODE = "";
+
+  var LEETCODE_USER = "ishitasingh150301";
+
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 
@@ -220,8 +231,8 @@
       ".NET services",
       "Angular component libraries",
       "event-driven backends",
-      "vector search that returns",
-      "APIs that hold up"
+      "Milvus vector search",
+      "production systems"
     ];
     var el = $(".rotator__word", host);
     var i = 0;
@@ -456,6 +467,151 @@
       });
       el.addEventListener("mouseleave", function () { el.style.transform = ""; });
     });
+  })();
+
+  /* ------------------------------------------------------
+     Reticle cursor. Desktop, fine pointer, motion allowed.
+     The native cursor stays visible underneath — the reticle
+     is a halo around it, not a replacement, so precision and
+     the text/pointer affordances are never lost.
+     ------------------------------------------------------ */
+  (function reticle() {
+    if (!finePointer || reduceMotion) return;
+    var el = $("#reticle");
+    if (!el) return;
+
+    var ring = $(".reticle__ring", el);
+    var dot = $(".reticle__dot", el);
+    el.classList.add("is-on");
+
+    var mx = window.innerWidth / 2, my = window.innerHeight / 2;
+    var rx = mx, ry = my, running = false;
+
+    function frame() {
+      // the ring trails the pointer slightly; the dot tracks it exactly
+      rx += (mx - rx) * 0.2;
+      ry += (my - ry) * 0.2;
+      ring.style.transform = "translate(" + rx + "px," + ry + "px)";
+      dot.style.transform = "translate(" + mx + "px," + my + "px)";
+      if (Math.abs(mx - rx) > 0.4 || Math.abs(my - ry) > 0.4) {
+        window.requestAnimationFrame(frame);
+      } else { running = false; }
+    }
+
+    document.addEventListener("mousemove", function (e) {
+      mx = e.clientX; my = e.clientY;
+      if (!running) { running = true; window.requestAnimationFrame(frame); }
+    }, { passive: true });
+
+    var targets = "a, button, [data-tech], .stat, .tile, .mini, .pcard";
+    document.addEventListener("mouseover", function (e) {
+      if (e.target.closest && e.target.closest(targets)) el.classList.add("is-locked");
+    });
+    document.addEventListener("mouseout", function (e) {
+      if (e.target.closest && e.target.closest(targets)) el.classList.remove("is-locked");
+    });
+  })();
+
+  /* ------------------------------------------------------
+     LeetCode panel. Reads the public profile through a
+     community proxy, because LeetCode's own GraphQL endpoint
+     refuses cross-origin browser calls. Two proxies are
+     tried; if both are down the panel stays hidden rather
+     than showing a stale or invented figure.
+     ------------------------------------------------------ */
+  (function leetcode() {
+    var panel = $("#lcPanel");
+    if (!panel || !window.fetch || !LEETCODE_USER) return;
+
+    var SOURCES = [
+      {
+        url: "https://leetcode-api-faisalshohag.vercel.app/" + LEETCODE_USER,
+        read: function (d) {
+          return { total: d.totalSolved, easy: d.easySolved, med: d.mediumSolved, hard: d.hardSolved };
+        }
+      },
+      {
+        url: "https://alfa-leetcode-api.onrender.com/" + LEETCODE_USER + "/solved",
+        read: function (d) {
+          return { total: d.solvedProblem, easy: d.easySolved, med: d.mediumSolved, hard: d.hardSolved };
+        }
+      }
+    ];
+
+    function fillFor(key) {
+      return panel.querySelector('.lcbar__track[data-k="' + key + '"] i');
+    }
+
+    function render(s) {
+      // meters are scaled against the largest band, so the row reads as a
+      // comparison between the three — not a fake completion percentage
+      var top = Math.max(s.easy, s.med, s.hard, 1);
+
+      $("#lcTotal").textContent = s.total.toLocaleString("en-IN");
+      $("#lcEasy").textContent = s.easy;
+      $("#lcMed").textContent = s.med;
+      $("#lcHard").textContent = s.hard;
+
+      [["easy", s.easy], ["med", s.med], ["hard", s.hard]].forEach(function (pair) {
+        var fill = fillFor(pair[0]);
+        if (fill) fill.style.width = Math.round((pair[1] / top) * 100) + "%";
+      });
+
+      panel.hidden = false;
+    }
+
+    function ok(n) { return typeof n === "number" && isFinite(n) && n >= 0; }
+
+    function attempt(i) {
+      if (i >= SOURCES.length) return;            // both down: panel stays hidden
+      var src = SOURCES[i];
+      fetch(src.url, { mode: "cors" })
+        .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+        .then(function (d) {
+          var s = src.read(d);
+          if (ok(s.total) && ok(s.easy) && ok(s.med) && ok(s.hard) && s.total > 0) render(s);
+          else attempt(i + 1);
+        })
+        .catch(function () { attempt(i + 1); });
+    }
+
+    attempt(0);
+  })();
+
+  /* ------------------------------------------------------
+     Unique visitors, via GoatCounter.
+
+     GoatCounter counts uniques server-side without cookies,
+     so there is no local de-duplication to do here and no
+     personal data to hold. Until GOATCOUNTER_CODE is filled
+     in, nothing is loaded, no request leaves the page, and
+     the panel never appears.
+     ------------------------------------------------------ */
+  (function visitors() {
+    var panel = $("#visitPanel");
+    if (!panel || !GOATCOUNTER_CODE) return;
+
+    var host = "https://" + GOATCOUNTER_CODE + ".goatcounter.com";
+
+    // record this visit
+    var tag = document.createElement("script");
+    tag.async = true;
+    tag.src = "//gc.zgo.at/count.js";
+    tag.setAttribute("data-goatcounter", host + "/count");
+    document.head.appendChild(tag);
+
+    if (!window.fetch) return;
+
+    // read the public total back (needs "allow visitor counts" on in settings)
+    fetch(host + "/counter/TOTAL.json")
+      .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+      .then(function (d) {
+        var n = d.count_unique || d.count;
+        if (!n) return;
+        $("#visitCount").textContent = n;
+        panel.hidden = false;
+      })
+      .catch(function () { /* leave the panel hidden */ });
   })();
 
   /* ------------------------------------------------------

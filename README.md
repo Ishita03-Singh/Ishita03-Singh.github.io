@@ -1,112 +1,69 @@
 # ishita03-singh.github.io
 
-Personal portfolio — a static site, no build step, no dependencies.
+Personal portfolio: a static site with no build step and no dependencies.
 
-Open `index.html` in a browser, or serve the folder (`npx serve .`) if you want the
-fonts and PDF to load over HTTP.
+Open `index.html` in a browser, or serve the folder (`npx serve .`) so the live data panels
+and the PDF load over HTTP.
 
 ## The design
 
-**"Block"** — neo-brutalist. Flat colour blocks, 2.5px black rules, hard offset shadows
-that shift on hover, Archivo Black set in caps. Structure still comes from the day job:
-a system diagram in the hero, a board of engineering numbers, a dated timeline.
+**Editorial engineering.** Warm paper (`#f7f6f2`) with one ink-blue accent (`#3346e0`),
+set in Bricolage Grotesque for display, Inter for reading and JetBrains Mono for data.
+The dark theme is its own palette, not an inversion. Content lives in cards, diagrams and
+dashboards instead of bullet lists.
 
-- **Palette** — warm paper `#f3f1e7` with black ink, electric blue `#2b50ff` as the
-  accent, and yellow `#ffe14d` / pink `#ff4d8d` / lime `#c4f000` as block fills. Dark
-  mode moves the ground to `#15151b` and flips the rules to white; the bright fills
-  stay exactly as they are, because they are the point of the direction.
-- **Type** — Archivo (900 for display, 400–700 for body) and Space Mono for data and
-  labels. Calibre and SF Mono are still served locally as fallbacks.
-- **No radius to speak of, no gradients, no blur.** Depth comes from the offset shadow
-  alone.
+| Section | What it does |
+| --- | --- |
+| Hero | Headline, CTAs, and a profile card summarising experience, local time, focus and current work |
+| Impact band | Five headline numbers, counted up on scroll |
+| About | Bio, quick facts, three focus areas, and a horizontal career timeline |
+| Experience | Each piece of I2V work as a case study (problem / what I did / outcome), each with its own small visual, in a tab explorer. Freelance role below it |
+| Projects | Aapka Vakeel as the featured project, then project cards |
+| Skills | Architecture diagram of the typical system, then skills grouped by domain and tier |
+| Activity | **Live** GitHub (contributions by year, calendar per year, languages, repos, merged PRs) and **live** LeetCode (solved by difficulty, recent accepted) |
+| Recognition | Imagine Cup, Covi-Hack, degree |
+| Contact | Email with copy button, profiles, résumé |
 
 ## Files
 
 | Path | What it is |
 | --- | --- |
 | `index.html` | All the content. Edit the copy here. |
-| `styles.css` | All the styling. Design tokens live in the three palette blocks at the top. |
-| `main.js` | Loader, theme toggle, drawer, rotator, count-up, reveal, live counter, evidence lens, scroll spy, clock. |
-| `static/fonts/` | Calibre and SF Mono, carried over from the previous Flutter build. |
-| `static/img/` | Logo, portrait and project screenshots. |
-| `static/Ishita_Singh_Resume.pdf` | The file behind the **Résumé** button. |
-
-## The three data pieces
-
-**1. Events handled today** (`liveEvents()` in `main.js`) — the pipeline sustains about
-120K events a day. Rather than print that average as another static number, the tile
-runs it forward from midnight IST, so it shows roughly where today stands and keeps
-ticking while the page is open. It is labelled as an estimate in the markup, because
-that is what it is. Change `PER_DAY` if the real figure moves.
-
-**2. The restart strip** — the RabbitMQ story, told with its own data: two weeks of seven
-cells, all red before the fix and all green after, because "required a daily manual
-restart" literally means seven days out of seven. Each cell carries its own weekday
-letter, so the state never rests on colour alone, and a legend line under the strip says
-the same thing in words. The problem-state fill (`--alert`) was checked for colour-vision
-separation and contrast against both grounds — if you change it, re-check rather than
-eyeball.
-
-**3. Evidence lens** — every tool in the Stack section that Ishita has actually shipped
-with carries a `data-tech` key. Clicking it dims the page and lights up the experience
-bullets and projects that share that key, with a readout at the bottom of the screen.
-A tag list becomes a way to check the claim rather than a keyword dump. Escape clears it.
-
-To wire a new tool up: put `data-tech="key"` on the chip in `.stack`, and the same key
-on every `.tl__list li` and `.work` it belongs to. A target can carry several keys,
-space-separated. Chips without a `data-tech` are plain labels and stay inert.
-
-## Theming
-
-Three palette blocks in `styles.css`, in this order:
-
-1. `:root` — the complete light palette, and the default.
-2. `@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) }` — for a
-   visitor whose OS says dark and who hasn't touched the toggle.
-3. `:root[data-theme="dark"]` — for a visitor who picked dark explicitly, so that
-   choice beats a light OS.
-
-Blocks 2 and 3 carry identical values and **must stay in sync** — CSS can't share one
-declaration block between a media query and a plain selector.
-
-No component rule is keyed on the theme selector. Anything that differs between themes
-is a token. The one deliberate exception is literal `#000` on elements that sit on a
-bright fill (yellow tiles, lime badges, the pink tape): those blocks keep black ink in
-both themes, so hard-coding it there is correct rather than sloppy.
+| `styles.css` | All the styling. Tokens sit at the top in three palette blocks. |
+| `main.js` | Theme, header, drawer, reveal/count-up, case tabs, evidence lens, GitHub + LeetCode + visitor data. |
+| `static/Ishita_Singh_Resume.pdf` | The file behind every **Résumé** link. |
 
 ## Common edits
 
-- **New résumé** — replace `static/Ishita_Singh_Resume.pdf`, keeping the filename.
-- **New number on the board** — copy an `<article class="stat">`; `data-count` on the
-  inner `<span>` is the target the count-up animates to, and the `<i>` beside it is the
-  suffix (`+`, `%`, `K+`). Width is `stat--2` or `stat--3` on a 6-column grid. Add a
-  `t-yellow` / `t-blue` / `t-pink` / `t-lime` class to colour-block it.
-- **New role or milestone** — copy an `<li class="tl">` in `.timeline`. The first in the
-  list gets the lime "current" dot automatically.
-- **New project** — copy an `<article class="work">`. Rows alternate sides on their own
-  via `:nth-child(even)`. A project without a screenshot uses `work__art--glyph` with an
-  inline SVG instead of an `<img>`.
-- **Rotating hero words** — the `words` array in the `rotator()` block of `main.js`.
-- **The highlighted word in a heading** — wrap it in `<span class="hi">`.
+- **Handles**: `GITHUB_USER` and `LEETCODE_USER` at the top of `main.js`.
+- **Photo**: the profile card shows an `IS` monogram. To use a photo, add it to `static/img/`
+  and swap in the commented `<img>` in the hero `idcard`.
+- **New case study**: add a `<button class="ctab" role="tab">` to `.cases__nav` and a matching
+  `<section class="case" role="tabpanel">`. The `id` / `aria-controls` / `aria-labelledby` must pair up.
+- **Evidence lens**: a skill chip with `data-tech="key"` lights up every case tab, role or project
+  carrying the same key (space-separated for several). Clicking a chip also opens the matching case.
+- **Skill tier**: `lv3` = use daily, `lv2` = shipped to production, `lv1` = familiar.
+- **New résumé**: replace the PDF and keep the filename.
 
-## Behaviour notes
+## Theming
 
-- The intro counter plays once per browser session, caps at 2.6s, and any click,
-  keypress or scroll skips it.
-- Magnetic buttons are desktop-only — they need a fine pointer and are skipped under
-  `prefers-reduced-motion`.
-- Reveal-on-scroll only arms itself once `IntersectionObserver` is confirmed present, so
-  content can never get stuck invisible. Without JS, nothing is hidden at all.
-- The Gurgaon clock and the events estimate both use `Intl` with an `Asia/Kolkata` time
-  zone and fall back to the visitor's own clock where that isn't supported.
+1. `:root` holds the light palette.
+2. `@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) }` applies dark when the OS asks for it.
+3. `:root[data-theme="dark"]` applies an explicit dark choice from the toggle.
+
+Blocks 2 and 3 must stay in sync. Chart colours (`--seq-*` for the heatmap, `--c1…--c5` for
+languages) come from a colour-blind-validated palette. Keep categorical slots in order.
+
+## Live data
+
+Every panel has a loading skeleton and a plain-language error state that points to the profile,
+so a slow or dead API never leaves an empty box.
+
+- GitHub contributions: `github-contributions-api.jogruber.de` (GitHub's own API needs a token).
+- GitHub profile, repos and PRs: `api.github.com`, unauthenticated (60 requests/hour per visitor).
+- LeetCode: community proxies, because LeetCode blocks cross-origin browser calls.
 
 ## Notes
 
-- Four other design directions were prototyped before this one — Ship Log (ink + acid
-  lime), Blueprint (graph paper + ink blue), CRT (phosphor terminal) and Press
-  (magazine). Everything that separated them was a token swap plus a small block of
-  signature rules, so switching again is an afternoon, not a rebuild.
-- The previous Flutter web build still lives on the `master` branch; its Dart source is
-  on `dart_code`. `flutter_service_worker.js` and the purge script in `index.html` exist
-  to tear down the service worker that build left registered in returning visitors'
-  browsers — don't delete them.
+- The previous Flutter build lives on `master`. `flutter_service_worker.js` and the purge script
+  in `index.html` tear down its leftover service worker. Don't delete them.

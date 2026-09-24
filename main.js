@@ -7,41 +7,34 @@
   "use strict";
 
   /* ------------------------------------------------------
-     Config. Both panels stay hidden until they have real
-     data — nothing here ever renders a placeholder number.
+     Config
      ------------------------------------------------------ */
+  var GITHUB_USER = "Ishita03-Singh";
+  var LEETCODE_USER = "IshitaSingh";
+  var CAREER_START = new Date(2023, 0, 1);          // joined I2V, Jan 2023
 
-  // Visitor counter. Abacus is a free, no-signup, no-cookie counter; the
-  // namespace/key pair is just a bucket name. Each browser is counted once,
-  // so the figure approximates people rather than page loads.
+  // Visitor counter (Abacus: free, no account, no cookies). The footer line
+  // stays hidden if the service is unreachable.
   var COUNTER_NS = "ishita-singh-portfolio";
   var COUNTER_KEY = "visitors";
 
-  // LeetCode handle. The one below is what the profile link uses, but the
-  // public API reports it as non-existent — confirm the exact username and
-  // the panel starts working. Wrong handle just means the panel stays hidden.
-  var LEETCODE_USER = "ishitasingh150301";
-
-  // NeetCode has no public API, so this is a plain profile link. Empty = no row.
-  var NEETCODE_URL = "";
-
-  var GITHUB_USER = "Ishita03-Singh";
-
-  // Contribution calendar. On. Note the public graph is sparse because the
-  // day job lives in private repositories — the section says so in as many
-  // words. Set to false to hide it entirely.
-  var SHOW_GITHUB_GRAPH = true;
-
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 
   function $(sel, root) { return (root || document).querySelector(sel); }
   function $$(sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
+  function el(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text != null) n.textContent = text;
+    return n;
+  }
+  function getJSON(url) {
+    return fetch(url).then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); });
+  }
+  function fmt(n) { return Number(n).toLocaleString("en-IN"); }
 
   /* ------------------------------------------------------
-     Theme — the pre-paint script already applied any saved
-     choice; this only wires the toggle and keeps the
-     browser UI colour in step.
+     Theme toggle
      ------------------------------------------------------ */
   (function theme() {
     var btn = $("#themeToggle");
@@ -52,15 +45,10 @@
       if (set) return set;
       return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
     }
-
-    function paintMeta() {
-      if (!meta) return;
-      meta.setAttribute("content", current() === "dark" ? "#15151b" : "#f3f1e7");
-    }
+    function paintMeta() { if (meta) meta.setAttribute("content", current() === "dark" ? "#0e0e11" : "#f7f6f2"); }
 
     paintMeta();
     if (!btn) return;
-
     btn.addEventListener("click", function () {
       var next = current() === "dark" ? "light" : "dark";
       document.documentElement.setAttribute("data-theme", next);
@@ -70,116 +58,27 @@
   })();
 
   /* ------------------------------------------------------
-     Loader — a short counter, once per session, skippable.
-     It never stands between a visitor and the content.
+     Header state + scroll progress
      ------------------------------------------------------ */
-  (function loader() {
-    var el = $("#loader");
-    if (!el) return;
-
-    var seen;
-    try { seen = sessionStorage.getItem("introSeen"); } catch (e) { seen = null; }
-
-    function start() { document.body.classList.add("is-ready"); }
-
-    function finish() {
-      el.classList.add("is-done");
-      document.body.classList.remove("is-locked");
-      start();
-      window.setTimeout(function () { if (el.parentNode) el.remove(); }, 600);
-      try { sessionStorage.setItem("introSeen", "1"); } catch (e) { /* private mode */ }
-    }
-
-    if (seen || reduceMotion) { el.remove(); start(); return; }
-
-    document.body.classList.add("is-locked");
-
-    var numEl = $("#loaderNum");
-    var barEl = $("#loaderBar");
-    var typeEl = $("#loaderType");
-    var word = "assembling the stack…";
-    var pct = 0;
-    var chars = 0;
-    var done = false;
-
-    var typer = window.setInterval(function () {
-      typeEl.textContent = word.slice(0, ++chars);
-      if (chars >= word.length) window.clearInterval(typer);
-    }, 32);
-
-    var ticker = window.setInterval(function () {
-      pct = Math.min(100, pct + Math.random() * 16 + 8);
-      var shown = Math.floor(pct);
-      numEl.textContent = shown;
-      barEl.style.width = shown + "%";
-      if (pct >= 100) {
-        window.clearInterval(ticker);
-        window.setTimeout(skip, 260);
-      }
-    }, 60);
-
-    function skip() {
-      if (done) return;
-      done = true;
-      window.clearInterval(ticker);
-      window.clearInterval(typer);
-      typeEl.textContent = word;
-      numEl.textContent = "100";
-      barEl.style.width = "100%";
-      finish();
-    }
-
-    ["click", "keydown", "touchstart", "wheel"].forEach(function (evt) {
-      window.addEventListener(evt, skip, { once: true, passive: true });
-    });
-    // never let a stalled asset trap the page behind the loader
-    window.setTimeout(skip, 2600);
-  })();
-
-  /* ------------------------------------------------------
-     Header: border on scroll, hide on the way down
-     ------------------------------------------------------ */
-  (function head() {
-    var el = $("#head");
+  (function scrolling() {
+    var head = $("#head");
     var drawer = $("#drawer");
+    var bar = $("#progress i");
     var last = window.scrollY;
     var ticking = false;
 
     function update() {
       var y = window.scrollY;
-      el.classList.toggle("is-stuck", y > 40);
-
+      head.classList.toggle("is-stuck", y > 16);
       var open = drawer && drawer.classList.contains("is-open");
-      if (!open && y > 220) {
-        el.classList.toggle("is-hidden", y > last + 4);
-      } else {
-        el.classList.remove("is-hidden");
-      }
+      if (!open && y > 320) head.classList.toggle("is-hidden", y > last + 4);
+      else head.classList.remove("is-hidden");
       last = y;
-      ticking = false;
-    }
 
-    window.addEventListener("scroll", function () {
-      if (!ticking) { window.requestAnimationFrame(update); ticking = true; }
-    }, { passive: true });
-    update();
-  })();
-
-  /* ------------------------------------------------------
-     Scroll progress bar
-     ------------------------------------------------------ */
-  (function progress() {
-    var bar = $("#progress i");
-    if (!bar) return;
-    var ticking = false;
-
-    function update() {
       var max = document.documentElement.scrollHeight - window.innerHeight;
-      var pct = max > 0 ? (window.scrollY / max) * 100 : 0;
-      bar.style.width = Math.min(100, Math.max(0, pct)) + "%";
+      if (bar) bar.style.width = (max > 0 ? Math.min(100, (y / max) * 100) : 0) + "%";
       ticking = false;
     }
-
     window.addEventListener("scroll", function () {
       if (!ticking) { window.requestAnimationFrame(update); ticking = true; }
     }, { passive: true });
@@ -197,29 +96,21 @@
     if (!btn || !panel || !scrim) return;
 
     function open() {
-      panel.hidden = false;
-      scrim.hidden = false;
-      // let the browser paint the hidden state before transitioning in
+      panel.hidden = false; scrim.hidden = false;
       window.requestAnimationFrame(function () {
-        panel.classList.add("is-open");
-        scrim.classList.add("is-open");
+        panel.classList.add("is-open"); scrim.classList.add("is-open");
       });
       btn.setAttribute("aria-expanded", "true");
       btn.setAttribute("aria-label", "Close menu");
-      document.body.classList.add("is-locked");
     }
-
     function close() {
-      panel.classList.remove("is-open");
-      scrim.classList.remove("is-open");
+      panel.classList.remove("is-open"); scrim.classList.remove("is-open");
       btn.setAttribute("aria-expanded", "false");
       btn.setAttribute("aria-label", "Open menu");
-      document.body.classList.remove("is-locked");
       window.setTimeout(function () {
         if (!panel.classList.contains("is-open")) { panel.hidden = true; scrim.hidden = true; }
-      }, 420);
+      }, 220);
     }
-
     btn.addEventListener("click", function () {
       if (btn.getAttribute("aria-expanded") === "true") close(); else open();
     });
@@ -228,38 +119,28 @@
     document.addEventListener("keydown", function (e) {
       if (e.key === "Escape" && btn.getAttribute("aria-expanded") === "true") { close(); btn.focus(); }
     });
-
     var wide = window.matchMedia("(min-width: 901px)");
-    function onWide(e) { if (e.matches && btn.getAttribute("aria-expanded") === "true") close(); }
+    function onWide(e) { if (e.matches) close(); }
     if (wide.addEventListener) wide.addEventListener("change", onWide);
     else if (wide.addListener) wide.addListener(onWide);
   })();
 
   /* ------------------------------------------------------
-     Hero role rotator
+     Scroll spy for the nav
      ------------------------------------------------------ */
-  (function rotator() {
-    var host = $("#rotator");
-    if (!host || reduceMotion) return;
-
-    var words = [
-      ".NET services",
-      "Angular component libraries",
-      "event-driven backends",
-      "Milvus vector search",
-      "production systems"
-    ];
-    var el = $(".rotator__word", host);
-    var i = 0;
-
-    window.setInterval(function () {
-      el.classList.add("is-out");
-      window.setTimeout(function () {
-        i = (i + 1) % words.length;
-        el.textContent = words[i];
-        el.classList.remove("is-out");
-      }, 320);
-    }, 2800);
+  (function spy() {
+    var links = $$(".nav a");
+    var sections = links.map(function (a) { return $(a.getAttribute("href")); }).filter(Boolean);
+    if (!sections.length || !("IntersectionObserver" in window)) return;
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        links.forEach(function (a) {
+          a.classList.toggle("is-active", a.getAttribute("href") === "#" + entry.target.id);
+        });
+      });
+    }, { rootMargin: "-45% 0px -50% 0px" });
+    sections.forEach(function (s) { io.observe(s); });
   })();
 
   /* ------------------------------------------------------
@@ -269,35 +150,24 @@
     var items = $$(".reveal");
 
     function countUp(root) {
-      $$("[data-count]", root).forEach(function (el, idx) {
-        var target = parseInt(el.getAttribute("data-count"), 10) || 0;
-        if (reduceMotion) { el.textContent = target; return; }
-
-        var duration = 1300;
+      $$("[data-count]", root).forEach(function (n, idx) {
+        var target = parseInt(n.getAttribute("data-count"), 10) || 0;
+        if (reduceMotion) { n.textContent = target; return; }
         var startAt = null;
+        n.textContent = "0";
         window.setTimeout(function () {
           window.requestAnimationFrame(function step(now) {
             if (startAt === null) startAt = now;
-            var t = Math.min(1, (now - startAt) / duration);
-            // ease-out so the number settles rather than slams
-            var eased = 1 - Math.pow(1 - t, 3);
-            el.textContent = Math.round(target * eased);
+            var t = Math.min(1, (now - startAt) / 1200);
+            n.textContent = Math.round(target * (1 - Math.pow(1 - t, 3)));
             if (t < 1) window.requestAnimationFrame(step);
           });
-        }, idx * 80);
+        }, idx * 70);
       });
     }
 
-    if (!("IntersectionObserver" in window)) {
-      items.forEach(function (el) {
-        countUp(el);
-      });
-      return;
-    }
-
-    // only hide things once we know we can reveal them again
-    items.forEach(function (el) { el.classList.add("is-armed"); });
-
+    if (!("IntersectionObserver" in window)) return;
+    items.forEach(function (n) { n.classList.add("is-armed"); });
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (!entry.isIntersecting) return;
@@ -305,93 +175,60 @@
         countUp(entry.target);
         io.unobserve(entry.target);
       });
-    }, { threshold: 0.08, rootMargin: "0px 0px -70px 0px" });
-
-    items.forEach(function (el) { io.observe(el); });
+    }, { threshold: 0.06, rootMargin: "0px 0px -60px 0px" });
+    items.forEach(function (n) { io.observe(n); });
   })();
 
   /* ------------------------------------------------------
-     Events handled today.
-
-     The pipeline sustains ~120K events a day. Rather than
-     print that average as another static number, run it
-     forward from midnight IST so the tile shows roughly
-     where today stands. It is labelled as an estimate in the
-     markup, because that is what it is.
+     Case-study explorer (ARIA tabs). Without JS every case
+     is shown stacked; this collapses them into tabs.
      ------------------------------------------------------ */
-  (function liveEvents() {
-    var el = $("#liveEvents");
-    if (!el) return;
+  var cases = (function caseTabs() {
+    var root = $("#cases");
+    if (!root) return null;
+    var tabs = $$('[role="tab"]', root);
+    var panels = tabs.map(function (t) { return document.getElementById(t.getAttribute("aria-controls")); });
 
-    var PER_DAY = 120000;
-    var SECONDS_IN_DAY = 86400;
-
-    function secondsSinceMidnightIST() {
-      var d = new Date();
-      try {
-        var parts = new Intl.DateTimeFormat("en-GB", {
-          timeZone: "Asia/Kolkata",
-          hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false
-        }).formatToParts(d);
-        var t = { hour: 0, minute: 0, second: 0 };
-        parts.forEach(function (p) {
-          if (p.type in t) t[p.type] = parseInt(p.value, 10) || 0;
-        });
-        // en-GB renders midnight as 24, not 00
-        if (t.hour === 24) t.hour = 0;
-        return t.hour * 3600 + t.minute * 60 + t.second;
-      } catch (e) {
-        // no time-zone support — fall back to the visitor's own clock
-        return d.getHours() * 3600 + d.getMinutes() * 60 + d.getSeconds();
-      }
+    function select(i, focus) {
+      tabs.forEach(function (t, j) {
+        var on = i === j;
+        t.setAttribute("aria-selected", on ? "true" : "false");
+        t.tabIndex = on ? 0 : -1;
+        panels[j].hidden = !on;
+      });
+      if (focus) tabs[i].focus();
+      // keep the chosen tab in view on the mobile scroller
+      if (root.offsetWidth < 900) tabs[i].scrollIntoView({ block: "nearest", inline: "nearest", behavior: reduceMotion ? "auto" : "smooth" });
     }
 
-    function value() {
-      return Math.floor(PER_DAY * (secondsSinceMidnightIST() / SECONDS_IN_DAY));
-    }
-
-    function render(n) { el.textContent = n.toLocaleString("en-IN"); }
-
-    var target = value();
-
-    if (reduceMotion) {
-      render(target);
-      window.setInterval(function () { render(value()); }, 30000);
-      return;
-    }
-
-    // count up to today's figure once, then keep pace with the clock
-    var shown = 0;
-    var startAt = null;
-    window.requestAnimationFrame(function step(now) {
-      if (startAt === null) startAt = now;
-      var t = Math.min(1, (now - startAt) / 1600);
-      shown = Math.round(target * (1 - Math.pow(1 - t, 3)));
-      render(shown);
-      if (t < 1) { window.requestAnimationFrame(step); return; }
-      // ~1.39 events/sec at 120K/day, so a nudge every few seconds
-      window.setInterval(function () { render(value()); }, 4000);
+    tabs.forEach(function (t, i) {
+      t.addEventListener("click", function () { select(i); });
+      t.addEventListener("keydown", function (e) {
+        var k = e.key, n = tabs.length, next = null;
+        if (k === "ArrowDown" || k === "ArrowRight") next = (i + 1) % n;
+        else if (k === "ArrowUp" || k === "ArrowLeft") next = (i - 1 + n) % n;
+        else if (k === "Home") next = 0;
+        else if (k === "End") next = n - 1;
+        if (next !== null) { e.preventDefault(); select(next, true); }
+      });
     });
+    panels.forEach(function (p) { p.tabIndex = 0; });
+
+    root.classList.add("is-ready");
+    select(0);
+    return { select: function (tab) { var i = tabs.indexOf(tab); if (i > -1) select(i); } };
   })();
 
   /* ------------------------------------------------------
-     Evidence lens.
-
-     Every tool in the Stack section that I have actually
-     shipped with carries a data-tech key. Clicking it lights
-     up the experience bullets and projects that share that
-     key, so a tag list becomes a way to check the claim
-     rather than a keyword dump.
+     Evidence lens: click a skill chip, and the work that
+     used it lights up across the page.
      ------------------------------------------------------ */
   (function lens() {
-    var chips = $$(".chips li[data-tech]");
+    var chips = $$(".skills .chips li[data-tech]");
     var bar = $("#lens");
-    var nameEl = $("#lensName");
-    var countEl = $("#lensCount");
-    var clearBtn = $("#lensClear");
     if (!chips.length || !bar) return;
 
-    var targets = $$("[data-tech]").filter(function (el) { return !el.matches(".chips li"); });
+    var targets = $$("[data-tech]").filter(function (n) { return !n.matches(".chips li"); });
     var active = null;
 
     chips.forEach(function (c) {
@@ -400,14 +237,12 @@
       c.setAttribute("aria-pressed", "false");
     });
 
-    function matches(el, key) {
-      return (" " + el.getAttribute("data-tech") + " ").indexOf(" " + key + " ") > -1;
-    }
+    function has(n, key) { return (" " + n.getAttribute("data-tech") + " ").indexOf(" " + key + " ") > -1; }
 
     function clear() {
       active = null;
       document.body.classList.remove("is-lensed");
-      targets.forEach(function (el) { el.classList.remove("is-lit"); });
+      targets.forEach(function (n) { n.classList.remove("is-lit"); });
       chips.forEach(function (c) { c.setAttribute("aria-pressed", "false"); });
       bar.hidden = true;
     }
@@ -415,23 +250,20 @@
     function apply(chip) {
       var key = chip.getAttribute("data-tech");
       if (active === key) { clear(); return; }
-
       active = key;
-      var hits = targets.filter(function (el) { return matches(el, key); });
-
-      targets.forEach(function (el) { el.classList.toggle("is-lit", matches(el, key)); });
-      chips.forEach(function (c) {
-        c.setAttribute("aria-pressed", c.getAttribute("data-tech") === key ? "true" : "false");
-      });
-
+      var hits = targets.filter(function (n) { return has(n, key); });
+      targets.forEach(function (n) { n.classList.toggle("is-lit", has(n, key)); });
+      chips.forEach(function (c) { c.setAttribute("aria-pressed", c.getAttribute("data-tech") === key ? "true" : "false"); });
       document.body.classList.add("is-lensed");
-      nameEl.textContent = chip.textContent.trim();
-      countEl.textContent = hits.length;
+      $("#lensName").textContent = chip.textContent.trim();
+      $("#lensCount").textContent = hits.length;
       bar.hidden = false;
 
-      if (hits.length) {
-        hits[0].scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "center" });
-      }
+      if (!hits.length) return;
+      // a lit case tab should also open its case
+      var tab = hits.filter(function (n) { return n.matches(".ctab"); })[0];
+      if (tab && cases) cases.select(tab);
+      hits[0].scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "center" });
     }
 
     chips.forEach(function (c) {
@@ -440,397 +272,397 @@
         if (e.key === "Enter" || e.key === " ") { e.preventDefault(); apply(c); }
       });
     });
-
-    clearBtn.addEventListener("click", clear);
+    $("#lensClear").addEventListener("click", clear);
     document.addEventListener("keydown", function (e) { if (e.key === "Escape" && active) clear(); });
   })();
 
   /* ------------------------------------------------------
-     Scroll spy for the desktop dock
+     Years of experience, local time, footer year
      ------------------------------------------------------ */
-  (function spy() {
-    var links = $$(".dock__list a");
-    var sections = links
-      .map(function (a) { return document.querySelector(a.getAttribute("href")); })
-      .filter(Boolean);
-    if (!sections.length || !("IntersectionObserver" in window)) return;
+  (function facts() {
+    var y = $("#year");
+    if (y) y.textContent = new Date().getFullYear();
 
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (!entry.isIntersecting) return;
-        links.forEach(function (a) {
-          a.classList.toggle("is-active", a.getAttribute("href") === "#" + entry.target.id);
-        });
-      });
-    }, { rootMargin: "-45% 0px -50% 0px" });
-
-    sections.forEach(function (s) { io.observe(s); });
-  })();
-
-  /* ------------------------------------------------------
-     Magnetic buttons — desktop, fine pointer only
-     ------------------------------------------------------ */
-  (function magnetic() {
-    if (!finePointer || reduceMotion) return;
-
-    $$("[data-magnetic]").forEach(function (el) {
-      el.addEventListener("mousemove", function (e) {
-        var r = el.getBoundingClientRect();
-        var dx = e.clientX - (r.left + r.width / 2);
-        var dy = e.clientY - (r.top + r.height / 2);
-        el.style.transform = "translate(" + dx * 0.28 + "px," + dy * 0.28 + "px)";
-      });
-      el.addEventListener("mouseleave", function () { el.style.transform = ""; });
-    });
-  })();
-
-  /* ------------------------------------------------------
-     Reticle cursor. Desktop, fine pointer, motion allowed.
-     The native cursor stays visible underneath — the reticle
-     is a halo around it, not a replacement, so precision and
-     the text/pointer affordances are never lost.
-     ------------------------------------------------------ */
-  (function reticle() {
-    if (!finePointer || reduceMotion) return;
-    var el = $("#reticle");
-    if (!el) return;
-
-    var ring = $(".reticle__ring", el);
-    var dot = $(".reticle__dot", el);
-    el.classList.add("is-on");
-
-    var mx = window.innerWidth / 2, my = window.innerHeight / 2;
-    var rx = mx, ry = my, running = false;
-
-    function frame() {
-      // the ring trails the pointer slightly; the dot tracks it exactly
-      rx += (mx - rx) * 0.2;
-      ry += (my - ry) * 0.2;
-      ring.style.transform = "translate(" + rx + "px," + ry + "px)";
-      dot.style.transform = "translate(" + mx + "px," + my + "px)";
-      if (Math.abs(mx - rx) > 0.4 || Math.abs(my - ry) > 0.4) {
-        window.requestAnimationFrame(frame);
-      } else { running = false; }
+    var exp = $("#yearsExp");
+    if (exp) {
+      var years = (Date.now() - CAREER_START.getTime()) / (365.25 * 864e5);
+      exp.textContent = (Math.floor(years * 2) / 2).toString().replace(/\.0$/, "") + "+";
     }
 
-    document.addEventListener("mousemove", function (e) {
-      mx = e.clientX; my = e.clientY;
-      if (!running) { running = true; window.requestAnimationFrame(frame); }
-    }, { passive: true });
+    var clock = $("#clock");
+    if (!clock) return;
+    function tick() {
+      try {
+        clock.textContent = new Intl.DateTimeFormat("en-GB", {
+          timeZone: "Asia/Kolkata", hour: "2-digit", minute: "2-digit", hour12: false
+        }).format(new Date()) + " IST";
+      } catch (e) { clock.textContent = "IST · UTC+5:30"; }
+    }
+    tick();
+    window.setInterval(tick, 20000);
+  })();
 
-    var targets = "a, button, [data-tech], .stat, .tile, .mini, .pcard";
-    document.addEventListener("mouseover", function (e) {
-      if (e.target.closest && e.target.closest(targets)) el.classList.add("is-locked");
-    });
-    document.addEventListener("mouseout", function (e) {
-      if (e.target.closest && e.target.closest(targets)) el.classList.remove("is-locked");
+  /* ------------------------------------------------------
+     Copy email
+     ------------------------------------------------------ */
+  (function copyMail() {
+    var btn = $("#copyMail");
+    var note = $("#copyNote");
+    if (!btn) return;
+    btn.addEventListener("click", function () {
+      var mail = btn.getAttribute("data-mail");
+      function done(ok) {
+        note.textContent = ok ? "Copied. Paste it into your mail app." : "Couldn't copy. The address is " + mail;
+        btn.textContent = ok ? "Copied ✓" : "Copy email";
+        window.setTimeout(function () { btn.textContent = "Copy email"; }, 2400);
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(mail).then(function () { done(true); }, function () { done(false); });
+      } else { done(false); }
     });
   })();
 
   /* ------------------------------------------------------
-     LeetCode panel. Reads the public profile through a
-     community proxy, because LeetCode's own GraphQL endpoint
-     refuses cross-origin browser calls. Two proxies are
-     tried; if both are down the panel stays hidden rather
-     than showing a stale or invented figure.
+     Shared chart tooltip (hover + keyboard focus)
+     ------------------------------------------------------ */
+  var tip = (function () {
+    var node = $("#tip");
+    function show(target, text) {
+      if (!node) return;
+      var r = target.getBoundingClientRect();
+      node.textContent = text;
+      node.hidden = false;
+      var x = Math.max(80, Math.min(window.innerWidth - 80, r.left + r.width / 2));
+      node.style.left = x + "px";
+      node.style.top = r.top + "px";
+    }
+    function hide() { if (node) node.hidden = true; }
+    window.addEventListener("scroll", hide, { passive: true });
+    return {
+      bind: function (target, text) {
+        target.addEventListener("mouseenter", function () { show(target, text); });
+        target.addEventListener("mouseleave", hide);
+        target.addEventListener("focus", function () { show(target, text); });
+        target.addEventListener("blur", hide);
+      }
+    };
+  })();
+
+  function setState(card, state, msg) {
+    if (!card) return;
+    card.setAttribute("data-state", state);
+    var m = $(".panel__msg", card);
+    if (m && msg) m.textContent = msg;
+  }
+
+  /* ------------------------------------------------------
+     GitHub: all-time contributions by year, calendar for
+     the selected year, and profile KPIs.
+     ------------------------------------------------------ */
+  (function github() {
+    var card = $("#ghCard");
+    if (!card || !window.fetch) return;
+
+    var MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    var byYear = {};
+
+    function drawCalendar(year) {
+      var days = byYear[year] || [];
+      var grid = $("#ghGrid");
+      var months = $("#ghMonths");
+      grid.innerHTML = ""; months.innerHTML = "";
+      if (!days.length) return;
+
+      var total = days.reduce(function (a, d) { return a + d.count; }, 0);
+      $("#ghCalLabel").textContent = year + " · " + fmt(total) + (total === 1 ? " contribution" : " contributions");
+      grid.setAttribute("aria-label", "GitHub contribution calendar for " + year + ": " + total + " contributions");
+
+      var lead = new Date(days[0].date + "T00:00:00").getDay();
+      for (var i = 0; i < lead; i++) grid.appendChild(el("span", "is-pad"));
+
+      var seenMonth = -1;
+      days.forEach(function (d, idx) {
+        var cell = el("span");
+        cell.setAttribute("data-level", String(d.level || 0));
+        tip.bind(cell, (d.count ? d.count : "No") + (d.count === 1 ? " contribution" : " contributions") + " · " + d.date);
+        grid.appendChild(cell);
+
+        var dt = new Date(d.date + "T00:00:00");
+        if (dt.getMonth() !== seenMonth && dt.getDate() <= 7) {
+          seenMonth = dt.getMonth();
+          var label = el("span", null, MONTHS[seenMonth]);
+          label.style.gridColumn = String(Math.floor((idx + lead) / 7) + 1);
+          months.appendChild(label);
+        }
+      });
+    }
+
+    function drawYears(totals) {
+      var host = $("#ghYearsChart");
+      var years = Object.keys(totals).sort();
+      var max = Math.max.apply(null, years.map(function (y) { return totals[y]; }).concat([1]));
+      var buttons = [];
+
+      years.forEach(function (y) {
+        var b = el("button", "ycol");
+        b.type = "button";
+        b.setAttribute("aria-pressed", "false");
+        b.setAttribute("aria-label", y + ": " + totals[y] + " contributions. Show calendar.");
+        var v = el("span", "ycol__v", fmt(totals[y]));
+        var bar = el("span", "ycol__bar");
+        bar.style.height = Math.max(2, Math.round((totals[y] / max) * 100)) + "px";
+        var lab = el("span", "ycol__y", y);
+        b.appendChild(v); b.appendChild(bar); b.appendChild(lab);
+        b.addEventListener("click", function () {
+          buttons.forEach(function (o) { o.setAttribute("aria-pressed", o === b ? "true" : "false"); });
+          drawCalendar(y);
+        });
+        buttons.push(b);
+        host.appendChild(b);
+      });
+
+      // open on the most active year, so the calendar shows real work
+      var busiest = years.reduce(function (a, y) { return totals[y] > totals[a] ? y : a; }, years[0]);
+      buttons[years.indexOf(busiest)].click();
+      return years;
+    }
+
+    var contrib = getJSON("https://github-contributions-api.jogruber.de/v4/" + GITHUB_USER)
+      .then(function (d) {
+        var totals = d.total || {};
+        (d.contributions || []).forEach(function (c) {
+          var y = c.date.slice(0, 4);
+          if (!(y in totals)) return;
+          (byYear[y] = byYear[y] || []).push(c);
+        });
+        Object.keys(byYear).forEach(function (y) {
+          byYear[y].sort(function (a, b) { return a.date < b.date ? -1 : 1; });
+          // no future days in the current year
+          var today = new Date().toISOString().slice(0, 10);
+          byYear[y] = byYear[y].filter(function (c) { return c.date <= today; });
+        });
+        var years = drawYears(totals);
+        var all = years.reduce(function (a, y) { return a + totals[y]; }, 0);
+        $("#ghAll").textContent = fmt(all);
+        $("#ghYears").textContent = years.length;
+      });
+
+    var user = getJSON("https://api.github.com/users/" + GITHUB_USER).then(function (u) {
+      $("#ghRepos").textContent = fmt(u.public_repos);
+      $("#ghFollowers").textContent = fmt(u.followers);
+    });
+
+    Promise.all([contrib.catch(function () { return "x"; }), user.catch(function () { return "x"; })])
+      .then(function (r) {
+        if (r[0] === "x" && r[1] === "x") {
+          setState(card, "error", "GitHub didn't respond just now. You can see everything on the profile instead.");
+        } else {
+          setState(card, "ready");
+        }
+      });
+  })();
+
+  /* ------------------------------------------------------
+     Repositories + languages (one API call feeds both)
+     ------------------------------------------------------ */
+  (function repos() {
+    var card = $("#repoCard");
+    var gh = $("#ghCard");
+    if (!card || !window.fetch) return;
+
+    // categorical slots in fixed order; the sixth is "Other"
+    var SLOTS = ["var(--c1)", "var(--c2)", "var(--c3)", "var(--c4)", "var(--c5)"];
+
+    getJSON("https://api.github.com/users/" + GITHUB_USER + "/repos?per_page=100&sort=pushed")
+      .then(function (all) {
+        var own = (all || []).filter(function (r) { return !r.fork && !r.archived && r.name.toLowerCase() !== GITHUB_USER.toLowerCase(); });
+        if (!own.length) { setState(card, "error", "No public repositories to show yet."); return; }
+
+        /* languages: count of repos per primary language */
+        var counts = {};
+        own.forEach(function (r) { if (r.language) counts[r.language] = (counts[r.language] || 0) + 1; });
+        var langs = Object.keys(counts).sort(function (a, b) { return counts[b] - counts[a] || (a < b ? -1 : 1); });
+        var top = langs.slice(0, 5);
+        var other = langs.slice(5).reduce(function (a, l) { return a + counts[l]; }, 0);
+        var colorOf = {};
+        top.forEach(function (l, i) { colorOf[l] = SLOTS[i]; });
+        var rows = top.map(function (l) { return { name: l, n: counts[l], c: colorOf[l] }; });
+        if (other) rows.push({ name: "Other", n: other, c: "var(--c-other)" });
+        var sum = rows.reduce(function (a, r) { return a + r.n; }, 0);
+
+        var barHost = $("#langBar"), keyHost = $("#langKey");
+        rows.forEach(function (r) {
+          var seg = el("i");
+          seg.style.flex = String(r.n);
+          seg.style.background = r.c;
+          barHost.appendChild(seg);
+          var li = el("li");
+          var sw = el("i"); sw.style.background = r.c;
+          li.appendChild(sw);
+          li.appendChild(document.createTextNode(r.name + " "));
+          li.appendChild(el("b", null, Math.round((r.n / sum) * 100) + "%"));
+          keyHost.appendChild(li);
+        });
+        if (gh) gh.setAttribute("data-langs", "ready");
+
+        /* recent repositories */
+        var list = $("#repoList");
+        own.slice(0, 6).forEach(function (r) {
+          var li = el("li");
+          var a = el("a");
+          a.href = r.html_url; a.target = "_blank"; a.rel = "noopener";
+          a.appendChild(el("b", null, r.name));
+          var meta = el("span");
+          if (r.language) {
+            var dot = el("i");
+            dot.style.background = colorOf[r.language] || "var(--c-other)";
+            meta.appendChild(dot);
+            meta.appendChild(document.createTextNode(r.language + " · "));
+          }
+          meta.appendChild(document.createTextNode(new Date(r.pushed_at).toLocaleDateString("en-GB", { month: "short", year: "numeric" })));
+          a.appendChild(meta);
+          if (r.description) a.appendChild(el("em", null, r.description));
+          li.appendChild(a);
+          list.appendChild(li);
+        });
+        setState(card, "ready");
+      })
+      .catch(function () {
+        setState(card, "error", "GitHub didn't respond just now. Browse the repositories on GitHub instead.");
+      });
+
+    /* pull requests merged into other people's repositories */
+    getJSON("https://api.github.com/search/issues?q=type:pr+author:" + GITHUB_USER + "+is:merged&sort=created&order=desc&per_page=20")
+      .then(function (d) {
+        var mine = GITHUB_USER.toLowerCase() + "/";
+        var items = (d.items || []).filter(function (it) {
+          var repo = it.repository_url.split("/repos/")[1] || "";
+          return repo.toLowerCase().indexOf(mine) !== 0;
+        });
+        if (!items.length) return;
+        var list = $("#ossList");
+        items.slice(0, 5).forEach(function (it) {
+          var li = el("li");
+          var a = el("a");
+          a.href = it.html_url; a.target = "_blank"; a.rel = "noopener";
+          a.appendChild(el("b", null, it.repository_url.split("/repos/")[1]));
+          a.appendChild(el("span", null, it.created_at.slice(0, 7)));
+          a.appendChild(el("em", null, it.title));
+          li.appendChild(a);
+          list.appendChild(li);
+        });
+        $("#ossBlock").hidden = false;
+      })
+      .catch(function () { /* optional block; stays hidden */ });
+  })();
+
+  /* ------------------------------------------------------
+     LeetCode. Read through a community proxy, because
+     LeetCode's own GraphQL endpoint refuses cross-origin
+     browser calls. A second proxy is the fallback.
      ------------------------------------------------------ */
   (function leetcode() {
-    var panel = $("#lcPanel");
-    if (!panel || !window.fetch || !LEETCODE_USER) return;
+    var card = $("#lcCard");
+    if (!card || !window.fetch || !LEETCODE_USER) return;
+
+    var LANGS = { csharp: "C#", cpp: "C++", java: "Java", python: "Python", python3: "Python", javascript: "JavaScript", typescript: "TypeScript", kotlin: "Kotlin", dart: "Dart", c: "C" };
 
     var SOURCES = [
       {
         url: "https://leetcode-api-faisalshohag.vercel.app/" + LEETCODE_USER,
         read: function (d) {
-          return { total: d.totalSolved, easy: d.easySolved, med: d.mediumSolved, hard: d.hardSolved };
+          return {
+            total: d.totalSolved, easy: d.easySolved, med: d.mediumSolved, hard: d.hardSolved,
+            tEasy: d.totalEasy, tMed: d.totalMedium, tHard: d.totalHard,
+            recent: d.recentSubmissions || []
+          };
         }
       },
       {
         url: "https://alfa-leetcode-api.onrender.com/" + LEETCODE_USER + "/solved",
         read: function (d) {
-          return { total: d.solvedProblem, easy: d.easySolved, med: d.mediumSolved, hard: d.hardSolved };
+          return { total: d.solvedProblem, easy: d.easySolved, med: d.mediumSolved, hard: d.hardSolved, recent: [] };
         }
       }
     ];
 
-    function fillFor(key) {
-      return panel.querySelector('.lcbar__track[data-k="' + key + '"] i');
-    }
-
-    function render(s) {
-      // meters are scaled against the largest band, so the row reads as a
-      // comparison between the three — not a fake completion percentage
-      var top = Math.max(s.easy, s.med, s.hard, 1);
-
-      $("#lcTotal").textContent = s.total.toLocaleString("en-IN");
-      $("#lcEasy").textContent = s.easy;
-      $("#lcMed").textContent = s.med;
-      $("#lcHard").textContent = s.hard;
-
-      [["easy", s.easy], ["med", s.med], ["hard", s.hard]].forEach(function (pair) {
-        var fill = fillFor(pair[0]);
-        if (fill) fill.style.width = Math.round((pair[1] / top) * 100) + "%";
-      });
-
-      panel.hidden = false;
-    }
-
     function ok(n) { return typeof n === "number" && isFinite(n) && n >= 0; }
 
+    function render(s) {
+      $("#lcTotal").textContent = fmt(s.total);
+      var rows = [["easy", s.easy, s.tEasy, "#lcEasy"], ["med", s.med, s.tMed, "#lcMed"], ["hard", s.hard, s.tHard, "#lcHard"]];
+      // bars show each band's share of what's solved, so they're comparable to each other
+      rows.forEach(function (r) {
+        $(r[3]).textContent = r[1] + (ok(r[2]) ? " / " + fmt(r[2]) : "");
+        var fill = $('.meter__track i[data-k="' + r[0] + '"]', card);
+        var pct = s.total ? (r[1] / s.total) * 100 : 0;
+        window.requestAnimationFrame(function () { fill.style.width = pct.toFixed(1) + "%"; });
+      });
+
+      // recently accepted, one row per problem
+      var seen = {};
+      var accepted = s.recent.filter(function (x) {
+        if (x.statusDisplay !== "Accepted" || seen[x.titleSlug]) return false;
+        seen[x.titleSlug] = true;
+        return true;
+      }).slice(0, 5);
+
+      var list = $("#lcRecent");
+      if (accepted.length) {
+        accepted.forEach(function (x) {
+          var li = el("li");
+          var a = el("a");
+          a.href = "https://leetcode.com/problems/" + x.titleSlug + "/";
+          a.target = "_blank"; a.rel = "noopener";
+          a.appendChild(el("b", null, x.title));
+          var when = new Date(Number(x.timestamp) * 1000);
+          a.appendChild(el("span", null, (LANGS[x.lang] || x.lang) + " · " + when.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })));
+          li.appendChild(a);
+          list.appendChild(li);
+        });
+        var lang = LANGS[accepted[0].lang] || accepted[0].lang;
+        var lEl = $("#lcLang");
+        lEl.textContent = "Solving in " + lang;
+        lEl.hidden = false;
+      } else {
+        list.appendChild(el("li", "panel__msg", "No recent accepted submissions to show."));
+      }
+      setState(card, "ready");
+    }
+
     function attempt(i) {
-      if (i >= SOURCES.length) return;            // both down: panel stays hidden
+      if (i >= SOURCES.length) {
+        setState(card, "error", "LeetCode stats aren't reachable right now. The full history is on the profile.");
+        return;
+      }
       var src = SOURCES[i];
-      fetch(src.url, { mode: "cors" })
-        .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+      getJSON(src.url)
         .then(function (d) {
           var s = src.read(d);
-          if (ok(s.total) && ok(s.easy) && ok(s.med) && ok(s.hard) && s.total > 0) render(s);
+          if (ok(s.total) && ok(s.easy) && ok(s.med) && ok(s.hard)) render(s);
           else attempt(i + 1);
         })
         .catch(function () { attempt(i + 1); });
     }
-
     attempt(0);
   })();
 
   /* ------------------------------------------------------
-     Unique visitors.
-
-     Abacus is a small public counter: no account, no cookies,
-     nothing personal stored. The browser is counted once via
-     localStorage and only reads the total afterwards, so the
-     number tracks people rather than page loads. If the
-     service is unreachable the panel simply stays hidden.
+     Unique visitors (footer). Counted once per browser.
      ------------------------------------------------------ */
   (function visitors() {
-    var panel = $("#visitPanel");
-    if (!panel || !window.fetch || !COUNTER_NS) return;
-
+    var wrap = $("#visitWrap");
+    if (!wrap || !window.fetch || !COUNTER_NS) return;
     var seen;
     try { seen = localStorage.getItem("hasBeenCounted"); } catch (e) { seen = null; }
-
-    function ask(verb) {
-      return fetch("https://abacus.jasoncameron.dev/" + verb + "/" + COUNTER_NS + "/" + COUNTER_KEY)
-        .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); });
-    }
-
-    function show(d) {
-      if (typeof d.value !== "number") return;
-      try { localStorage.setItem("hasBeenCounted", "1"); } catch (e) {}
-      $("#visitCount").textContent = d.value.toLocaleString("en-IN");
-      panel.hidden = false;
-    }
-
-    // a returning browser only reads; if the bucket has since been reset,
-    // fall back to counting once so the panel still has something true to show
+    function ask(verb) { return getJSON("https://abacus.jasoncameron.dev/" + verb + "/" + COUNTER_NS + "/" + COUNTER_KEY); }
     (seen ? ask("get").catch(function () { return ask("hit"); }) : ask("hit"))
-      .then(show)
-      .catch(function () { /* leave the panel hidden */ });
-  })();
-
-  /* ------------------------------------------------------
-     NeetCode row. Rendered only once NEETCODE_URL is set,
-     so the contact list never shows a dead link.
-     ------------------------------------------------------ */
-  (function neetcode() {
-    var row = $("#ncRow");
-    if (!row || !NEETCODE_URL) return;
-    $("#ncLink").href = NEETCODE_URL;
-    $("#ncHandle").textContent = NEETCODE_URL.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "");
-    row.hidden = false;
-  })();
-
-  /* ------------------------------------------------------
-     GitHub contribution calendar.
-
-     Real data from a public mirror of the contributions
-     graph — GitHub's own API needs a token, which a static
-     site cannot hold safely.
-
-     Gated behind SHOW_GITHUB_GRAPH because an empty calendar
-     says something louder than no calendar at all. Flip the
-     flag once the graph is worth showing.
-     ------------------------------------------------------ */
-  (function contributions() {
-    var panel = $("#ghPanel");
-    if (!panel || !SHOW_GITHUB_GRAPH || !window.fetch || !GITHUB_USER) return;
-
-    var MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
-    function draw(days, total) {
-      var grid = $("#ghGrid");
-      var months = $("#ghMonths");
-      if (!grid) return;
-
-      // pad the front so the first column starts on a Sunday, as GitHub does
-      var lead = new Date(days[0].date + "T00:00:00").getDay();
-      for (var i = 0; i < lead; i++) {
-        var pad = document.createElement("span");
-        pad.className = "gh__cell";
-        pad.setAttribute("data-level", "0");
-        grid.appendChild(pad);
-      }
-
-      var seenMonth = -1;
-      days.forEach(function (d, idx) {
-        var cell = document.createElement("span");
-        cell.className = "gh__cell";
-        cell.setAttribute("data-level", String(d.level || 0));
-        cell.title = d.count + (d.count === 1 ? " contribution" : " contributions") + " on " + d.date;
-        grid.appendChild(cell);
-
-        // one label per month, placed on the column where that month starts
-        var dt = new Date(d.date + "T00:00:00");
-        if (dt.getMonth() !== seenMonth && dt.getDate() <= 7) {
-          seenMonth = dt.getMonth();
-          var col = Math.floor((idx + lead) / 7) + 1;
-          var label = document.createElement("span");
-          label.textContent = MONTHS[seenMonth];
-          label.style.gridColumn = String(col);
-          months.appendChild(label);
-        }
-      });
-
-      $("#ghTotal").textContent = total.toLocaleString("en-IN");
-      panel.hidden = false;
-    }
-
-    fetch("https://github-contributions-api.jogruber.de/v4/" + GITHUB_USER + "?y=last")
-      .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
       .then(function (d) {
-        var days = d.contributions || [];
-        var total = d.total && (d.total.lastYear != null)
-          ? d.total.lastYear
-          : days.reduce(function (a, c) { return a + c.count; }, 0);
-        if (days.length) draw(days, total);
+        if (typeof d.value !== "number") return;
+        try { localStorage.setItem("hasBeenCounted", "1"); } catch (e) {}
+        $("#visitCount").textContent = fmt(d.value);
+        wrap.hidden = false;
       })
-      .catch(function () { /* leave the panel hidden */ });
-  })();
-
-  /* ------------------------------------------------------
-     Open source: pull requests merged into repositories
-     that are not her own.
-
-     The panel only appears when there is something real to
-     show — an empty "open source" heading is worse than none.
-     ------------------------------------------------------ */
-  (function openSource() {
-    var panel = $("#ossPanel");
-    if (!panel || !window.fetch || !GITHUB_USER) return;
-
-    var q = "type:pr+author:" + GITHUB_USER + "+is:merged";
-    fetch("https://api.github.com/search/issues?q=" + q + "&sort=created&order=desc&per_page=20")
-      .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
-      .then(function (d) {
-        var list = $("#ossList");
-        var own = GITHUB_USER.toLowerCase() + "/";
-
-        var items = (d.items || []).filter(function (it) {
-          var repo = it.repository_url.split("/repos/")[1] || "";
-          return repo.toLowerCase().indexOf(own) !== 0;     // someone else's repo
-        });
-
-        if (!items.length) return;                          // nothing to show yet
-
-        items.forEach(function (it) {
-          var repo = it.repository_url.split("/repos/")[1];
-          var li = document.createElement("li");
-          var a = document.createElement("a");
-          a.href = it.html_url;
-          a.target = "_blank";
-          a.rel = "noopener";
-
-          var r = document.createElement("span");
-          r.className = "oss__repo";
-          r.textContent = repo;
-
-          var t = document.createElement("span");
-          t.className = "oss__title";
-          t.textContent = it.title;
-
-          var w = document.createElement("span");
-          w.className = "oss__when";
-          w.textContent = it.created_at.slice(0, 7);
-
-          a.appendChild(r); a.appendChild(t); a.appendChild(w);
-          li.appendChild(a);
-          list.appendChild(li);
-        });
-
-        panel.hidden = false;
-      })
-      .catch(function () { /* leave the panel hidden */ });
-  })();
-
-  /* ------------------------------------------------------
-     Public repositories. Real data from the GitHub API:
-     original repositories only, newest push first.
-     ------------------------------------------------------ */
-  (function repos() {
-    var panel = $("#repoPanel");
-    if (!panel || !window.fetch || !GITHUB_USER) return;
-
-    fetch("https://api.github.com/users/" + GITHUB_USER + "/repos?per_page=100&sort=pushed")
-      .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
-      .then(function (all) {
-        var own = (all || []).filter(function (r) { return !r.fork && !r.archived; });
-        if (!own.length) return;
-
-        $("#repoCount").textContent = own.length;
-
-        var list = $("#repoList");
-        own.slice(0, 6).forEach(function (r) {
-          var li = document.createElement("li");
-          var a = document.createElement("a");
-          a.href = r.html_url; a.target = "_blank"; a.rel = "noopener";
-
-          var n = document.createElement("span");
-          n.className = "oss__repo";
-          n.textContent = r.name;
-
-          var d = document.createElement("span");
-          d.className = "oss__title";
-          d.textContent = r.description || (r.language ? r.language + " project" : "—");
-
-          var m = document.createElement("span");
-          m.className = "oss__when";
-          m.textContent = (r.language ? r.language + " · " : "") + r.pushed_at.slice(0, 7);
-
-          a.appendChild(n); a.appendChild(d); a.appendChild(m);
-          li.appendChild(a);
-          list.appendChild(li);
-        });
-
-        panel.hidden = false;
-      })
-      .catch(function () { /* leave the panel hidden */ });
-  })();
-
-  /* ------------------------------------------------------
-     Live local time in Gurgaon + footer year
-     ------------------------------------------------------ */
-  (function clock() {
-    var year = $("#year");
-    if (year) year.textContent = new Date().getFullYear();
-
-    var el = $("#clock");
-    if (!el) return;
-
-    function fmt() {
-      try {
-        return new Intl.DateTimeFormat("en-GB", {
-          timeZone: "Asia/Kolkata",
-          hour: "2-digit", minute: "2-digit", hour12: false
-        }).format(new Date());
-      } catch (e) {
-        // no Intl time zone support — fall back to the visitor's own clock
-        var d = new Date();
-        return ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2);
-      }
-    }
-
-    function tick() { el.textContent = fmt(); }
-    tick();
-    window.setInterval(tick, 15000);
+      .catch(function () { /* stays hidden */ });
   })();
 })();

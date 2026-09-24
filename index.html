@@ -4,21 +4,23 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>Ishita Singh — Full-Stack SDE II</title>
-<meta name="description" content="Ishita Singh — Full-Stack SDE II. I design .NET services on Clean Architecture, own 6+ shared Angular libraries, and build the event-driven systems underneath them — 120K+ events a day, with Milvus vector search." />
-<meta name="theme-color" content="#f3f1e7" />
-<link rel="icon" href="favicon.png" />
+<meta name="description" content="Ishita Singh — Full-Stack SDE II building .NET and Angular systems at production scale: 200+ servers, 120K+ events a day, release engineering, reliability and Milvus vector search." />
+<meta name="theme-color" content="#f7f6f2" />
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<link rel="icon" href="favicon.png" type="image/png" sizes="180x180" />
+<link rel="apple-touch-icon" href="favicon.png" />
 
 <meta property="og:type" content="website" />
 <meta property="og:title" content="Ishita Singh — Full-Stack SDE II" />
-<meta property="og:description" content="I design .NET services and Angular component libraries on event-driven systems — 120K+ events a day, with Milvus vector search." />
+<meta property="og:description" content=".NET / Angular systems, release engineering and reliability — 200+ servers, 120K+ events a day." />
 <meta property="og:url" content="https://ishita03-singh.github.io/" />
 <meta property="og:image" content="https://ishita03-singh.github.io/static/img/I.png" />
 <meta name="twitter:card" content="summary" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" />
-<link rel="stylesheet" href="styles.css?v=8" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" />
+<link rel="stylesheet" href="styles.css?v=9" />
 <script>
 /* Set the theme before first paint so there is no flash of the wrong one. */
 (function () {
@@ -60,766 +62,898 @@
 <body>
 
 <div class="progress" id="progress" aria-hidden="true"><i></i></div>
-
-<!-- reticle cursor, switched on from JS for fine pointers only -->
-<div class="reticle" id="reticle" aria-hidden="true">
-  <i class="reticle__dot"></i>
-  <i class="reticle__ring"></i>
-</div>
-
-<!-- ============ loader ============ -->
-<div class="loader" id="loader" aria-hidden="true">
-  <div class="loader__box">
-    <img class="loader__mark" src="static/img/I.png" alt="" />
-    <p class="loader__word"><span id="loaderType"></span><i class="loader__caret"></i></p>
-    <div class="loader__bar"><i id="loaderBar"></i></div>
-    <p class="loader__count"><span id="loaderNum">0</span>%</p>
-  </div>
-</div>
-
 <a class="skip-link" href="#content">Skip to content</a>
 
 <!-- ============ header ============ -->
 <header class="head" id="head">
-  <a class="head__logo" href="#top" aria-label="Ishita Singh — home">
-    <img src="static/img/I.png" alt="" />
-    <span>ishita<b>.</b>dev</span>
-  </a>
+  <div class="head__bar">
+    <a class="brand" href="#top" aria-label="Ishita Singh — home">
+      <span class="brand__mark" aria-hidden="true">IS</span>
+      <span class="brand__name">Ishita Singh</span>
+    </a>
 
-  <nav class="dock" aria-label="Primary">
-    <ul class="dock__list">
-      <li><a href="#about">About</a></li>
-      <li><a href="#stack">Stack</a></li>
-      <li><a href="#experience">Experience</a></li>
-      <li><a href="#work">Work</a></li>
-      <li><a href="#code">Code</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </nav>
+    <nav class="nav" aria-label="Primary">
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#activity">Activity</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
 
-  <div class="head__end">
-    <button class="toggle" id="themeToggle" type="button" aria-label="Switch theme">
-      <svg class="toggle__sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.4"/><path d="M12 1.8v3M12 19.2v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M1.8 12h3M19.2 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>
-      <svg class="toggle__moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.3A8.6 8.6 0 0 1 9.7 3.5a8.6 8.6 0 1 0 10.8 10.8Z"/></svg>
-    </button>
-    <a class="btn btn--pill" href="static/Ishita_Singh_Resume.pdf" target="_blank" rel="noopener" data-magnetic>Résumé</a>
-    <button class="burger" id="burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="drawer">
-      <span></span><span></span>
-    </button>
+    <div class="head__end">
+      <button class="icon-btn" id="themeToggle" type="button" aria-label="Switch colour theme">
+        <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M2 12h2.5M19.5 12H22M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg>
+        <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.3A8.6 8.6 0 0 1 9.7 3.5a8.6 8.6 0 1 0 10.8 10.8Z"/></svg>
+      </button>
+      <a class="btn btn--primary btn--sm head__cv" href="static/Ishita_Singh_Resume.pdf" target="_blank" rel="noopener">Résumé</a>
+      <button class="icon-btn burger" id="burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="drawer">
+        <span></span><span></span>
+      </button>
+    </div>
   </div>
 </header>
 
 <!-- ============ mobile drawer ============ -->
 <div class="drawer" id="drawer" hidden>
-  <nav class="drawer__nav" aria-label="Mobile">
-    <ol>
-      <li><a href="#about"><i>01</i><span>About</span></a></li>
-      <li><a href="#stack"><i>02</i><span>Stack</span></a></li>
-      <li><a href="#experience"><i>03</i><span>Experience</span></a></li>
-      <li><a href="#work"><i>04</i><span>Work</span></a></li>
-      <li><a href="#code"><i>05</i><span>Public code</span></a></li>
-      <li><a href="#contact"><i>06</i><span>Contact</span></a></li>
+  <nav aria-label="Mobile">
+    <ol class="drawer__list">
+      <li><a href="#about"><i>01</i>About</a></li>
+      <li><a href="#experience"><i>02</i>Experience</a></li>
+      <li><a href="#projects"><i>03</i>Projects</a></li>
+      <li><a href="#skills"><i>04</i>Skills</a></li>
+      <li><a href="#activity"><i>05</i>Activity</a></li>
+      <li><a href="#contact"><i>06</i>Contact</a></li>
     </ol>
-    <a class="btn btn--block" href="static/Ishita_Singh_Resume.pdf" target="_blank" rel="noopener">Résumé ↗</a>
-    <p class="drawer__mail"><a href="mailto:singh.ishita.atwork@gmail.com">singh.ishita.atwork@gmail.com</a></p>
+    <a class="btn btn--primary btn--block" href="static/Ishita_Singh_Resume.pdf" target="_blank" rel="noopener">Download résumé</a>
   </nav>
 </div>
-<div class="drawer__scrim" id="scrim" hidden></div>
+<div class="scrim" id="scrim" hidden></div>
 
-<!-- ============ fixed rails ============ -->
-<aside class="rail rail--left" aria-label="Social links">
-  <ul>
-    <li><a href="https://www.linkedin.com/in/ishita-singh-creater/" target="_blank" rel="noopener" aria-label="LinkedIn">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-    </a></li>
-    <li><a href="https://github.com/Ishita03-Singh/" target="_blank" rel="noopener" aria-label="GitHub">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
-    </a></li>
-    <li><a href="https://leetcode.com/u/ishitasingh150301/" target="_blank" rel="noopener" aria-label="LeetCode">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.483 0a1.374 1.374 0 00-.961.438L7.116 6.226l-3.854 4.126a5.266 5.266 0 00-1.209 2.104 5.35 5.35 0 00-.125.513 5.527 5.527 0 00.062 2.362 5.83 5.83 0 00.349 1.017 5.938 5.938 0 001.271 1.818l4.277 4.193.039.038c2.248 2.165 5.852 2.133 8.063-.074l2.396-2.392c.54-.54.54-1.414.003-1.955a1.378 1.378 0 00-1.951-.003l-2.396 2.392a3.021 3.021 0 01-4.205.038l-.02-.019-4.276-4.193c-.652-.64-.972-1.469-.948-2.263a2.68 2.68 0 01.066-.523 2.545 2.545 0 01.619-1.164L9.13 8.114c1.058-1.134 3.204-1.27 4.43-.278l3.501 2.831c.593.48 1.461.387 1.94-.207a1.384 1.384 0 00-.207-1.943l-3.5-2.831c-.8-.647-1.766-1.045-2.774-1.202l2.015-2.158A1.384 1.384 0 0013.483 0zm-2.866 12.815a1.38 1.38 0 00-1.38 1.382 1.38 1.38 0 001.38 1.382H20.79a1.38 1.38 0 001.38-1.382 1.38 1.38 0 00-1.38-1.382z"/></svg>
-    </a></li>
-    <li><a href="https://www.instagram.com/iishitaaasingh/" target="_blank" rel="noopener" aria-label="Instagram">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678a6.162 6.162 0 100 12.324 6.162 6.162 0 100-12.324zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405a1.441 1.441 0 01-2.88 0 1.44 1.44 0 012.88 0z"/></svg>
-    </a></li>
-  </ul>
-</aside>
-
-<aside class="rail rail--right" aria-label="Email">
-  <a class="rail__mail" href="mailto:singh.ishita.atwork@gmail.com">singh.ishita.atwork@gmail.com</a>
-</aside>
-
-<!-- ============ main ============ -->
 <main id="content">
   <span id="top"></span>
 
   <!-- ================= hero ================= -->
-  <section class="hero" id="hero">
-    <div class="hero__grid">
+  <section class="hero">
+    <div class="hero__bg" aria-hidden="true"></div>
+    <div class="wrap hero__grid">
 
       <div class="hero__copy">
-        <p class="pill" data-anim="up" style="--d:.05s">
-          <i class="pill__dot"></i> Open to senior full-stack &amp; backend roles
-        </p>
+        <p class="status" data-anim style="--d:.05s"><i class="status__dot"></i> Open to senior full-stack &amp; backend roles</p>
 
-        <h1 class="hero__title">
-          <span class="hero__line" data-anim="up" style="--d:.1s">Ishita</span>
-          <span class="hero__line hero__line--outline" data-anim="up" style="--d:.18s">Singh<b>.</b></span>
+        <h1 class="hero__title" data-anim style="--d:.1s">
+          I build the systems<br />
+          that keep <span class="hero__em">running</span>.
         </h1>
 
-        <p class="hero__role" data-anim="up" style="--d:.26s">
-          I design &amp; build
-          <span class="rotator" id="rotator" aria-live="polite"><span class="rotator__word">.NET services</span></span>
+        <p class="hero__lede" data-anim style="--d:.18s">
+          I'm <strong>Ishita Singh</strong>, a Full-Stack SDE&nbsp;II at
+          <a class="link" href="https://www.i2vsys.com/" target="_blank" rel="noopener">I2V Systems</a>.
+          I work on .NET and Angular systems at production scale, and I run the releases for them
+          end to end, from CI/CD automation to reliability and observability, for large
+          public-sector deployments.
         </p>
 
-        <p class="hero__blurb" data-anim="up" style="--d:.32s">
-          Full-Stack <strong>SDE&nbsp;II</strong> at <a href="https://www.i2vsys.com/" target="_blank" rel="noopener" class="ul">I2V Systems</a>
-          since January 2023. I design .NET services on Clean Architecture, own
-          <strong>6+ shared Angular libraries</strong> that ship in every release, and build the
-          event-driven pipeline underneath them — <strong>120K+ events a day</strong>, with Milvus
-          vector search for image and video retrieval.
-        </p>
-
-        <div class="hero__cta" data-anim="up" style="--d:.38s">
-          <a class="btn btn--solid" href="mailto:singh.ishita.atwork@gmail.com" data-magnetic>
-            Get in touch <span class="btn__arrow">→</span>
-          </a>
-          <a class="btn btn--ghost" href="#work" data-magnetic>See the work</a>
+        <div class="hero__cta" data-anim style="--d:.24s">
+          <a class="btn btn--primary" href="#experience">See what I've built <span aria-hidden="true">→</span></a>
+          <a class="btn btn--ghost" href="mailto:singh.ishita.atwork@gmail.com">Get in touch</a>
         </div>
+
+        <ul class="hero__links" data-anim style="--d:.3s" aria-label="Profiles">
+          <li><a href="https://github.com/Ishita03-Singh" target="_blank" rel="noopener" aria-label="GitHub">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2 0-.3-.5-1.5.2-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.6 18.3 5 18.3 5c.7 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.1.9 2.2v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3"/></svg>
+            <span>GitHub</span></a></li>
+          <li><a href="https://www.linkedin.com/in/ishita-singh-creater/" target="_blank" rel="noopener" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.4 20.5h-3.5v-5.6c0-1.3 0-3-1.9-3s-2.1 1.4-2.1 2.9v5.7H9.4V9h3.4v1.6c.5-.9 1.6-1.9 3.4-1.9 3.6 0 4.3 2.4 4.3 5.5v6.3zM5.3 7.4a2 2 0 1 1 0-4.1 2 2 0 0 1 0 4.1zm1.8 13.1H3.6V9h3.5v11.5zM22.2 0H1.8C.8 0 0 .8 0 1.7v20.6c0 .9.8 1.7 1.8 1.7h20.4c1 0 1.8-.8 1.8-1.7V1.7C24 .8 23.2 0 22.2 0z"/></svg>
+            <span>LinkedIn</span></a></li>
+          <li><a href="https://leetcode.com/u/IshitaSingh/" target="_blank" rel="noopener" aria-label="LeetCode">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 0a1.4 1.4 0 0 0-1 .4L7.1 6.2l-3.8 4.2a5.3 5.3 0 0 0-1.3 2.6 5.5 5.5 0 0 0 1.5 5.2l4.3 4.2c2.2 2.2 5.8 2.1 8-.1l2.4-2.4a1.4 1.4 0 0 0-2-2l-2.4 2.4a3 3 0 0 1-4.2 0l-4.3-4.2a2.7 2.7 0 0 1-.9-2.3 2.5 2.5 0 0 1 .7-1.7l3.9-4.2c1-1.1 3.2-1.3 4.4-.3l3.5 2.9a1.4 1.4 0 0 0 1.7-2.2l-3.4-2.8a5.6 5.6 0 0 0-2.8-1.2l2-2.2A1.4 1.4 0 0 0 13.5 0zm-2.9 12.8a1.4 1.4 0 0 0 0 2.8h10.2a1.4 1.4 0 0 0 0-2.8z"/></svg>
+            <span>LeetCode</span></a></li>
+        </ul>
       </div>
 
-      <!-- the system she designs and builds, top to bottom -->
-      <aside class="hero__panel" data-anim="up" style="--d:.42s">
-        <div class="sys">
-          <p class="sys__cap">What I build, end to end</p>
-          <ol class="sys__flow">
-            <li class="sys__node n-client">
-              <b>Angular client</b>
-              <span>6+ shared component libraries</span>
-            </li>
-            <li class="sys__arrow" aria-hidden="true">↓</li>
-            <li class="sys__node n-api">
-              <b>.NET API</b>
-              <span>Clean Architecture · 30+ tables, 3+ schemas</span>
-            </li>
-            <li class="sys__arrow" aria-hidden="true">↓</li>
-            <li class="sys__node n-bus">
-              <b>RabbitMQ</b>
-              <span>event-driven · 20 events/sec sustained</span>
-            </li>
-            <li class="sys__arrow" aria-hidden="true">↓</li>
-            <li class="sys__split">
-              <div class="sys__node n-jobs">
-                <b>Quartz workers</b>
-                <span>4+ scheduled workflows</span>
-              </div>
-              <div class="sys__node n-vec">
-                <b>Milvus</b>
-                <span>vector similarity search</span>
-              </div>
-            </li>
-          </ol>
+      <!-- profile card: the at-a-glance version of everything below -->
+      <aside class="idcard" data-anim style="--d:.2s" aria-label="Profile summary">
+        <div class="idcard__top">
+          <!-- to use a photo: <img class="idcard__photo" src="static/img/your-photo.jpg" alt="Portrait of Ishita Singh" width="160" height="160" /> -->
+          <span class="idcard__photo idcard__photo--mono" aria-hidden="true">IS</span>
+          <div>
+            <p class="idcard__name">Ishita Singh</p>
+            <p class="idcard__role">Full-Stack SDE II</p>
+            <p class="idcard__org">I2V Systems · Gurgaon, IN</p>
+          </div>
         </div>
+
+        <dl class="idcard__facts">
+          <div><dt>Experience</dt><dd><span id="yearsExp">3+</span> yrs</dd></div>
+          <div><dt>Local time</dt><dd id="clock">—</dd></div>
+          <div><dt>Focus</dt><dd>.NET · Angular</dd></div>
+          <div><dt>Education</dt><dd>B.Tech CSE · 9.0</dd></div>
+        </dl>
+
+        <div class="idcard__now">
+          <p class="eyebrow">Currently</p>
+          <p>Implementing <strong>Milvus vector search</strong> for image &amp; video retrieval</p>
+        </div>
+
+        <ul class="idcard__stack" aria-label="Core stack">
+          <li>C#</li><li>.NET</li><li>Angular</li><li>RabbitMQ</li><li>PostgreSQL</li><li>Milvus</li>
+        </ul>
       </aside>
     </div>
-
-    <a class="scroller" href="#impact" aria-label="Scroll to content">
-      <span>scroll</span><i></i>
-    </a>
   </section>
 
-  <!-- ================= marquee ================= -->
-  <div class="marquee" aria-hidden="true">
-    <div class="marquee__track">
-      <span>.NET</span><b>✦</b><span>Angular</span><b>✦</b><span>Clean Architecture</span><b>✦</b>
-      <span>RabbitMQ</span><b>✦</b><span>PostgreSQL</span><b>✦</b><span>Milvus</span><b>✦</b>
-      <span>TypeScript</span><b>✦</b><span>Event-Driven</span><b>✦</b><span>System Design</span><b>✦</b>
-      <span>Quartz</span><b>✦</b><span>Vector Search</span><b>✦</b><span>C#</span><b>✦</b>
-      <span>.NET</span><b>✦</b><span>Angular</span><b>✦</b><span>Clean Architecture</span><b>✦</b>
-      <span>RabbitMQ</span><b>✦</b><span>PostgreSQL</span><b>✦</b><span>Milvus</span><b>✦</b>
-      <span>TypeScript</span><b>✦</b><span>Event-Driven</span><b>✦</b><span>System Design</span><b>✦</b>
-      <span>Quartz</span><b>✦</b><span>Vector Search</span><b>✦</b><span>C#</span><b>✦</b>
+  <!-- ================= impact band ================= -->
+  <section class="impact" aria-label="Impact in numbers">
+    <div class="wrap">
+      <ul class="impact__list reveal">
+        <li><p class="impact__n"><span data-count="200">200</span>+</p><p class="impact__l">servers running the services I build</p></li>
+        <li><p class="impact__n"><span data-count="120">120</span>K+</p><p class="impact__l">events handled every day</p></li>
+        <li><p class="impact__n"><span data-count="90">90</span>%</p><p class="impact__l">cut in release time via CI/CD</p></li>
+        <li><p class="impact__n"><span data-count="6">6</span>+</p><p class="impact__l">shared Angular libraries owned</p></li>
+        <li><p class="impact__n"><span data-count="4">4</span>+</p><p class="impact__l">junior engineers mentored</p></li>
+      </ul>
     </div>
-  </div>
-
-  <!-- ================= impact ================= -->
-  <section class="sec" id="impact">
-    <header class="sec__head reveal">
-      <p class="sec__idx"><i>01</i> Impact</p>
-      <h2 class="sec__title">By the <span class="hi">numbers</span>.</h2>
-      <p class="sec__lede">From systems that are live right now, serving large public-sector deployments.</p>
-    </header>
-
-    <div class="bento reveal">
-
-      <!-- live tile: today's throughput, extrapolated from the real daily average -->
-      <article class="stat stat--live stat--3">
-        <p class="stat__cap"><i class="stat__blip" aria-hidden="true"></i> Events through the pipeline today</p>
-        <p class="stat__num stat__num--live"><span id="liveEvents">0</span></p>
-        <p class="stat__label">
-          Running estimate since 00:00 IST, at the 120K/day average the system sustains.
-        </p>
-      </article>
-
-      <article class="stat stat--3 t-yellow">
-        <p class="stat__num"><span data-count="6">0</span><i>+</i></p>
-        <p class="stat__label">Shared Angular libraries I own, shipping in every release to 60+ concurrent users</p>
-      </article>
-
-      <article class="stat stat--2 t-blue">
-        <p class="stat__num"><span data-count="30">0</span><i>+</i></p>
-        <p class="stat__label">Tables across 3+ schemas in the .NET audit module I designed</p>
-      </article>
-
-      <article class="stat stat--2">
-        <p class="stat__num"><span data-count="4">0</span><i>+</i></p>
-        <p class="stat__label">Workflows running on the Quartz scheduling engine I built</p>
-      </article>
-
-      <article class="stat stat--2">
-        <p class="stat__num"><span data-count="4">0</span><i>+</i></p>
-        <p class="stat__label">Junior engineers mentored as de facto technical lead</p>
-      </article>
-
-      <article class="stat stat--3">
-        <p class="stat__num"><span data-count="200">0</span><i>+</i></p>
-        <p class="stat__label">Servers running the services I build, at 120K+ events a day</p>
-      </article>
-
-      <article class="stat stat--3">
-        <p class="stat__num"><span data-count="300">0</span><i>+</i></p>
-        <p class="stat__label">Cameras monitored across the 8+ dashboards I built</p>
-      </article>
-
-    </div>
-
-    <!-- one debugging story, told with its own data -->
-    <figure class="strip reveal">
-      <figcaption class="strip__head">
-        <h3 class="strip__title">Root-causing a recurring queue failure</h3>
-        <p class="strip__sub">
-          A RabbitMQ event-handling failure meant the service had to be restarted by hand — every
-          day, indefinitely. I traced the root cause across the code and the surrounding
-          architecture and fixed it.
-        </p>
-      </figcaption>
-
-      <div class="strip__grid">
-        <p class="strip__k">Before</p>
-        <ul class="strip__week" aria-hidden="true">
-          <li class="is-bad">M</li><li class="is-bad">T</li><li class="is-bad">W</li><li class="is-bad">T</li>
-          <li class="is-bad">F</li><li class="is-bad">S</li><li class="is-bad">S</li>
-        </ul>
-        <p class="strip__v">7 of 7 days</p>
-
-        <p class="strip__k">After</p>
-        <ul class="strip__week" aria-hidden="true">
-          <li class="is-ok">M</li><li class="is-ok">T</li><li class="is-ok">W</li><li class="is-ok">T</li>
-          <li class="is-ok">F</li><li class="is-ok">S</li><li class="is-ok">S</li>
-        </ul>
-        <p class="strip__v">0 of 7 days</p>
-      </div>
-      <p class="strip__legend">Days per week needing a manual restart — 7 before the fix, none after.</p>
-
-      <p class="strip__note">
-        <strong>Continuous 20 events/sec restored</strong>, with the standing manual restart removed entirely.
-      </p>
-    </figure>
   </section>
 
   <!-- ================= about ================= -->
   <section class="sec" id="about">
-    <header class="sec__head reveal">
-      <p class="sec__idx"><i>02</i> About</p>
-      <h2 class="sec__title">Hi, I'm <span class="hi">Ishita</span>.</h2>
-    </header>
+    <div class="wrap">
+      <header class="sec__head reveal">
+        <p class="sec__kicker"><i>01</i> About</p>
+        <h2 class="sec__title">Backend depth, full-stack reach.</h2>
+      </header>
 
-    <div class="bento bento--about reveal">
+      <div class="about reveal">
+        <article class="card about__bio">
+          <p class="about__big">
+            Most of my work is backend design: .NET services on Clean Architecture, an event-driven
+            pipeline, and a scheduling engine. On top of that I build the Angular libraries the product
+            ships with. I like problems where the fix belongs in the design, not in a patch.
+          </p>
+          <p>
+            I joined <strong>I2V Systems</strong> in January 2023 and grew from individual contributor
+            into a de facto technical lead. I own releases for large public-sector clients from branch cut
+            to production rollout, and I'm the first person called when a deployment goes wrong.
+          </p>
+        </article>
+        <article class="card about__facts">
+          <dl>
+            <div><dt>Based in</dt><dd>Gurgaon, India</dd></div>
+            <div><dt>Speaks</dt><dd>Hindi · English · French</dd></div>
+            <div><dt>Degree</dt><dd>B.Tech CSE, 2023 · SGPA 9.0</dd></div>
+            <div><dt>Looking for</dt><dd>Senior full-stack / backend roles</dd></div>
+          </dl>
+        </article>
 
-      <figure class="tile tile--photo">
-        <span class="tile__tape" aria-hidden="true">since '23</span>
-        <img src="static/img/ishita.jpg" alt="Ishita Singh" loading="lazy" width="450" height="450" />
-      </figure>
+        <article class="card pillar">
+          <span class="pillar__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="6" rx="1.5"/><rect x="3" y="14" width="18" height="6" rx="1.5"/><path d="M7 7h.01M7 17h.01"/></svg>
+          </span>
+          <h3>Backend systems</h3>
+          <p>.NET services, RabbitMQ pipelines, Quartz scheduling and vector search, designed to hold up at 120K+ events a day.</p>
+        </article>
 
-      <div class="tile tile--bio">
-        <p>
-          I'm a full-stack engineer based in <strong>Gurgaon</strong>. Most of my work is backend
-          design — .NET services on Clean Architecture, an event-driven pipeline, a scheduling
-          engine — paired with the <strong>Angular component libraries</strong> that sit on top of
-          them. I like problems where the fix belongs in the design, not the patch.
-        </p>
-        <p>
-          I joined <strong>I2V Systems</strong> in January 2023 and grew from individual contributor
-          into a de facto technical lead. Most recently I've been working with <strong>Milvus</strong>,
-          implementing vector similarity search for image and video retrieval.
-        </p>
-        <p class="tile__sig">— currently working on vector search</p>
+        <article class="card pillar">
+          <span class="pillar__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+          </span>
+          <h3>Frontend platforms</h3>
+          <p>Shared Angular component libraries that every release builds on, plus Flutter and Next.js products outside the day job.</p>
+        </article>
+
+        <article class="card pillar">
+          <span class="pillar__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 0 1 14-5.3M20 12a8 8 0 0 1-14 5.3"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>
+          </span>
+          <h3>Release &amp; reliability</h3>
+          <p>GitHub Actions pipelines, release sign-off, Grafana monitoring and root-cause fixes that remove recurring firefights.</p>
+        </article>
+
       </div>
 
-      <div class="tile tile--clock">
-        <p class="tile__cap">Local time · Gurgaon</p>
-        <p class="tile__clock" id="clock">—</p>
-        <p class="tile__sub">IST · UTC+5:30</p>
+      <!-- journey: horizontal, scroll-snapped on small screens -->
+      <div class="journey reveal">
+        <p class="eyebrow">The journey so far</p>
+        <ol class="journey__track">
+          <li class="jstep">
+            <p class="jstep__when">2020</p>
+            <p class="jstep__what">Started building Android apps in Java &amp; Kotlin</p>
+          </li>
+          <li class="jstep jstep--win">
+            <p class="jstep__when">2021</p>
+            <p class="jstep__what"><b>5th of 600+ teams</b> at Covi-Hack '21</p>
+          </li>
+          <li class="jstep jstep--win">
+            <p class="jstep__when">2022</p>
+            <p class="jstep__what"><b>Top 8 nationally</b> at Microsoft Imagine Cup India</p>
+          </li>
+          <li class="jstep">
+            <p class="jstep__when">Jan 2023</p>
+            <p class="jstep__what">Joined <b>I2V Systems</b> as a full-stack engineer</p>
+          </li>
+          <li class="jstep">
+            <p class="jstep__when">Jul 2023</p>
+            <p class="jstep__what">Graduated B.Tech CSE with a 9.0 SGPA</p>
+          </li>
+          <li class="jstep">
+            <p class="jstep__when">2024</p>
+            <p class="jstep__what">Freelance for a Japanese studio; launched <b>Aapka Vakeel</b></p>
+          </li>
+          <li class="jstep jstep--now">
+            <p class="jstep__when">Now</p>
+            <p class="jstep__what">SDE II and de facto tech lead; building vector search</p>
+          </li>
+        </ol>
       </div>
-
-      <div class="tile tile--edu">
-        <p class="tile__cap">Education</p>
-        <p class="tile__big">B.Tech, CSE</p>
-        <p class="tile__sub">Dronacharya College of Engineering · 2023 · <strong>SGPA 9.0</strong></p>
-      </div>
-
-      <div class="tile tile--lang">
-        <p class="tile__cap">Speaks</p>
-        <ul class="tile__langs">
-          <li><b>हिंदी</b><span>Hindi</span></li>
-          <li><b>EN</b><span>English</span></li>
-          <li><b>FR</b><span>Français</span></li>
-        </ul>
-      </div>
-
-      <!-- live from the LeetCode profile; hides itself if the API is unreachable -->
-      <section class="tile tile--hud tile--lc" id="lcPanel" hidden aria-labelledby="lcCap">
-        <p class="tile__cap" id="lcCap"><i class="hud__blip" aria-hidden="true"></i> LeetCode</p>
-        <p class="hud__total"><span id="lcTotal">—</span><i>solved</i></p>
-        <dl class="lcbars" id="lcBars">
-          <div class="lcbar">
-            <dt>Easy</dt>
-            <div class="lcbar__track" data-k="easy"><i></i></div>
-            <dd id="lcEasy">—</dd>
-          </div>
-          <div class="lcbar">
-            <dt>Medium</dt>
-            <div class="lcbar__track" data-k="med"><i></i></div>
-            <dd id="lcMed">—</dd>
-          </div>
-          <div class="lcbar">
-            <dt>Hard</dt>
-            <div class="lcbar__track" data-k="hard"><i></i></div>
-            <dd id="lcHard">—</dd>
-          </div>
-        </dl>
-        <a class="hud__link ul" href="https://leetcode.com/u/ishitasingh150301/" target="_blank" rel="noopener">View profile ↗</a>
-      </section>
-
-      <!-- unique visitors; stays hidden until a counter service is configured -->
-      <section class="tile tile--hud tile--visits" id="visitPanel" hidden aria-labelledby="visitCap">
-        <p class="tile__cap" id="visitCap"><i class="hud__blip" aria-hidden="true"></i> Unique visitors</p>
-        <p class="hud__total"><span id="visitCount">—</span></p>
-        <p class="tile__sub" id="visitNote">All time, counted once per person.</p>
-      </section>
-
-      <div class="tile tile--now">
-        <p class="tile__cap">Currently</p>
-        <ul class="tile__now">
-          <li><i>▹</i> Implementing Milvus vector similarity search for image and video retrieval</li>
-          <li><i>▹</i> Extending the shared Angular library set</li>
-          <li><i>▹</i> Mentoring through code reviews and design discussions</li>
-        </ul>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ================= stack ================= -->
-  <section class="sec" id="stack">
-    <header class="sec__head reveal">
-      <p class="sec__idx"><i>03</i> Stack</p>
-      <h2 class="sec__title">What I <span class="hi">build with</span>.</h2>
-      <p class="sec__lede">
-        Grouped by what I reach for, not by what looks good on a keyword scan.
-        <strong>Select any highlighted tool</strong> to see everywhere I've shipped with it.
-      </p>
-    </header>
-
-    <!-- the handful that come out every single day -->
-    <div class="daily reveal">
-      <p class="daily__cap">Daily drivers</p>
-      <ul class="daily__list">
-        <li>C# / .NET</li><li>Angular</li><li>TypeScript</li>
-        <li>PostgreSQL</li><li>RabbitMQ</li><li>Milvus</li>
-      </ul>
-    </div>
-
-    <div class="stack reveal">
-      <article class="stack__card">
-        <h3><span class="stack__glyph">{ }</span> Core &amp; Backend</h3>
-        <ul class="chips">
-          <li class="is-key" data-tech="dotnet">C# / .NET</li>
-          <li data-tech="dotnet">ASP.NET Core</li>
-          <li class="is-key" data-tech="dotnet">Clean Architecture</li>
-          <li>Microservices</li><li>REST APIs</li><li>API Design</li><li>System Design</li>
-          <li data-tech="java">Java</li><li>Python</li><li>Node.js</li><li>C/C++</li>
-        </ul>
-      </article>
-
-      <article class="stack__card">
-        <h3><span class="stack__glyph">◧</span> Frontend</h3>
-        <ul class="chips">
-          <li class="is-key" data-tech="angular">Angular</li>
-          <li data-tech="angular">TypeScript</li>
-          <li data-tech="angular">RxJS</li>
-          <li class="is-key" data-tech="angular">Shared component libraries</li>
-          <li>HTML</li><li>CSS / SCSS</li>
-          <li data-tech="flutter">Flutter</li><li data-tech="flutter">Dart</li>
-        </ul>
-      </article>
-
-      <article class="stack__card">
-        <h3><span class="stack__glyph">≋</span> Data &amp; Messaging</h3>
-        <ul class="chips">
-          <li class="is-key" data-tech="rabbitmq">RabbitMQ</li>
-          <li class="is-key" data-tech="milvus">Milvus</li>
-          <li data-tech="postgres">PostgreSQL</li>
-          <li>MySQL</li><li>MongoDB</li>
-          <li data-tech="firebase">Firebase</li>
-          <li data-tech="quartz">Quartz</li>
-          <li>Elsa Core</li>
-          <li data-tech="rabbitmq">Event-Driven Architecture</li>
-        </ul>
-      </article>
-
-      <article class="stack__card">
-        <h3><span class="stack__glyph">⟳</span> Platform &amp; Tooling</h3>
-        <ul class="chips">
-          <li data-tech="grafana">Grafana</li>
-          <li data-tech="grafana">Observability</li>
-          <li>Metabase</li>
-          <li data-tech="docker">Docker</li>
-          <li data-tech="actions">GitHub Actions</li>
-          <li data-tech="actions">CI/CD</li>
-          <li>Git</li>
-          <li data-tech="azure">Azure <span class="chip__note">familiar</span></li>
-        </ul>
-      </article>
     </div>
   </section>
 
   <!-- ================= experience ================= -->
   <section class="sec" id="experience">
-    <header class="sec__head reveal">
-      <p class="sec__idx"><i>04</i> Experience</p>
-      <h2 class="sec__title">Where I've <span class="hi">worked</span>.</h2>
-    </header>
-
-    <ol class="timeline reveal">
-
-      <li class="tl">
-        <div class="tl__aside">
-          <span class="tl__dot" aria-hidden="true"></span>
-          <p class="tl__when">Jan 2023<br /><i>— Present</i></p>
-        </div>
-        <div class="tl__card tl__card--now">
-          <p class="tl__tag">Full time · Gurgaon</p>
-          <h3 class="tl__role">Software Development Engineer II</h3>
-          <p class="tl__org"><a href="https://www.i2vsys.com/" target="_blank" rel="noopener" class="ul">I2V Systems Pvt. Ltd.</a></p>
-          <ul class="tl__list">
-            <li data-tech="dotnet postgres">Designed and delivered a User CRUD and audit-logging module in .NET on <strong>Clean Architecture</strong>, spanning <strong>30+ tables across 3+ schemas</strong>, with per-user, per-entity action tracking.</li>
-            <li data-tech="angular">Own <strong>6+ shared Angular libraries</strong> shipped in every release, supporting 60+ concurrent users across a 200+-server, 120K+-events/day deployment footprint.</li>
-            <li data-tech="milvus">Implemented <strong>Milvus-based vector similarity search</strong> for image and video retrieval.</li>
-            <li data-tech="quartz dotnet">Developed a <strong>Quartz-based scheduling engine</strong> powering 4+ workflows — VA scheduling, report export and user-log time tracking.</li>
-            <li data-tech="rabbitmq">Diagnosed and fixed a recurring RabbitMQ event-handling failure that had required a <strong>daily manual restart</strong> — traced the root cause across code and architecture, restoring continuous 20 events/sec throughput.</li>
-            <li data-tech="grafana">Created <strong>8+ Grafana dashboards</strong> monitoring 300+ cameras across the same server fleet, with 30-day data export, query optimisation and automated alerting.</li>
-            <li data-tech="actions docker">Automated Windows and Docker releases via GitHub Actions, replacing a manual build-and-share process — cut release time by 90% and eliminated config-related deployment failures.</li>
-            <li>Grew from individual contributor into a <strong>de facto technical lead</strong>, mentoring 4+ junior engineers through code reviews, debugging support and release best practices.</li>
-          </ul>
-          <ul class="chips chips--sm">
-            <li>.NET</li><li>Clean Architecture</li><li>Angular</li><li>RabbitMQ</li><li>PostgreSQL</li>
-            <li>Milvus</li><li>Quartz</li><li>Grafana</li><li>Docker</li>
-          </ul>
-        </div>
-      </li>
-
-      <li class="tl">
-        <div class="tl__aside">
-          <span class="tl__dot" aria-hidden="true"></span>
-          <p class="tl__when">2024<br /><i>— 6 months</i></p>
-        </div>
-        <div class="tl__card">
-          <p class="tl__tag">Freelance · Remote</p>
-          <h3 class="tl__role">Full-Stack Freelance Engineer</h3>
-          <p class="tl__org">Japanese product studio · alongside the I2V role</p>
-          <ul class="tl__list">
-            <li data-tech="flutter">Built and shipped <strong>mobile and web products</strong> over a six-month engagement, working remotely with the client team.</li>
-            <li data-tech="mapbox">Implemented interactive mapping with <strong>Mapbox</strong>, and built AR features into the mobile experience.</li>
-            <li data-tech="nextjs">Delivered the web side in <strong>Next.js</strong> and the mobile side in <strong>Flutter</strong>, with Atom modules in the toolchain.</li>
-          </ul>
-          <ul class="chips chips--sm">
-            <li>Flutter</li><li>Next.js</li><li>Mapbox</li><li>AR</li><li>Atom modules</li>
-          </ul>
-        </div>
-      </li>
-
-      <li class="tl">
-        <div class="tl__aside">
-          <span class="tl__dot" aria-hidden="true"></span>
-          <p class="tl__when">Jul 2023</p>
-        </div>
-        <div class="tl__card">
-          <p class="tl__tag">Education</p>
-          <h3 class="tl__role">B.Tech, Computer Science &amp; Engineering</h3>
-          <p class="tl__org">Dronacharya College of Engineering · SGPA 9.0</p>
-          <ul class="tl__list">
-            <li>Core coursework in data structures and algorithms, operating systems, databases and computer networks.</li>
-            <li>Built and shipped side projects throughout — Android, Flutter and Firebase — several of which became hackathon entries.</li>
-          </ul>
-        </div>
-      </li>
-
-      <li class="tl">
-        <div class="tl__aside">
-          <span class="tl__dot" aria-hidden="true"></span>
-          <p class="tl__when">2022</p>
-        </div>
-        <div class="tl__card">
-          <p class="tl__tag tl__tag--win">◆ Achievement unlocked</p>
-          <h3 class="tl__role">Top 8 nationally — Microsoft Imagine Cup</h3>
-          <p class="tl__org">India Pre-Finals · out of hundreds of student teams</p>
-          <ul class="tl__list">
-            <li data-tech="java firebase">Recognised for <em>Avekshaka</em>, an Alzheimer's care app built with a 4-member team.</li>
-          </ul>
-        </div>
-      </li>
-
-      <li class="tl">
-        <div class="tl__aside">
-          <span class="tl__dot" aria-hidden="true"></span>
-          <p class="tl__when">2021</p>
-        </div>
-        <div class="tl__card">
-          <p class="tl__tag tl__tag--win">◆ Achievement unlocked</p>
-          <h3 class="tl__role">5th of 600+ teams — Covi-Hack '21</h3>
-          <p class="tl__org">COVID-response hackathon hosted by GDSC-DCE</p>
-          <ul class="tl__list">
-            <li>Placed 5th out of 600+ participating teams in a COVID-response hackathon.</li>
-          </ul>
-        </div>
-      </li>
-
-    </ol>
-  </section>
-
-  <!-- ================= work ================= -->
-  <section class="sec" id="work">
-    <header class="sec__head reveal">
-      <p class="sec__idx"><i>05</i> Work</p>
-      <h2 class="sec__title">Selected <span class="hi">work</span>.</h2>
-      <p class="sec__lede">What I've shipped into production, and what I've built on my own time.</p>
-    </header>
-
-    <!-- production modules, all owned end to end at I2V -->
-    <h3 class="works__label reveal">
-      <span>In production</span>
-      <i>at I2V Systems · Jan 2023 – present</i>
-    </h3>
-
-    <div class="pgrid reveal">
-      <article class="pcard" data-tech="dotnet postgres">
-        <p class="pcard__cap">Backend · .NET</p>
-        <h4 class="pcard__t">User management &amp; audit logging</h4>
-        <p class="pcard__d">
-          Designed and delivered the module on Clean Architecture, with per-user, per-entity action
-          tracking across the platform's user and permission model.
-        </p>
-        <ul class="pcard__m"><li>30+ tables</li><li>3+ schemas</li></ul>
-      </article>
-
-      <article class="pcard" data-tech="quartz dotnet">
-        <p class="pcard__cap">Backend · Quartz</p>
-        <h4 class="pcard__t">Scheduling engine</h4>
-        <p class="pcard__d">
-          Built the engine the platform's recurring work runs on — VA scheduling, report export and
-          user-log time tracking.
-        </p>
-        <ul class="pcard__m"><li>4+ workflows</li></ul>
-      </article>
-
-      <article class="pcard" data-tech="angular">
-        <p class="pcard__cap">Frontend · Angular</p>
-        <h4 class="pcard__t">Shared component library set</h4>
-        <p class="pcard__d">
-          Own the shared Angular libraries the product builds against, shipped in every release
-          across the deployment footprint.
-        </p>
-        <ul class="pcard__m"><li>6+ libraries</li><li>60+ concurrent users</li></ul>
-      </article>
-
-      <article class="pcard" data-tech="flutter nextjs mapbox">
-        <p class="pcard__cap">Freelance · Mobile &amp; web</p>
-        <h4 class="pcard__t">Japanese product studio</h4>
-        <p class="pcard__d">
-          Six-month remote engagement alongside the I2V role — shipped mobile and web
-          products, with Mapbox mapping and AR features.
-        </p>
-        <ul class="pcard__m"><li>Flutter</li><li>Next.js</li><li>Mapbox</li><li>AR</li></ul>
-      </article>
-
-      <article class="pcard" data-tech="milvus grafana">
-        <p class="pcard__cap">Data · Milvus, Grafana</p>
-        <h4 class="pcard__t">Visual search &amp; monitoring</h4>
-        <p class="pcard__d">
-          Implemented Milvus-based vector similarity search for image and video retrieval, and built
-          the dashboards the camera fleet is watched from — 30-day data export and automated alerting.
-        </p>
-        <ul class="pcard__m"><li>8+ dashboards</li><li>300+ cameras</li></ul>
-      </article>
-    </div>
-
-    <!-- personal and competition builds -->
-    <h3 class="works__label reveal">
-      <span>Personal projects</span>
-      <i>built on my own time</i>
-    </h3>
-
-    <div class="minis">
-
-      <article class="mini reveal" data-tech="flutter firebase azure">
-        <div class="mini__art mini__art--glyph">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M7 21h10M12 6l7 2-3.5 6a3.5 3.5 0 0 0 7 0L19 8M12 6 5 8l3.5 6a3.5 3.5 0 0 1-7 0L5 8"/></svg>
-        </div>
-        <div class="mini__body">
-          <p class="mini__idx">01 · Apr 2024 – present</p>
-          <h4 class="mini__t">Aapka Vakeel</h4>
-          <p class="mini__d">
-            Lawyer–client platform built end to end — matching, case management, Razorpay payments,
-            VideoSDK calling and an admin dashboard. <strong>40+ lawyers onboarded.</strong>
-          </p>
-          <ul class="chips chips--sm">
-            <li>Flutter</li><li>Firebase</li><li>Azure Functions</li><li>Razorpay</li>
-          </ul>
-        </div>
-      </article>
-
-      <article class="mini reveal" data-tech="java firebase">
-        <div class="mini__art"><img src="static/img/avekshaka.png" alt="Avekshaka app screenshot" loading="lazy" /></div>
-        <div class="mini__body">
-          <p class="mini__idx">02 · Feb 2022</p>
-          <h4 class="mini__t">Avekshaka <span class="mini__badge">Top 8 · Imagine Cup</span></h4>
-          <p class="mini__d">
-            Alzheimer's care app built with a 4-member team — guardian registration, activity alerts
-            and live location sharing.
-          </p>
-          <ul class="chips chips--sm"><li>Java</li><li>Firebase</li><li>SQLite</li><li>Android</li></ul>
-          <a class="mini__link ul" href="https://github.com/Ishita03-Singh/Avekshaka" target="_blank" rel="noopener">Source ↗</a>
-        </div>
-      </article>
-
-      <article class="mini reveal" data-tech="java">
-        <div class="mini__art"><img src="static/img/covieye.jpeg" alt="Covi-Eye app screenshot" loading="lazy" /></div>
-        <div class="mini__body">
-          <p class="mini__idx">03</p>
-          <h4 class="mini__t">Covi-Eye</h4>
-          <p class="mini__d">
-            Reads heart rate and oxygen saturation from the phone camera and flashlight, and shares
-            the reading with a location.
-          </p>
-          <ul class="chips chips--sm"><li>Java</li><li>Android Studio</li></ul>
-          <a class="mini__link ul" href="https://github.com/Ishita03-Singh/Covi-Eye" target="_blank" rel="noopener">Source ↗</a>
-        </div>
-      </article>
-
-      <article class="mini reveal">
-        <div class="mini__art"><img src="static/img/newsfeed.jpeg" alt="NewsFeed app screenshot" loading="lazy" /></div>
-        <div class="mini__body">
-          <p class="mini__idx">04</p>
-          <h4 class="mini__t">NewsFeed</h4>
-          <p class="mini__d">
-            Daily trending news with interest-based filtering, so readers only see the fields they
-            picked.
-          </p>
-          <ul class="chips chips--sm"><li>Kotlin</li><li>Android Studio</li><li>News API</li></ul>
-          <a class="mini__link ul" href="https://github.com/Ishita03-Singh/News-Feed" target="_blank" rel="noopener">Source ↗</a>
-        </div>
-      </article>
-
-    </div>
-  </section>
-
-  <!-- ================= public code ================= -->
-  <section class="sec" id="code">
-    <header class="sec__head reveal">
-      <p class="sec__idx"><i>06</i> Public code</p>
-      <h2 class="sec__title">Out in the <span class="hi">open</span>.</h2>
-      <p class="sec__lede">
-        Day-job work lives in private company repositories. This is what's public.
-      </p>
-    </header>
-
-    <!-- contribution heatmap; fills itself from the live GitHub data -->
-    <section class="gh reveal" id="ghPanel" hidden aria-labelledby="ghCap">
-      <header class="gh__head">
-        <p class="tile__cap" id="ghCap"><i class="hud__blip" aria-hidden="true"></i> Contribution activity</p>
-        <p class="gh__total"><span id="ghTotal">—</span><i>contributions in the last year</i></p>
+    <div class="wrap">
+      <header class="sec__head reveal">
+        <p class="sec__kicker"><i>02</i> Experience</p>
+        <h2 class="sec__title">What I've built, and what came of it.</h2>
+        <p class="sec__lede">Each piece of work is laid out as the problem, what I did, and what changed. Pick one to open it.</p>
       </header>
 
-      <div class="gh__scroll">
-        <div class="gh__cal">
-          <div class="gh__months" id="ghMonths" aria-hidden="true"></div>
-          <div class="gh__days" aria-hidden="true"><span>Mon</span><span>Wed</span><span>Fri</span></div>
-          <div class="gh__grid" id="ghGrid" role="img" aria-label="GitHub contribution calendar"></div>
-        </div>
-      </div>
+      <!-- ---------- I2V ---------- -->
+      <article class="role reveal">
+        <header class="role__head">
+          <div class="role__logo" aria-hidden="true">i2v</div>
+          <div class="role__id">
+            <h3 class="role__title">Software Development Engineer II</h3>
+            <p class="role__org"><a class="link" href="https://www.i2vsys.com/" target="_blank" rel="noopener">I2V Systems Pvt. Ltd.</a> · Full time · Gurgaon</p>
+          </div>
+          <p class="role__when"><span class="tag tag--live"><i></i> Current</span> Jan 2023 – Present</p>
+        </header>
 
-      <footer class="gh__foot">
-        <p class="gh__legend">
-          Less
-          <i class="gh-l0"></i><i class="gh-l1"></i><i class="gh-l2"></i><i class="gh-l3"></i><i class="gh-l4"></i>
-          More
+        <p class="role__summary">
+          Operating .NET and Angular systems for large public-sector deployments of 200+ servers and 120K+ events a day.
+          I own features across the stack as well as the release process that ships them.
         </p>
-        <a class="ul gh__link" href="https://github.com/Ishita03-Singh" target="_blank" rel="noopener">View on GitHub ↗</a>
-      </footer>
-    </section>
 
-    <!-- original public repositories, newest first -->
-    <section class="oss reveal" id="repoPanel" hidden aria-labelledby="repoCap">
-      <p class="tile__cap" id="repoCap"><i class="hud__blip" aria-hidden="true"></i> Public repositories</p>
-      <p class="gh__total"><span id="repoCount">—</span><i>original repositories</i></p>
-      <ul class="oss__list" id="repoList"></ul>
-      <a class="ul gh__link" href="https://github.com/Ishita03-Singh?tab=repositories" target="_blank" rel="noopener">All repositories ↗</a>
-    </section>
+        <div class="cases" id="cases">
+          <div class="cases__nav" role="tablist" aria-label="Work at I2V Systems" aria-orientation="vertical">
+            <p class="cases__group">Backend &amp; data</p>
+            <button class="ctab" role="tab" id="t-rabbit" aria-controls="p-rabbit" data-tech="rabbitmq"><b>RabbitMQ reliability fix</b><span>7 → 0 restarts a week</span></button>
+            <button class="ctab" role="tab" id="t-audit" aria-controls="p-audit" data-tech="dotnet postgres"><b>User &amp; audit-log module</b><span>30+ tables · 3+ schemas</span></button>
+            <button class="ctab" role="tab" id="t-quartz" aria-controls="p-quartz" data-tech="quartz dotnet"><b>Scheduling engine</b><span>4+ workflows</span></button>
+            <button class="ctab" role="tab" id="t-milvus" aria-controls="p-milvus" data-tech="milvus"><b>Vector similarity search</b><span>Image &amp; video retrieval</span></button>
 
-    <!-- merged pull requests into repositories she does not own -->
-    <section class="oss reveal" id="ossPanel" hidden aria-labelledby="ossCap">
-      <p class="tile__cap" id="ossCap">Merged into other people's repositories</p>
-      <ul class="oss__list" id="ossList"></ul>
-    </section>
+            <p class="cases__group">Frontend</p>
+            <button class="ctab" role="tab" id="t-angular" aria-controls="p-angular" data-tech="angular"><b>Shared Angular libraries</b><span>6+ libraries · every release</span></button>
+
+            <p class="cases__group">Release &amp; reliability</p>
+            <button class="ctab" role="tab" id="t-cicd" aria-controls="p-cicd" data-tech="actions docker"><b>Release automation</b><span>90% faster releases</span></button>
+            <button class="ctab" role="tab" id="t-signoff" aria-controls="p-signoff" data-tech="release"><b>Release sign-off</b><span>Branch cut → production</span></button>
+            <button class="ctab" role="tab" id="t-grafana" aria-controls="p-grafana" data-tech="grafana"><b>Fleet monitoring</b><span>8+ dashboards · 300+ cameras</span></button>
+
+            <p class="cases__group">Leadership</p>
+            <button class="ctab" role="tab" id="t-mentor" aria-controls="p-mentor" data-tech="lead"><b>De facto tech lead</b><span>4+ engineers mentored</span></button>
+          </div>
+
+          <div class="cases__panels">
+
+            <!-- rabbit -->
+            <section class="case" role="tabpanel" id="p-rabbit" aria-labelledby="t-rabbit">
+              <p class="case__kicker">Backend · Reliability</p>
+              <h4 class="case__title">A queue failure that needed a restart every day</h4>
+              <div class="case__body">
+                <dl class="case__story">
+                  <div><dt>Problem</dt><dd>A RabbitMQ event-handling failure kept coming back, so someone had to restart the service by hand every day.</dd></div>
+                  <div><dt>What I did</dt><dd>I traced the root cause across both the code and the surrounding architecture, and fixed it at the source instead of scripting the restart.</dd></div>
+                  <div><dt>Outcome</dt><dd>Continuous <strong>20 events/sec</strong> throughput was restored, and the daily restart went away completely.</dd></div>
+                </dl>
+                <figure class="viz viz--week">
+                  <figcaption>Manual restarts needed, per week</figcaption>
+                  <div class="week">
+                    <span class="week__k">Before</span>
+                    <ol class="week__row" aria-label="Before the fix: restart needed all 7 days">
+                      <li class="is-bad">M</li><li class="is-bad">T</li><li class="is-bad">W</li><li class="is-bad">T</li><li class="is-bad">F</li><li class="is-bad">S</li><li class="is-bad">S</li>
+                    </ol>
+                    <span class="week__v">7 / 7</span>
+                    <span class="week__k">After</span>
+                    <ol class="week__row" aria-label="After the fix: no restarts needed">
+                      <li class="is-ok">M</li><li class="is-ok">T</li><li class="is-ok">W</li><li class="is-ok">T</li><li class="is-ok">F</li><li class="is-ok">S</li><li class="is-ok">S</li>
+                    </ol>
+                    <span class="week__v">0 / 7</span>
+                  </div>
+                  <p class="viz__legend"><span class="key key--bad">✕ restart needed</span><span class="key key--ok">✓ ran clean</span></p>
+                </figure>
+              </div>
+              <ul class="chips"><li>RabbitMQ</li><li>.NET</li><li>Event-driven architecture</li><li>Root-cause analysis</li></ul>
+            </section>
+
+            <!-- audit -->
+            <section class="case" role="tabpanel" id="p-audit" aria-labelledby="t-audit">
+              <p class="case__kicker">Backend · .NET</p>
+              <h4 class="case__title">User management &amp; audit-logging module</h4>
+              <div class="case__body">
+                <dl class="case__story">
+                  <div><dt>Problem</dt><dd>The platform needed user CRUD with accountability built in: a record of which user did what, to which entity.</dd></div>
+                  <div><dt>What I did</dt><dd>I designed and delivered the module in .NET on Clean Architecture, with a data model spanning <strong>30+ tables across 3+ schemas</strong>.</dd></div>
+                  <div><dt>Outcome</dt><dd>Every user action is now tracked per user and per entity across the platform's user and permission model.</dd></div>
+                </dl>
+                <figure class="viz viz--rings" aria-label="Clean Architecture layers">
+                  <figcaption>Clean Architecture, inside out</figcaption>
+                  <div class="rings">
+                    <span class="rings__r r4"><i>API</i></span>
+                    <span class="rings__r r3"><i>Infrastructure</i></span>
+                    <span class="rings__r r2"><i>Application</i></span>
+                    <span class="rings__r r1"><i>Domain</i></span>
+                  </div>
+                  <p class="viz__stats"><b>30+</b> tables <b>3+</b> schemas</p>
+                </figure>
+              </div>
+              <ul class="chips"><li>C# / .NET</li><li>Clean Architecture</li><li>PostgreSQL</li><li>Data modelling</li></ul>
+            </section>
+
+            <!-- quartz -->
+            <section class="case" role="tabpanel" id="p-quartz" aria-labelledby="t-quartz">
+              <p class="case__kicker">Backend · Scheduling</p>
+              <h4 class="case__title">A scheduling engine for the platform's recurring work</h4>
+              <div class="case__body">
+                <dl class="case__story">
+                  <div><dt>Problem</dt><dd>Recurring jobs such as VA scheduling, report export and time tracking needed one reliable place to run.</dd></div>
+                  <div><dt>What I did</dt><dd>I built a scheduling engine on Quartz that these workflows are defined and triggered through.</dd></div>
+                  <div><dt>Outcome</dt><dd><strong>4+ production workflows</strong> now run on a single engine.</dd></div>
+                </dl>
+                <figure class="viz">
+                  <figcaption>Workflows on the engine</figcaption>
+                  <ul class="jobs">
+                    <li><i aria-hidden="true">⏱</i><b>VA scheduling</b><span>scheduled</span></li>
+                    <li><i aria-hidden="true">⇩</i><b>Report export</b><span>scheduled</span></li>
+                    <li><i aria-hidden="true">◷</i><b>User-log time tracking</b><span>recurring</span></li>
+                    <li class="jobs__more"><i aria-hidden="true">+</i><b>More workflows</b><span>4+ total</span></li>
+                  </ul>
+                </figure>
+              </div>
+              <ul class="chips"><li>Quartz</li><li>.NET</li><li>Background jobs</li></ul>
+            </section>
+
+            <!-- milvus -->
+            <section class="case" role="tabpanel" id="p-milvus" aria-labelledby="t-milvus">
+              <p class="case__kicker">Data · In progress</p>
+              <h4 class="case__title">Vector similarity search for images and video</h4>
+              <div class="case__body">
+                <dl class="case__story">
+                  <div><dt>Problem</dt><dd>Users need to find images and video by what they look like, not only by metadata.</dd></div>
+                  <div><dt>What I did</dt><dd>I'm implementing similarity search on <strong>Milvus</strong>: visual content is stored as vectors, and retrieval returns the nearest matches.</dd></div>
+                  <div><dt>Outcome</dt><dd>This is my current focus. Image and video retrieval runs through vector search.</dd></div>
+                </dl>
+                <figure class="viz">
+                  <figcaption>How a query flows</figcaption>
+                  <ol class="flow">
+                    <li><b>Image / frame</b><span>query</span></li>
+                    <li><b>Vector</b><span>embedding</span></li>
+                    <li><b>Milvus</b><span>similarity index</span></li>
+                    <li><b>Matches</b><span>nearest results</span></li>
+                  </ol>
+                </figure>
+              </div>
+              <ul class="chips"><li>Milvus</li><li>Vector search</li><li>.NET</li></ul>
+            </section>
+
+            <!-- angular -->
+            <section class="case" role="tabpanel" id="p-angular" aria-labelledby="t-angular">
+              <p class="case__kicker">Frontend · Angular</p>
+              <h4 class="case__title">The shared libraries every release is built on</h4>
+              <div class="case__body">
+                <dl class="case__story">
+                  <div><dt>Problem</dt><dd>Several product surfaces need to share UI and front-end logic without drifting apart.</dd></div>
+                  <div><dt>What I did</dt><dd>I own <strong>6+ shared Angular libraries</strong> that ship in every release, so a fix or feature lands everywhere at once.</dd></div>
+                  <div><dt>Outcome</dt><dd>They support <strong>60+ concurrent users</strong> across a deployment of 200+ servers handling 120K+ events a day.</dd></div>
+                </dl>
+                <figure class="viz">
+                  <figcaption>One set of libraries, every release</figcaption>
+                  <div class="libs" aria-hidden="true">
+                    <div class="libs__row"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+                    <div class="libs__arrow">↓ shipped in every release ↓</div>
+                    <div class="libs__apps"><span>60+ concurrent users</span><span>200+ servers</span></div>
+                  </div>
+                  <p class="sr-only">Six or more shared libraries feed every release, reaching 60+ concurrent users on 200+ servers.</p>
+                </figure>
+              </div>
+              <ul class="chips"><li>Angular</li><li>TypeScript</li><li>RxJS</li><li>Component libraries</li></ul>
+            </section>
+
+            <!-- cicd -->
+            <section class="case" role="tabpanel" id="p-cicd" aria-labelledby="t-cicd">
+              <p class="case__kicker">Release engineering</p>
+              <h4 class="case__title">From hand-built releases to a pipeline</h4>
+              <div class="case__body">
+                <dl class="case__story">
+                  <div><dt>Problem</dt><dd>Releases were built by hand on a local machine and shared manually, and configuration mistakes caused failed deployments.</dd></div>
+                  <div><dt>What I did</dt><dd>I automated Windows and Docker releases with <strong>GitHub Actions</strong>, using a branch-based release and test strategy.</dd></div>
+                  <div><dt>Outcome</dt><dd>Release time dropped by <strong>90%</strong>, and config-related deployment failures stopped.</dd></div>
+                </dl>
+                <figure class="viz">
+                  <figcaption>Time to cut a release</figcaption>
+                  <div class="compare">
+                    <span class="compare__k">Manual</span><span class="compare__bar"><i style="--w:100%"></i></span><span class="compare__v">100%</span>
+                    <span class="compare__k">Pipeline</span><span class="compare__bar"><i class="is-accent" style="--w:10%"></i></span><span class="compare__v">10%</span>
+                  </div>
+                  <ol class="flow flow--sm">
+                    <li><b>Push</b><span>branch</span></li>
+                    <li><b>Build &amp; test</b><span>Actions</span></li>
+                    <li><b>Package</b><span>Windows · Docker</span></li>
+                  </ol>
+                </figure>
+              </div>
+              <ul class="chips"><li>GitHub Actions</li><li>Docker</li><li>CI/CD</li><li>Windows builds</li></ul>
+            </section>
+
+            <!-- signoff -->
+            <section class="case" role="tabpanel" id="p-signoff" aria-labelledby="t-signoff">
+              <p class="case__kicker">Release engineering · Ownership</p>
+              <h4 class="case__title">Release sign-off for public-sector clients</h4>
+              <div class="case__body">
+                <dl class="case__story">
+                  <div><dt>Scope</dt><dd>Large public-sector deployments of 200+ servers and 120K+ events a day, where a bad rollout is expensive.</dd></div>
+                  <div><dt>What I do</dt><dd>I lead release sign-off end to end, from branch cut through production rollout.</dd></div>
+                  <div><dt>Outcome</dt><dd>I'm the primary point of contact for deployment issues, so one person owns the whole path to production.</dd></div>
+                </dl>
+                <figure class="viz">
+                  <figcaption>The path I own</figcaption>
+                  <ol class="stepper">
+                    <li>Branch cut</li><li>Test</li><li>Sign-off</li><li>Rollout</li><li>Support</li>
+                  </ol>
+                </figure>
+              </div>
+              <ul class="chips"><li>Release management</li><li>Git branching</li><li>Incident response</li></ul>
+            </section>
+
+            <!-- grafana -->
+            <section class="case" role="tabpanel" id="p-grafana" aria-labelledby="t-grafana">
+              <p class="case__kicker">Observability</p>
+              <h4 class="case__title">Monitoring a camera fleet in Grafana</h4>
+              <div class="case__body">
+                <dl class="case__story">
+                  <div><dt>Problem</dt><dd>Hundreds of cameras across the server fleet needed to be watched, with the history kept for reporting.</dd></div>
+                  <div><dt>What I did</dt><dd>I built <strong>8+ Grafana dashboards</strong> with query optimisation, 30-day data export and automated alerting.</dd></div>
+                  <div><dt>Outcome</dt><dd><strong>300+ cameras</strong> are monitored from one place, and alerts fire without anyone watching the screen.</dd></div>
+                </dl>
+                <figure class="viz">
+                  <figcaption>What the dashboards cover</figcaption>
+                  <ul class="tiles">
+                    <li><b>8+</b><span>dashboards</span></li>
+                    <li><b>300+</b><span>cameras</span></li>
+                    <li><b>30-day</b><span>data export</span></li>
+                    <li><b>Auto</b><span>alerting</span></li>
+                  </ul>
+                </figure>
+              </div>
+              <ul class="chips"><li>Grafana</li><li>Metabase</li><li>SQL optimisation</li><li>Alerting</li></ul>
+            </section>
+
+            <!-- mentor -->
+            <section class="case" role="tabpanel" id="p-mentor" aria-labelledby="t-mentor">
+              <p class="case__kicker">Leadership</p>
+              <h4 class="case__title">From individual contributor to de facto tech lead</h4>
+              <div class="case__body">
+                <dl class="case__story">
+                  <div><dt>Context</dt><dd>As the team grew, more engineers were shipping into the same systems and release process.</dd></div>
+                  <div><dt>What I do</dt><dd>I mentor <strong>4+ junior engineers</strong> through code reviews, debugging support and release best practices.</dd></div>
+                  <div><dt>Outcome</dt><dd>More of the team can ship into the release process safely.</dd></div>
+                </dl>
+                <figure class="viz">
+                  <figcaption>How I mentor</figcaption>
+                  <ul class="tiles tiles--3">
+                    <li><b>Reviews</b><span>code &amp; design</span></li>
+                    <li><b>Debugging</b><span>pairing on issues</span></li>
+                    <li><b>Releases</b><span>best practices</span></li>
+                  </ul>
+                </figure>
+              </div>
+              <ul class="chips"><li>Mentoring</li><li>Code review</li><li>Team leadership</li></ul>
+            </section>
+
+          </div>
+        </div>
+      </article>
+
+      <!-- ---------- freelance ---------- -->
+      <article class="role role--compact reveal" data-tech="flutter nextjs">
+        <header class="role__head">
+          <div class="role__logo role__logo--alt" aria-hidden="true">JP</div>
+          <div class="role__id">
+            <h3 class="role__title">Full-Stack Freelance Engineer</h3>
+            <p class="role__org">Japanese product studio · Remote · alongside the I2V role</p>
+          </div>
+          <p class="role__when">2024 · 6 months</p>
+        </header>
+        <ul class="feats">
+          <li><b>Mobile in Flutter</b><span>Built and shipped the mobile product with the client team.</span></li>
+          <li><b>Web in Next.js</b><span>Delivered the web side of the same product.</span></li>
+          <li><b>Mapbox maps</b><span>Added interactive mapping inside the apps.</span></li>
+          <li><b>AR features</b><span>Built augmented-reality features into the mobile app.</span></li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <!-- ================= projects ================= -->
+  <section class="sec" id="projects">
+    <div class="wrap">
+      <header class="sec__head reveal">
+        <p class="sec__kicker"><i>03</i> Projects</p>
+        <h2 class="sec__title">Things I've built on my own time.</h2>
+      </header>
+
+      <!-- featured -->
+      <article class="feature reveal" data-tech="flutter firebase azure">
+        <div class="feature__copy">
+          <p class="tag">Featured · Apr 2024 – present</p>
+          <h3 class="feature__title">Aapka Vakeel</h3>
+          <p class="feature__sub">A platform that connects clients with lawyers, built end to end.</p>
+
+          <ul class="feature__grid">
+            <li><b>Auth &amp; profiles</b><span>for lawyers and clients</span></li>
+            <li><b>Matching</b><span>connects clients to the right lawyer</span></li>
+            <li><b>Case management</b><span>requests tracked end to end</span></li>
+            <li><b>Payments</b><span>Razorpay built in</span></li>
+            <li><b>Video calls</b><span>in-app, via VideoSDK</span></li>
+            <li><b>Admin dashboard</b><span>separate from user dashboards</span></li>
+          </ul>
+
+          <div class="feature__foot">
+            <p class="feature__metric"><b>40+</b> lawyers onboarded</p>
+            <ul class="chips chips--sm"><li>Flutter</li><li>Firebase</li><li>Azure Functions</li><li>Razorpay</li><li>VideoSDK</li></ul>
+          </div>
+        </div>
+
+        <!-- illustrative phone; decorative -->
+        <div class="feature__art" aria-hidden="true">
+          <div class="phone">
+            <div class="phone__notch"></div>
+            <div class="phone__screen">
+              <p class="ph__hi">Find a lawyer</p>
+              <div class="ph__search"></div>
+              <div class="ph__chips"><i>Civil</i><i>Family</i><i>Property</i></div>
+              <div class="ph__card"><span class="ph__av"></span><span class="ph__lines"><i></i><i></i></span><span class="ph__cta">Call</span></div>
+              <div class="ph__card"><span class="ph__av ph__av--2"></span><span class="ph__lines"><i></i><i></i></span><span class="ph__cta">Call</span></div>
+              <div class="ph__card"><span class="ph__av ph__av--3"></span><span class="ph__lines"><i></i><i></i></span><span class="ph__cta">Call</span></div>
+            </div>
+          </div>
+          <div class="float float--a"><b>₹</b> Payment received</div>
+          <div class="float float--b"><i></i> Video call · 12:04</div>
+        </div>
+      </article>
+
+      <!-- the rest -->
+      <div class="pgrid">
+        <article class="pcard reveal" data-tech="java firebase">
+          <div class="pcard__art"><img src="static/img/avekshaka.png" alt="Avekshaka app screen" loading="lazy" width="1980" height="3138" /></div>
+          <div class="pcard__body">
+            <p class="pcard__meta">Feb 2022 · Team of 4 <span class="tag tag--win">Top 8 · Imagine Cup</span></p>
+            <h3 class="pcard__t">Avekshaka</h3>
+            <p class="pcard__d">An Alzheimer's care app with guardian registration, condition-based activity alerts and live location sharing with guardians.</p>
+            <ul class="chips chips--sm"><li>Java</li><li>Firebase</li><li>SQLite</li><li>Android</li></ul>
+            <a class="pcard__link" href="https://github.com/Ishita03-Singh/Avekshaka" target="_blank" rel="noopener">View source <span aria-hidden="true">↗</span></a>
+          </div>
+        </article>
+
+        <article class="pcard reveal" data-tech="java">
+          <div class="pcard__art"><img src="static/img/covieye.jpeg" alt="Covi-Eye app screen" loading="lazy" width="807" height="1280" /></div>
+          <div class="pcard__body">
+            <p class="pcard__meta">2021 · Health</p>
+            <h3 class="pcard__t">Covi-Eye</h3>
+            <p class="pcard__d">Reads heart rate and oxygen saturation using only the phone's camera and flashlight, and shares the reading along with a location.</p>
+            <ul class="chips chips--sm"><li>Java</li><li>Android</li><li>Camera signal processing</li></ul>
+            <a class="pcard__link" href="https://github.com/Ishita03-Singh/Covi-Eye" target="_blank" rel="noopener">View source <span aria-hidden="true">↗</span></a>
+          </div>
+        </article>
+
+        <article class="pcard reveal">
+          <div class="pcard__art"><img src="static/img/newsfeed.jpeg" alt="NewsFeed app screen" loading="lazy" width="807" height="1280" /></div>
+          <div class="pcard__body">
+            <p class="pcard__meta">2021 · Content</p>
+            <h3 class="pcard__t">NewsFeed</h3>
+            <p class="pcard__d">A daily trending-news app with interest-based filtering, so readers only see the fields they picked.</p>
+            <ul class="chips chips--sm"><li>Kotlin</li><li>Android</li><li>News API</li></ul>
+            <a class="pcard__link" href="https://github.com/Ishita03-Singh/News-Feed" target="_blank" rel="noopener">View source <span aria-hidden="true">↗</span></a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= skills ================= -->
+  <section class="sec" id="skills">
+    <div class="wrap">
+      <header class="sec__head reveal">
+        <p class="sec__kicker"><i>04</i> Skills</p>
+        <h2 class="sec__title">The stack, and how it fits together.</h2>
+        <p class="sec__lede">Click any highlighted skill to see where I've used it. The matching work lights up across the page.</p>
+      </header>
+
+      <!-- the system she builds, left to right -->
+      <figure class="arch reveal">
+        <figcaption class="eyebrow">A typical system I build, end to end</figcaption>
+        <ol class="arch__flow">
+          <li class="arch__node"><span>Client</span><b>Angular</b><i>6+ shared libraries</i></li>
+          <li class="arch__node"><span>API</span><b>.NET</b><i>Clean Architecture</i></li>
+          <li class="arch__node"><span>Messaging</span><b>RabbitMQ</b><i>20 events/sec sustained</i></li>
+          <li class="arch__node arch__node--stack">
+            <div><span>Jobs</span><b>Quartz</b></div>
+            <div><span>Search</span><b>Milvus</b></div>
+            <div><span>Store</span><b>PostgreSQL</b></div>
+          </li>
+        </ol>
+        <div class="arch__rails">
+          <p><span>Shipped by</span> GitHub Actions → Windows &amp; Docker releases</p>
+          <p><span>Watched by</span> Grafana → 8+ dashboards, automated alerts</p>
+        </div>
+      </figure>
+
+      <p class="legend reveal" aria-label="Legend">
+        <span><i class="lv lv--3"></i> Use daily</span>
+        <span><i class="lv lv--2"></i> Shipped to production</span>
+        <span><i class="lv lv--1"></i> Familiar</span>
+      </p>
+
+      <div class="skills reveal">
+        <article class="card scard">
+          <h3><span class="scard__g" aria-hidden="true">{ }</span> Backend</h3>
+          <p class="scard__d">Services, APIs and the architecture underneath them.</p>
+          <ul class="chips">
+            <li class="lv3" data-tech="dotnet">C# / .NET</li>
+            <li class="lv2" data-tech="dotnet">ASP.NET Core</li>
+            <li class="lv2" data-tech="dotnet">Clean Architecture</li>
+            <li class="lv2" data-tech="rabbitmq">Event-driven</li>
+            <li class="lv2">REST APIs</li>
+            <li class="lv2">Microservices</li>
+            <li class="lv2">Node.js</li>
+            <li class="lv2" data-tech="java">Java</li>
+            <li class="lv2">Python</li>
+            <li class="lv2">C / C++</li>
+          </ul>
+        </article>
+
+        <article class="card scard">
+          <h3><span class="scard__g" aria-hidden="true">◧</span> Frontend &amp; mobile</h3>
+          <p class="scard__d">Component libraries, web apps and cross-platform mobile.</p>
+          <ul class="chips">
+            <li class="lv3" data-tech="angular">Angular</li>
+            <li class="lv3" data-tech="angular">TypeScript</li>
+            <li class="lv2" data-tech="angular">RxJS</li>
+            <li class="lv2">HTML · CSS · SCSS</li>
+            <li class="lv2" data-tech="flutter">Flutter / Dart</li>
+            <li class="lv2" data-tech="nextjs">Next.js</li>
+            <li class="lv2" data-tech="java">Android</li>
+          </ul>
+        </article>
+
+        <article class="card scard">
+          <h3><span class="scard__g" aria-hidden="true">≋</span> Data &amp; messaging</h3>
+          <p class="scard__d">Queues, schedulers, relational and vector stores.</p>
+          <ul class="chips">
+            <li class="lv3" data-tech="rabbitmq">RabbitMQ</li>
+            <li class="lv3" data-tech="postgres">PostgreSQL</li>
+            <li class="lv3" data-tech="milvus">Milvus</li>
+            <li class="lv2" data-tech="quartz">Quartz</li>
+            <li class="lv2">Elsa Core</li>
+            <li class="lv2">MongoDB</li>
+            <li class="lv2">MySQL</li>
+            <li class="lv2" data-tech="firebase">Firebase</li>
+          </ul>
+        </article>
+
+        <article class="card scard">
+          <h3><span class="scard__g" aria-hidden="true">⟳</span> DevOps &amp; observability</h3>
+          <p class="scard__d">Getting it shipped, and knowing when it breaks.</p>
+          <ul class="chips">
+            <li class="lv2" data-tech="actions">GitHub Actions</li>
+            <li class="lv2" data-tech="docker">Docker</li>
+            <li class="lv2" data-tech="grafana">Grafana</li>
+            <li class="lv2">Metabase</li>
+            <li class="lv2">Git</li>
+            <li class="lv1" data-tech="azure">Azure</li>
+          </ul>
+        </article>
+
+        <article class="card scard scard--wide">
+          <h3><span class="scard__g" aria-hidden="true">✦</span> Practices</h3>
+          <ul class="chips">
+            <li class="lv2">System design</li>
+            <li class="lv2">API design</li>
+            <li class="lv2">Data structures &amp; algorithms</li>
+            <li class="lv2" data-tech="release">Release management</li>
+            <li class="lv2" data-tech="lead">Team leadership</li>
+          </ul>
+        </article>
+
+        <article class="card scard scard--wide">
+          <h3><span class="scard__g" aria-hidden="true">⌘</span> Tools</h3>
+          <ul class="chips">
+            <li class="lv2">Rider</li><li class="lv2">VS Code</li><li class="lv2">Android Studio</li><li class="lv2">Xcode</li>
+            <li class="lv2">Figma</li><li class="lv2">pgAdmin</li><li class="lv2">Google Apps Script</li><li class="lv2">AI-assisted dev tools</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= activity: GitHub + LeetCode ================= -->
+  <section class="sec" id="activity">
+    <div class="wrap">
+      <header class="sec__head reveal">
+        <p class="sec__kicker"><i>05</i> Activity</p>
+        <h2 class="sec__title">GitHub and LeetCode, live.</h2>
+        <p class="sec__lede">
+          This data is pulled from both platforms each time the page loads. My day-job code lives in private company
+          repositories, so the public graph mostly shows side projects.
+        </p>
+      </header>
+
+      <div class="dash">
+
+        <!-- ---------- GitHub ---------- -->
+        <article class="card panel panel--gh reveal" id="ghCard" aria-labelledby="ghTitle" data-state="loading">
+          <header class="panel__head">
+            <h3 class="panel__title" id="ghTitle">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2 0-.3-.5-1.5.2-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.6 18.3 5 18.3 5c.7 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.1.9 2.2v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3"/></svg>
+              GitHub
+            </h3>
+            <a class="link link--sm" href="https://github.com/Ishita03-Singh" target="_blank" rel="noopener">@Ishita03-Singh ↗</a>
+          </header>
+
+          <dl class="kpis">
+            <div><dt>Contributions</dt><dd id="ghAll">—</dd></div>
+            <div><dt>Public repos</dt><dd id="ghRepos">—</dd></div>
+            <div><dt>Years active</dt><dd id="ghYears">—</dd></div>
+            <div><dt>Followers</dt><dd id="ghFollowers">—</dd></div>
+          </dl>
+
+          <div class="block">
+            <p class="block__cap">Contributions by year <span class="block__hint">· select a year</span></p>
+            <div class="years" id="ghYearsChart" role="group" aria-label="Contributions per year"></div>
+          </div>
+
+          <div class="block">
+            <p class="block__cap"><span id="ghCalLabel">Contribution calendar</span></p>
+            <div class="cal__scroll">
+              <div class="cal">
+                <div class="cal__months" id="ghMonths" aria-hidden="true"></div>
+                <div class="cal__days" aria-hidden="true"><span>Mon</span><span>Wed</span><span>Fri</span></div>
+                <div class="cal__grid" id="ghGrid" role="img" aria-label="GitHub contribution calendar"></div>
+              </div>
+            </div>
+            <p class="cal__legend" aria-hidden="true">Less <i data-level="0"></i><i data-level="1"></i><i data-level="2"></i><i data-level="3"></i><i data-level="4"></i> More</p>
+          </div>
+
+          <div class="block">
+            <p class="block__cap">Languages across public repos</p>
+            <div class="langbar" id="langBar" aria-hidden="true"></div>
+            <ul class="langkey" id="langKey"></ul>
+          </div>
+
+          <p class="panel__msg" id="ghMsg" role="status">Loading GitHub activity…</p>
+        </article>
+
+        <!-- ---------- LeetCode ---------- -->
+        <article class="card panel panel--lc reveal" id="lcCard" aria-labelledby="lcTitle" data-state="loading">
+          <header class="panel__head">
+            <h3 class="panel__title" id="lcTitle">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 0a1.4 1.4 0 0 0-1 .4L7.1 6.2l-3.8 4.2a5.3 5.3 0 0 0-1.3 2.6 5.5 5.5 0 0 0 1.5 5.2l4.3 4.2c2.2 2.2 5.8 2.1 8-.1l2.4-2.4a1.4 1.4 0 0 0-2-2l-2.4 2.4a3 3 0 0 1-4.2 0l-4.3-4.2a2.7 2.7 0 0 1-.9-2.3 2.5 2.5 0 0 1 .7-1.7l3.9-4.2c1-1.1 3.2-1.3 4.4-.3l3.5 2.9a1.4 1.4 0 0 0 1.7-2.2l-3.4-2.8a5.6 5.6 0 0 0-2.8-1.2l2-2.2A1.4 1.4 0 0 0 13.5 0zm-2.9 12.8a1.4 1.4 0 0 0 0 2.8h10.2a1.4 1.4 0 0 0 0-2.8z"/></svg>
+              LeetCode
+            </h3>
+            <a class="link link--sm" href="https://leetcode.com/u/IshitaSingh/" target="_blank" rel="noopener">@IshitaSingh ↗</a>
+          </header>
+
+          <div class="lc__hero">
+            <p class="lc__total"><span id="lcTotal">—</span><i>problems solved</i></p>
+            <p class="lc__lang" id="lcLang" hidden></p>
+          </div>
+
+          <dl class="meters" id="lcMeters">
+            <div class="meter"><dt>Easy</dt><dd><span class="meter__track"><i data-k="easy"></i></span><span class="meter__v" id="lcEasy">—</span></dd></div>
+            <div class="meter"><dt>Medium</dt><dd><span class="meter__track"><i data-k="med"></i></span><span class="meter__v" id="lcMed">—</span></dd></div>
+            <div class="meter"><dt>Hard</dt><dd><span class="meter__track"><i data-k="hard"></i></span><span class="meter__v" id="lcHard">—</span></dd></div>
+          </dl>
+          <p class="meters__note">Bars show my share of solved problems in each difficulty.</p>
+
+          <div class="block">
+            <p class="block__cap">Recently accepted</p>
+            <ul class="recent" id="lcRecent"></ul>
+          </div>
+
+          <p class="panel__msg" id="lcMsg" role="status">Loading LeetCode stats…</p>
+        </article>
+
+        <!-- ---------- repositories ---------- -->
+        <article class="card panel panel--repos reveal" id="repoCard" aria-labelledby="repoTitle" data-state="loading">
+          <header class="panel__head">
+            <h3 class="panel__title" id="repoTitle">Recently active repositories</h3>
+            <a class="link link--sm" href="https://github.com/Ishita03-Singh?tab=repositories" target="_blank" rel="noopener">All repositories ↗</a>
+          </header>
+          <ul class="repos" id="repoList"></ul>
+          <p class="panel__msg" id="repoMsg" role="status">Loading repositories…</p>
+
+          <div class="block" id="ossBlock" hidden>
+            <p class="block__cap">Merged into other people's repositories</p>
+            <ul class="repos" id="ossList"></ul>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= recognition ================= -->
+  <section class="sec" id="recognition">
+    <div class="wrap">
+      <header class="sec__head reveal">
+        <p class="sec__kicker"><i>06</i> Recognition &amp; education</p>
+        <h2 class="sec__title">Awards and education.</h2>
+      </header>
+
+      <div class="awards">
+        <article class="card award reveal" data-tech="java firebase">
+          <p class="award__rank">Top <b>8</b></p>
+          <h3>Microsoft Imagine Cup, India Pre-Finals</h3>
+          <p>2022 · Placed in the top 8 nationally, out of hundreds of student teams, for <em>Avekshaka</em>, an Alzheimer's care app built by a team of 4.</p>
+        </article>
+        <article class="card award reveal">
+          <p class="award__rank"><b>5</b><sup>th</sup> / 600+</p>
+          <h3>Covi-Hack '21</h3>
+          <p>2021 · A COVID-response hackathon hosted by GDSC-DCE, with over 600 teams taking part.</p>
+        </article>
+        <article class="card award award--edu reveal">
+          <p class="award__rank"><b>9.0</b> SGPA</p>
+          <h3>B.Tech, Computer Science &amp; Engineering</h3>
+          <p>Dronacharya College of Engineering · 2023. Coursework in data structures and algorithms, operating systems, databases and networks.</p>
+        </article>
+      </div>
+    </div>
   </section>
 
   <!-- ================= contact ================= -->
   <section class="sec sec--contact" id="contact">
-    <div class="contact reveal">
-      <p class="sec__idx"><i>07</i> Contact</p>
-      <h2 class="contact__title">Let's build<br />something <span class="hi">solid</span>.</h2>
-      <p class="contact__text">
-        My inbox is always open — a question, a role, or just hello. I read everything and try to
-        reply to all of it.
-      </p>
+    <div class="wrap">
+      <div class="contact reveal">
+        <p class="sec__kicker"><i>07</i> Contact</p>
+        <h2 class="contact__title">Have a role or a hard problem?<br /><span>Let's talk.</span></h2>
+        <p class="contact__text">I'm open to senior full-stack and backend roles. I read every message and reply to all of them.</p>
 
-      <a class="mailto" href="mailto:singh.ishita.atwork@gmail.com">
-        <span class="mailto__text">singh.ishita.atwork@gmail.com</span>
-        <span class="mailto__icon" aria-hidden="true">→</span>
-      </a>
+        <div class="contact__mail">
+          <a class="btn btn--primary btn--lg" href="mailto:singh.ishita.atwork@gmail.com">singh.ishita.atwork@gmail.com</a>
+          <button class="btn btn--ghost btn--lg" id="copyMail" type="button" data-mail="singh.ishita.atwork@gmail.com">Copy email</button>
+        </div>
+        <p class="copy-note" id="copyNote" role="status"></p>
 
-      <ul class="social">
-        <li><a href="https://www.linkedin.com/in/ishita-singh-creater/" target="_blank" rel="noopener"><b>LinkedIn</b><span>/ishita-singh-creater</span><i aria-hidden="true">↗</i></a></li>
-        <li><a href="https://github.com/Ishita03-Singh/" target="_blank" rel="noopener"><b>GitHub</b><span>/Ishita03-Singh</span><i aria-hidden="true">↗</i></a></li>
-        <li><a href="https://leetcode.com/u/ishitasingh150301/" target="_blank" rel="noopener"><b>LeetCode</b><span>/ishitasingh150301</span><i aria-hidden="true">↗</i></a></li>
-        <li id="ncRow" hidden><a id="ncLink" href="#" target="_blank" rel="noopener"><b>NeetCode</b><span id="ncHandle">—</span><i aria-hidden="true">↗</i></a></li>
-        <li><a href="https://www.instagram.com/iishitaaasingh/" target="_blank" rel="noopener"><b>Instagram</b><span>/iishitaaasingh</span><i aria-hidden="true">↗</i></a></li>
-      </ul>
+        <ul class="socials">
+          <li><a href="https://www.linkedin.com/in/ishita-singh-creater/" target="_blank" rel="noopener"><b>LinkedIn</b><span>/in/ishita-singh-creater</span></a></li>
+          <li><a href="https://github.com/Ishita03-Singh" target="_blank" rel="noopener"><b>GitHub</b><span>/Ishita03-Singh</span></a></li>
+          <li><a href="https://leetcode.com/u/IshitaSingh/" target="_blank" rel="noopener"><b>LeetCode</b><span>/u/IshitaSingh</span></a></li>
+          <li><a href="static/Ishita_Singh_Resume.pdf" target="_blank" rel="noopener"><b>Résumé</b><span>PDF, one page</span></a></li>
+        </ul>
+      </div>
     </div>
   </section>
 
   <footer class="foot">
-    <p class="foot__note">© <span id="year">2026</span> Ishita Singh — designed &amp; built from scratch.</p>
-    <p class="foot__note foot__note--end">Hand-built. No frameworks, no build step. <span aria-hidden="true">✦</span> Gurgaon, IN</p>
+    <div class="wrap foot__row">
+      <p>© <span id="year">2026</span> Ishita Singh · Gurgaon, India</p>
+      <p id="visitWrap" hidden><span id="visitCount">—</span> unique visitors</p>
+      <p>Hand-built with HTML, CSS and JavaScript. No frameworks.</p>
+    </div>
   </footer>
 </main>
 
-<!-- ============ tech filter readout ============ -->
+<!-- evidence lens readout -->
 <div class="lens" id="lens" hidden>
-  <p class="lens__txt">Showing <b id="lensName">—</b> · <span id="lensCount">0</span> places</p>
-  <button class="lens__clear" id="lensClear" type="button">Clear ✕</button>
+  <p>Showing <b id="lensName">—</b> · <span id="lensCount">0</span> places</p>
+  <button type="button" id="lensClear">Clear ✕</button>
 </div>
 
-<script src="main.js?v=8"></script>
+<!-- shared chart tooltip -->
+<div class="tip" id="tip" role="tooltip" hidden></div>
+
+<script src="main.js?v=9"></script>
 </body>
 </html>
